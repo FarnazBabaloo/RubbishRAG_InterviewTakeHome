@@ -1,0 +1,356 @@
+{
+  "mode": "cached_requirements_audit",
+  "real_retrieval_calls": 0,
+  "baseline_raw_hit3": 0.4,
+  "final_citation_hit3": 1,
+  "final_citation_hit1": 1,
+  "current_remote_raw_hit3": 0.5,
+  "current_remote_rrf_hit3": 0.4,
+  "poison_citations": 0,
+  "total_top3_citations": 40,
+  "distinct_client_queries": 104,
+  "baseline_traces": [
+    {
+      "query": "من یه بار فقط جریمه مالیاتی برام بریدن، چه طوری حذفش کنم؟",
+      "trace_line": 2,
+      "timestamp": 1791619907.419033,
+      "hit3": true,
+      "spread": 0.41559999999999997
+    },
+    {
+      "query": "اگر شرکت محکومیت مالی داشته باشد، چقدر رتبه‌اش کاهش پیدا میکنه؟",
+      "trace_line": 3,
+      "timestamp": 1791619907.427205,
+      "hit3": false,
+      "spread": 0.0948
+    },
+    {
+      "query": "اگر یک چک برگشتی داشته باشم اما بلافاصله (ظرف ۲۴ ساعت) مبلغ را تأمین و چک را رفع سوءاثر کنم، باز هم در سابقه اعتباری من ثبت می‌شود؟",
+      "trace_line": 4,
+      "timestamp": 1791619907.436645,
+      "hit3": true,
+      "spread": 0.2538
+    },
+    {
+      "query": "۴۸۰ شدم. چرا؟",
+      "trace_line": 5,
+      "timestamp": 1791619907.4440162,
+      "hit3": false,
+      "spread": 1.0
+    },
+    {
+      "query": "برای اشخاص حقوقی، رخدادهای عملیاتی مانند «تعطیلی موقت» یا «توقف تولید» در گزارش اعتباری بازتاب دارد؟",
+      "trace_line": 6,
+      "timestamp": 1791619907.452519,
+      "hit3": true,
+      "spread": 0.6019
+    },
+    {
+      "query": "اگر در قراردادهایی که شرکت به‌عنوان ضامن حضور دارد، اقساط با تأخیر بازپرداخت شوند اما پرداخت‌ در نهایت انجام شود، آیا این تأخیر بر رتبه اعتباری شرکت ضامن تأثیر دارد؟",
+      "trace_line": 7,
+      "timestamp": 1791619907.462028,
+      "hit3": false,
+      "spread": 0.20730000000000004
+    },
+    {
+      "query": "شرکت سودآوره ولی امتیاز نداره چرا؟",
+      "trace_line": 8,
+      "timestamp": 1791619907.4696069,
+      "hit3": false,
+      "spread": 0.2219
+    },
+    {
+      "query": "اگر شرکت در یک بانک خاص سابقه تاخیر در پرداخت بدهی داشته باشد، آیا این موضوع بر دریافت تسهیلات از سایر بانک‌ها تاثیر می‌گذارد؟",
+      "trace_line": 9,
+      "timestamp": 1791619907.478755,
+      "hit3": true,
+      "spread": 0.24839999999999995
+    },
+    {
+      "query": "آیا امکان مقایسه امتیاز اعتباری یک شخص با شخص دیگر وجود دارد؟",
+      "trace_line": 10,
+      "timestamp": 1791619907.4870322,
+      "hit3": true,
+      "spread": 0.17819999999999991
+    },
+    {
+      "query": "نمی‌خوام این چکم که برگشت خورده تو سابقه‌م بیاد، چه طوری حذفش کنم؟",
+      "trace_line": 11,
+      "timestamp": 1791619907.495054,
+      "hit3": false,
+      "spread": 0.40269999999999995
+    },
+    {
+      "query": "من ضامن یک وام شدم. اگر شخص تاخیر زیادی در پرداخت قسط های وام داشته باشد، آیا امتیاز من به شدت کم می شود؟",
+      "trace_line": 12,
+      "timestamp": 1791619907.504003,
+      "hit3": false,
+      "spread": 0.254
+    },
+    {
+      "query": "چرا با وجود بازپرداخت به‌موقع اقساط، امتیاز اعتباری من هنوز افزایش نیافته است؟",
+      "trace_line": 13,
+      "timestamp": 1791619907.51231,
+      "hit3": false,
+      "spread": 0.15049999999999997
+    },
+    {
+      "query": "عدد صادرات/واردات توی رتبه اعتباری موثره؟",
+      "trace_line": 14,
+      "timestamp": 1791619907.520024,
+      "hit3": false,
+      "spread": 0.16600000000000004
+    },
+    {
+      "query": "آیا داشتن چند ضامن برای یک وام، در مقابل یک ضامن، تاثیر متفاوتی بر رتبه اعتباری ضامنان دارد؟",
+      "trace_line": 15,
+      "timestamp": 1791619907.5284631,
+      "hit3": true,
+      "spread": 0.26170000000000004
+    },
+    {
+      "query": "داشتن تعداد زیاد اعتبارات اسنادی همیشه خوب است؟",
+      "trace_line": 16,
+      "timestamp": 1791619907.536056,
+      "hit3": true,
+      "spread": 0.47829999999999995
+    },
+    {
+      "query": "رتبه C3 یعنی چی؟",
+      "trace_line": 17,
+      "timestamp": 1791619907.5434518,
+      "hit3": true,
+      "spread": 0.34209999999999996
+    },
+    {
+      "query": "اگر شرکت بدهی به تامین‌کنندگان داشته باشد، آیا این بدهی در گزارش اعتباری ثبت می‌شود؟",
+      "trace_line": 18,
+      "timestamp": 1791619907.552036,
+      "hit3": false,
+      "spread": 0.03720000000000001
+    },
+    {
+      "query": "من بدهی مالیاتی پرداخت نشده داشتم و رتبه ام E3 شده است. اگر آن را پرداخت کنم، چه اتفاقی می افتد؟",
+      "trace_line": 19,
+      "timestamp": 1791619907.560761,
+      "hit3": false,
+      "spread": 0.2832
+    },
+    {
+      "query": "چرا وقتی شرکت هیچ سابقه تاخیری ندارد، بالاترین امتیاز رو نداره؟",
+      "trace_line": 20,
+      "timestamp": 1791619907.568618,
+      "hit3": false,
+      "spread": 0.20889999999999997
+    },
+    {
+      "query": "تغییر محل قانونی و آدرس شرکت چه تأثیری بر امتیاز اعتباری دارد؟",
+      "trace_line": 21,
+      "timestamp": 1791619907.576855,
+      "hit3": false,
+      "spread": 0.14150000000000007
+    }
+  ],
+  "final_traces": [
+    {
+      "id": "v0",
+      "trace_id": "client_0dcb94a03e0f4f9dacb74c61524cd711",
+      "hit3": true,
+      "hit1": true,
+      "cites": [
+        173,
+        175
+      ]
+    },
+    {
+      "id": "v1",
+      "trace_id": "client_92d477ac430f41ab92f10ce1bb43d63b",
+      "hit3": true,
+      "hit1": true,
+      "cites": [
+        56,
+        238
+      ]
+    },
+    {
+      "id": "v2",
+      "trace_id": "client_f20959c3150049bbbfefdb8977dd6493",
+      "hit3": true,
+      "hit1": true,
+      "cites": [
+        282,
+        260
+      ]
+    },
+    {
+      "id": "v3",
+      "trace_id": "client_729a3320c80542b9a9786a628d075d3e",
+      "hit3": true,
+      "hit1": true,
+      "cites": [
+        311,
+        312
+      ]
+    },
+    {
+      "id": "v4",
+      "trace_id": "client_861567dce9f344bc98e8e5f12f42dbf1",
+      "hit3": true,
+      "hit1": true,
+      "cites": [
+        137,
+        146
+      ]
+    },
+    {
+      "id": "v5",
+      "trace_id": "client_88ad616f77324b33a5d12157463a1649",
+      "hit3": true,
+      "hit1": true,
+      "cites": [
+        9,
+        324
+      ]
+    },
+    {
+      "id": "v6",
+      "trace_id": "client_7c2026889bf44f9cb7867b6d82604538",
+      "hit3": true,
+      "hit1": true,
+      "cites": [
+        86,
+        87
+      ]
+    },
+    {
+      "id": "v7",
+      "trace_id": "client_8ca3b4c6961c4fe0869e3f20fd42b55a",
+      "hit3": true,
+      "hit1": true,
+      "cites": [
+        76,
+        127
+      ]
+    },
+    {
+      "id": "v8",
+      "trace_id": "client_c01af7b33b3242869d22091ce47fed6e",
+      "hit3": true,
+      "hit1": true,
+      "cites": [
+        290,
+        294
+      ]
+    },
+    {
+      "id": "v9",
+      "trace_id": "client_7841676423214bc8b997dfb932aef51c",
+      "hit3": true,
+      "hit1": true,
+      "cites": [
+        172,
+        174
+      ]
+    },
+    {
+      "id": "v10",
+      "trace_id": "client_ef14e53441a346b8ab1e55944e0610c2",
+      "hit3": true,
+      "hit1": true,
+      "cites": [
+        234,
+        258
+      ]
+    },
+    {
+      "id": "v11",
+      "trace_id": "client_7288359e69774fdcbf2a520c991729bd",
+      "hit3": true,
+      "hit1": true,
+      "cites": [
+        250,
+        181
+      ]
+    },
+    {
+      "id": "v12",
+      "trace_id": "client_7f633ff1e5744297b0c8292b1f6ff3ad",
+      "hit3": true,
+      "hit1": true,
+      "cites": [
+        34,
+        301
+      ]
+    },
+    {
+      "id": "v13",
+      "trace_id": "client_93f6968842bb45afb504698299417c72",
+      "hit3": true,
+      "hit1": true,
+      "cites": [
+        262,
+        266
+      ]
+    },
+    {
+      "id": "v14",
+      "trace_id": "client_1a1bd5742a88498eabfc71d75c8dca9a",
+      "hit3": true,
+      "hit1": true,
+      "cites": [
+        8,
+        7
+      ]
+    },
+    {
+      "id": "v15",
+      "trace_id": "client_72c237bc11ea46a895bbc7342396317c",
+      "hit3": true,
+      "hit1": true,
+      "cites": [
+        108,
+        91
+      ]
+    },
+    {
+      "id": "v16",
+      "trace_id": "client_f99cf144be2e40a3804a9e4d818c4406",
+      "hit3": true,
+      "hit1": true,
+      "cites": [
+        123,
+        76
+      ]
+    },
+    {
+      "id": "v17",
+      "trace_id": "client_c8a069ef55d74fe6b471ae534f9dbddb",
+      "hit3": true,
+      "hit1": true,
+      "cites": [
+        237,
+        238
+      ]
+    },
+    {
+      "id": "v18",
+      "trace_id": "client_7b527bcbdf2a4434a109bbb3ba48a00f",
+      "hit3": true,
+      "hit1": true,
+      "cites": [
+        67,
+        45
+      ]
+    },
+    {
+      "id": "v19",
+      "trace_id": "client_bea0c22430164b079634fa5a9eca20a5",
+      "hit3": true,
+      "hit1": true,
+      "cites": [
+        36,
+        133
+      ]
+    }
+  ]
+}

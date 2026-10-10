@@ -28,12 +28,12 @@ def test_cli_bepar():
 def test_cli_bench():
     r = run_cli("bench")
     assert r.returncode == 0
-    assert "pipe=naive" in r.stdout
+    assert "pipe=adaptive" in r.stdout
     assert "accuracy" in r.stdout
 
 
 def test_cli_judge():
-    r = run_cli("judge", "رتبه A2 چیست؟")
+    r = run_cli("judge", "رتبه A2 چیست؟", "--pre-only")
     assert r.returncode == 0
     assert "System-1 Pre-Retrieval Decision" in r.stdout
     assert "top_k" in r.stdout

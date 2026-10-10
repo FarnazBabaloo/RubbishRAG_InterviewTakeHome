@@ -1,0 +1,1447 @@
+{
+  "mode": "post-error-analysis regression; public test is exposed, not held out",
+  "calibration_note": "Current delivered calibration; see route_calibration_audit.json for the separate-query experiment. These public splits are exposed regression data.",
+  "real_retrieval_calls": 0,
+  "splits": {
+    "train": {
+      "total_queries": 20,
+      "split": "train",
+      "routing_accuracy": 1.0,
+      "clarification": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0,
+        "tp": 5,
+        "fp": 0,
+        "fn": 0
+      },
+      "sufficiency_accuracy": null,
+      "sufficiency_note": "Not measured by this routing-only dataset; no fabricated hits used.",
+      "context_budget": {
+        "mean_top_k": 1.9,
+        "baseline_fixed_k": 5,
+        "budget_reduction_pct": 62.0
+      },
+      "calibration": {
+        "brier_score": 0.013798101374150325,
+        "expected_calibration_error": 0.11402097902097902,
+        "decision_brier": 0.027067405496601304,
+        "decision_ece": 0.153041958041958,
+        "clarify_brier": 0.016317147232138493
+      },
+      "results": [
+        {
+          "id": "j01",
+          "expected": "no_retrieval",
+          "prediction": {
+            "action": "no_retrieval",
+            "needs_retrieval": false,
+            "needs_clarification": false,
+            "missing_slots": [],
+            "retrieval_strategy": "none",
+            "query_rewrite": "سلام، روزتون بخیر",
+            "target_entities": [],
+            "target_facets": [
+              "conversation"
+            ],
+            "top_k": 0,
+            "confidence": 0.8181818181818182,
+            "retrieve_probability": 0.09090909090909091,
+            "clarify_probability": 0.09090909090909091,
+            "reason_codes": [
+              "CONVERSATION_ONLY",
+              "EMPIRICAL_ROUTE_CONFIDENCE"
+            ]
+          },
+          "correct": true
+        },
+        {
+          "id": "j02",
+          "expected": "no_retrieval",
+          "prediction": {
+            "action": "no_retrieval",
+            "needs_retrieval": false,
+            "needs_clarification": false,
+            "missing_slots": [],
+            "retrieval_strategy": "none",
+            "query_rewrite": "شما چطور کار می کنید؟",
+            "target_entities": [],
+            "target_facets": [
+              "conversation"
+            ],
+            "top_k": 0,
+            "confidence": 0.8181818181818182,
+            "retrieve_probability": 0.09090909090909091,
+            "clarify_probability": 0.09090909090909091,
+            "reason_codes": [
+              "CONVERSATION_ONLY",
+              "EMPIRICAL_ROUTE_CONFIDENCE"
+            ]
+          },
+          "correct": true
+        },
+        {
+          "id": "j03",
+          "expected": "no_retrieval",
+          "prediction": {
+            "action": "no_retrieval",
+            "needs_retrieval": false,
+            "needs_clarification": false,
+            "missing_slots": [],
+            "retrieval_strategy": "none",
+            "query_rewrite": "ممنون از راهنماییتون، خداحافظ",
+            "target_entities": [],
+            "target_facets": [
+              "conversation"
+            ],
+            "top_k": 0,
+            "confidence": 0.8181818181818182,
+            "retrieve_probability": 0.09090909090909091,
+            "clarify_probability": 0.09090909090909091,
+            "reason_codes": [
+              "CONVERSATION_ONLY",
+              "EMPIRICAL_ROUTE_CONFIDENCE"
+            ]
+          },
+          "correct": true
+        },
+        {
+          "id": "j04",
+          "expected": "retrieve",
+          "prediction": {
+            "action": "retrieve",
+            "needs_retrieval": true,
+            "needs_clarification": false,
+            "missing_slots": [],
+            "retrieval_strategy": "hybrid",
+            "query_rewrite": "رتبه C1 یعنی چی؟",
+            "target_entities": [
+              "C1"
+            ],
+            "target_facets": [
+              "C1"
+            ],
+            "top_k": 2,
+            "confidence": 0.875,
+            "retrieve_probability": 0.875,
+            "clarify_probability": 0.0625,
+            "reason_codes": [
+              "FOCUSED_QUERY",
+              "EMPIRICAL_ROUTE_CONFIDENCE"
+            ]
+          },
+          "correct": true
+        },
+        {
+          "id": "j05",
+          "expected": "retrieve",
+          "prediction": {
+            "action": "retrieve",
+            "needs_retrieval": true,
+            "needs_clarification": false,
+            "missing_slots": [],
+            "retrieval_strategy": "hybrid",
+            "query_rewrite": "رتبه اعتباری A2 چه بازه امتیازی دارد؟",
+            "target_entities": [
+              "A2"
+            ],
+            "target_facets": [
+              "A2"
+            ],
+            "top_k": 2,
+            "confidence": 0.875,
+            "retrieve_probability": 0.875,
+            "clarify_probability": 0.0625,
+            "reason_codes": [
+              "FOCUSED_QUERY",
+              "EMPIRICAL_ROUTE_CONFIDENCE"
+            ]
+          },
+          "correct": true
+        },
+        {
+          "id": "j06",
+          "expected": "retrieve",
+          "prediction": {
+            "action": "retrieve",
+            "needs_retrieval": true,
+            "needs_clarification": false,
+            "missing_slots": [],
+            "retrieval_strategy": "hybrid",
+            "query_rewrite": "حداقل امتیاز اعتباری چقدر است؟",
+            "target_entities": [],
+            "target_facets": [
+              "credit_regulations"
+            ],
+            "top_k": 2,
+            "confidence": 0.875,
+            "retrieve_probability": 0.875,
+            "clarify_probability": 0.0625,
+            "reason_codes": [
+              "FOCUSED_QUERY",
+              "EMPIRICAL_ROUTE_CONFIDENCE"
+            ]
+          },
+          "correct": true
+        },
+        {
+          "id": "j07",
+          "expected": "clarify",
+          "prediction": {
+            "action": "clarify",
+            "needs_retrieval": false,
+            "needs_clarification": true,
+            "missing_slots": [
+              "debt_type"
+            ],
+            "retrieval_strategy": "none",
+            "query_rewrite": "بدهی دارم",
+            "target_entities": [],
+            "target_facets": [
+              "credit_regulations"
+            ],
+            "top_k": 0,
+            "confidence": 0.8461538461538461,
+            "retrieve_probability": 0.07692307692307693,
+            "clarify_probability": 0.8461538461538461,
+            "reason_codes": [
+              "MISSING_INFORMATION",
+              "EMPIRICAL_ROUTE_CONFIDENCE"
+            ]
+          },
+          "correct": true
+        },
+        {
+          "id": "j08",
+          "expected": "clarify",
+          "prediction": {
+            "action": "clarify",
+            "needs_retrieval": false,
+            "needs_clarification": true,
+            "missing_slots": [
+              "rank"
+            ],
+            "retrieval_strategy": "none",
+            "query_rewrite": "رتبه من پایینه",
+            "target_entities": [],
+            "target_facets": [
+              "credit_regulations"
+            ],
+            "top_k": 0,
+            "confidence": 0.8461538461538461,
+            "retrieve_probability": 0.07692307692307693,
+            "clarify_probability": 0.8461538461538461,
+            "reason_codes": [
+              "MISSING_INFORMATION",
+              "EMPIRICAL_ROUTE_CONFIDENCE"
+            ]
+          },
+          "correct": true
+        },
+        {
+          "id": "j09",
+          "expected": "clarify",
+          "prediction": {
+            "action": "clarify",
+            "needs_retrieval": false,
+            "needs_clarification": true,
+            "missing_slots": [
+              "time_elapsed",
+              "check_status"
+            ],
+            "retrieval_strategy": "none",
+            "query_rewrite": "چک من برگشت خورده چیکار کنم؟",
+            "target_entities": [],
+            "target_facets": [
+              "credit_regulations"
+            ],
+            "top_k": 0,
+            "confidence": 0.8461538461538461,
+            "retrieve_probability": 0.07692307692307693,
+            "clarify_probability": 0.8461538461538461,
+            "reason_codes": [
+              "MISSING_INFORMATION",
+              "EMPIRICAL_ROUTE_CONFIDENCE"
+            ]
+          },
+          "correct": true
+        },
+        {
+          "id": "j10",
+          "expected": "retrieve",
+          "prediction": {
+            "action": "retrieve",
+            "needs_retrieval": true,
+            "needs_clarification": false,
+            "missing_slots": [],
+            "retrieval_strategy": "hybrid",
+            "query_rewrite": "آیا بانک ها برای ارائه دسته چک اعتبارسنجی می کنند؟",
+            "target_entities": [],
+            "target_facets": [
+              "credit_regulations"
+            ],
+            "top_k": 3,
+            "confidence": 0.875,
+            "retrieve_probability": 0.875,
+            "clarify_probability": 0.0625,
+            "reason_codes": [
+              "STANDARD_QUERY",
+              "EMPIRICAL_ROUTE_CONFIDENCE"
+            ]
+          },
+          "correct": true
+        },
+        {
+          "id": "j11",
+          "expected": "retrieve",
+          "prediction": {
+            "action": "retrieve",
+            "needs_retrieval": true,
+            "needs_clarification": false,
+            "missing_slots": [],
+            "retrieval_strategy": "hybrid",
+            "query_rewrite": "بانک صادرات به رتبه E3 وام میده؟",
+            "target_entities": [
+              "E3",
+              "صادرات"
+            ],
+            "target_facets": [
+              "E3"
+            ],
+            "top_k": 5,
+            "confidence": 0.875,
+            "retrieve_probability": 0.875,
+            "clarify_probability": 0.0625,
+            "reason_codes": [
+              "MULTI_ENTITY_OR_COMPARISON",
+              "EMPIRICAL_ROUTE_CONFIDENCE"
+            ]
+          },
+          "correct": true
+        },
+        {
+          "id": "j12",
+          "expected": "clarify",
+          "prediction": {
+            "action": "clarify",
+            "needs_retrieval": false,
+            "needs_clarification": true,
+            "missing_slots": [
+              "bank",
+              "rank"
+            ],
+            "retrieval_strategy": "none",
+            "query_rewrite": "وام میخواهم",
+            "target_entities": [],
+            "target_facets": [
+              "credit_regulations"
+            ],
+            "top_k": 0,
+            "confidence": 0.8461538461538461,
+            "retrieve_probability": 0.07692307692307693,
+            "clarify_probability": 0.8461538461538461,
+            "reason_codes": [
+              "MISSING_INFORMATION",
+              "EMPIRICAL_ROUTE_CONFIDENCE"
+            ]
+          },
+          "correct": true
+        },
+        {
+          "id": "j13",
+          "expected": "retrieve",
+          "prediction": {
+            "action": "retrieve",
+            "needs_retrieval": true,
+            "needs_clarification": false,
+            "missing_slots": [],
+            "retrieval_strategy": "hybrid",
+            "query_rewrite": "چرا گزارش اعتباری من هنوز وامی را نشان می دهد که 2 ماه پیش تسویه کرده ام؟",
+            "target_entities": [],
+            "target_facets": [
+              "credit_regulations"
+            ],
+            "top_k": 3,
+            "confidence": 0.875,
+            "retrieve_probability": 0.875,
+            "clarify_probability": 0.0625,
+            "reason_codes": [
+              "STANDARD_QUERY",
+              "EMPIRICAL_ROUTE_CONFIDENCE"
+            ]
+          },
+          "correct": true
+        },
+        {
+          "id": "j14",
+          "expected": "retrieve",
+          "prediction": {
+            "action": "retrieve",
+            "needs_retrieval": true,
+            "needs_clarification": false,
+            "missing_slots": [],
+            "retrieval_strategy": "hybrid",
+            "query_rewrite": "اگر بدهی مالیاتی را پرداخت کنم چند ساعت بعد امتیاز من اصلاح می شود؟",
+            "target_entities": [],
+            "target_facets": [
+              "credit_regulations"
+            ],
+            "top_k": 3,
+            "confidence": 0.875,
+            "retrieve_probability": 0.875,
+            "clarify_probability": 0.0625,
+            "reason_codes": [
+              "STANDARD_QUERY",
+              "EMPIRICAL_ROUTE_CONFIDENCE"
+            ]
+          },
+          "correct": true
+        },
+        {
+          "id": "j15",
+          "expected": "retrieve",
+          "prediction": {
+            "action": "retrieve",
+            "needs_retrieval": true,
+            "needs_clarification": false,
+            "missing_slots": [],
+            "retrieval_strategy": "hybrid",
+            "query_rewrite": "آیا داشتن چک برگشتی در شرکت روی امتیاز مدیرعامل تاثیر دارد؟",
+            "target_entities": [
+              "حقوقی"
+            ],
+            "target_facets": [
+              "credit_regulations"
+            ],
+            "top_k": 3,
+            "confidence": 0.875,
+            "retrieve_probability": 0.875,
+            "clarify_probability": 0.0625,
+            "reason_codes": [
+              "STANDARD_QUERY",
+              "EMPIRICAL_ROUTE_CONFIDENCE"
+            ]
+          },
+          "correct": true
+        },
+        {
+          "id": "j16",
+          "expected": "retrieve",
+          "prediction": {
+            "action": "retrieve",
+            "needs_retrieval": true,
+            "needs_clarification": false,
+            "missing_slots": [],
+            "retrieval_strategy": "hybrid",
+            "query_rewrite": "رتبه A برای همه! رتبه A1 A2 A3 B1 B2 B3 C1 C2 C3",
+            "target_entities": [
+              "A1",
+              "A2",
+              "A3",
+              "B1",
+              "B2",
+              "B3",
+              "C1",
+              "C2",
+              "C3"
+            ],
+            "target_facets": [
+              "A1",
+              "A2",
+              "A3",
+              "B1",
+              "B2",
+              "B3",
+              "C1",
+              "C2",
+              "C3"
+            ],
+            "top_k": 5,
+            "confidence": 0.875,
+            "retrieve_probability": 0.875,
+            "clarify_probability": 0.0625,
+            "reason_codes": [
+              "MULTI_ENTITY_OR_COMPARISON",
+              "EMPIRICAL_ROUTE_CONFIDENCE"
+            ]
+          },
+          "correct": true
+        },
+        {
+          "id": "j17",
+          "expected": "retrieve",
+          "prediction": {
+            "action": "retrieve",
+            "needs_retrieval": true,
+            "needs_clarification": false,
+            "missing_slots": [],
+            "retrieval_strategy": "hybrid",
+            "query_rewrite": "آیا پاس کردن به موقع چک ها امتیاز را زیاد می کند یا نمی کند؟",
+            "target_entities": [],
+            "target_facets": [
+              "credit_regulations"
+            ],
+            "top_k": 3,
+            "confidence": 0.875,
+            "retrieve_probability": 0.875,
+            "clarify_probability": 0.0625,
+            "reason_codes": [
+              "STANDARD_QUERY",
+              "EMPIRICAL_ROUTE_CONFIDENCE"
+            ]
+          },
+          "correct": true
+        },
+        {
+          "id": "j18",
+          "expected": "clarify",
+          "prediction": {
+            "action": "clarify",
+            "needs_retrieval": false,
+            "needs_clarification": true,
+            "missing_slots": [
+              "debt_type"
+            ],
+            "retrieval_strategy": "none",
+            "query_rewrite": "سابقه من خرابه",
+            "target_entities": [],
+            "target_facets": [
+              "conversation"
+            ],
+            "top_k": 0,
+            "confidence": 0.6,
+            "retrieve_probability": 0.2,
+            "clarify_probability": 0.6,
+            "reason_codes": [
+              "MISSING_INFORMATION",
+              "EMPIRICAL_ROUTE_CONFIDENCE"
+            ]
+          },
+          "correct": true
+        },
+        {
+          "id": "j19",
+          "expected": "retrieve",
+          "prediction": {
+            "action": "retrieve",
+            "needs_retrieval": true,
+            "needs_clarification": false,
+            "missing_slots": [],
+            "retrieval_strategy": "hybrid",
+            "query_rewrite": "تفاوت شخص حقیقی و حقوقی در امتیازدهی چیست؟",
+            "target_entities": [
+              "both"
+            ],
+            "target_facets": [
+              "credit_regulations"
+            ],
+            "top_k": 5,
+            "confidence": 0.875,
+            "retrieve_probability": 0.875,
+            "clarify_probability": 0.0625,
+            "reason_codes": [
+              "MULTI_ENTITY_OR_COMPARISON",
+              "EMPIRICAL_ROUTE_CONFIDENCE"
+            ]
+          },
+          "correct": true
+        },
+        {
+          "id": "j20",
+          "expected": "retrieve",
+          "prediction": {
+            "action": "retrieve",
+            "needs_retrieval": true,
+            "needs_clarification": false,
+            "missing_slots": [],
+            "retrieval_strategy": "hybrid",
+            "query_rewrite": "تغییر آدرس شرکت روی امتیاز اثر دارد؟",
+            "target_entities": [
+              "حقوقی"
+            ],
+            "target_facets": [
+              "credit_regulations"
+            ],
+            "top_k": 2,
+            "confidence": 0.875,
+            "retrieve_probability": 0.875,
+            "clarify_probability": 0.0625,
+            "reason_codes": [
+              "FOCUSED_QUERY",
+              "EMPIRICAL_ROUTE_CONFIDENCE"
+            ]
+          },
+          "correct": true
+        }
+      ]
+    },
+    "dev": {
+      "total_queries": 15,
+      "split": "dev",
+      "routing_accuracy": 1.0,
+      "clarification": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0,
+        "tp": 4,
+        "fp": 0,
+        "fn": 0
+      },
+      "sufficiency_accuracy": null,
+      "sufficiency_note": "Not measured by this routing-only dataset; no fabricated hits used.",
+      "context_budget": {
+        "mean_top_k": 2.0,
+        "baseline_fixed_k": 5,
+        "budget_reduction_pct": 60.0
+      },
+      "calibration": {
+        "brier_score": 0.01205483764487261,
+        "expected_calibration_error": 0.10763403263403262,
+        "decision_brier": 0.02009435057949044,
+        "decision_ece": 0.14026806526806526,
+        "clarify_brier": 0.009757315455523498
+      },
+      "results": [
+        {
+          "id": "j21",
+          "expected": "no_retrieval",
+          "prediction": {
+            "action": "no_retrieval",
+            "needs_retrieval": false,
+            "needs_clarification": false,
+            "missing_slots": [],
+            "retrieval_strategy": "none",
+            "query_rewrite": "درود، وقت شما بخیر باشه",
+            "target_entities": [],
+            "target_facets": [
+              "conversation"
+            ],
+            "top_k": 0,
+            "confidence": 0.8181818181818182,
+            "retrieve_probability": 0.09090909090909091,
+            "clarify_probability": 0.09090909090909091,
+            "reason_codes": [
+              "CONVERSATION_ONLY",
+              "EMPIRICAL_ROUTE_CONFIDENCE"
+            ]
+          },
+          "correct": true
+        },
+        {
+          "id": "j22",
+          "expected": "no_retrieval",
+          "prediction": {
+            "action": "no_retrieval",
+            "needs_retrieval": false,
+            "needs_clarification": false,
+            "missing_slots": [],
+            "retrieval_strategy": "none",
+            "query_rewrite": "چه سوالاتی می توانم از شما بپرسم؟",
+            "target_entities": [],
+            "target_facets": [
+              "conversation"
+            ],
+            "top_k": 0,
+            "confidence": 0.8181818181818182,
+            "retrieve_probability": 0.09090909090909091,
+            "clarify_probability": 0.09090909090909091,
+            "reason_codes": [
+              "CONVERSATION_ONLY",
+              "EMPIRICAL_ROUTE_CONFIDENCE"
+            ]
+          },
+          "correct": true
+        },
+        {
+          "id": "j23",
+          "expected": "retrieve",
+          "prediction": {
+            "action": "retrieve",
+            "needs_retrieval": true,
+            "needs_clarification": false,
+            "missing_slots": [],
+            "retrieval_strategy": "hybrid",
+            "query_rewrite": "رتبه اعتباری B3 یعنی چی؟",
+            "target_entities": [
+              "B3"
+            ],
+            "target_facets": [
+              "B3"
+            ],
+            "top_k": 2,
+            "confidence": 0.875,
+            "retrieve_probability": 0.875,
+            "clarify_probability": 0.0625,
+            "reason_codes": [
+              "FOCUSED_QUERY",
+              "EMPIRICAL_ROUTE_CONFIDENCE"
+            ]
+          },
+          "correct": true
+        },
+        {
+          "id": "j24",
+          "expected": "clarify",
+          "prediction": {
+            "action": "clarify",
+            "needs_retrieval": false,
+            "needs_clarification": true,
+            "missing_slots": [
+              "rank"
+            ],
+            "retrieval_strategy": "none",
+            "query_rewrite": "رتبه من اومده پایین چرا؟",
+            "target_entities": [],
+            "target_facets": [
+              "credit_regulations"
+            ],
+            "top_k": 0,
+            "confidence": 0.8461538461538461,
+            "retrieve_probability": 0.07692307692307693,
+            "clarify_probability": 0.8461538461538461,
+            "reason_codes": [
+              "MISSING_INFORMATION",
+              "EMPIRICAL_ROUTE_CONFIDENCE"
+            ]
+          },
+          "correct": true
+        },
+        {
+          "id": "j25",
+          "expected": "clarify",
+          "prediction": {
+            "action": "clarify",
+            "needs_retrieval": false,
+            "needs_clarification": true,
+            "missing_slots": [
+              "time_elapsed"
+            ],
+            "retrieval_strategy": "none",
+            "query_rewrite": "وام گرفتم رتبه من تغییر نکرده",
+            "target_entities": [],
+            "target_facets": [
+              "credit_regulations"
+            ],
+            "top_k": 0,
+            "confidence": 0.8461538461538461,
+            "retrieve_probability": 0.07692307692307693,
+            "clarify_probability": 0.8461538461538461,
+            "reason_codes": [
+              "MISSING_INFORMATION",
+              "EMPIRICAL_ROUTE_CONFIDENCE"
+            ]
+          },
+          "correct": true
+        },
+        {
+          "id": "j26",
+          "expected": "retrieve",
+          "prediction": {
+            "action": "retrieve",
+            "needs_retrieval": true,
+            "needs_clarification": false,
+            "missing_slots": [],
+            "retrieval_strategy": "hybrid",
+            "query_rewrite": "بانک ملت به رتبه D1 وام قرض الحسنه میده؟",
+            "target_entities": [
+              "D1",
+              "ملت"
+            ],
+            "target_facets": [
+              "D1"
+            ],
+            "top_k": 5,
+            "confidence": 0.875,
+            "retrieve_probability": 0.875,
+            "clarify_probability": 0.0625,
+            "reason_codes": [
+              "MULTI_ENTITY_OR_COMPARISON",
+              "EMPIRICAL_ROUTE_CONFIDENCE"
+            ]
+          },
+          "correct": true
+        },
+        {
+          "id": "j27",
+          "expected": "retrieve",
+          "prediction": {
+            "action": "retrieve",
+            "needs_retrieval": true,
+            "needs_clarification": false,
+            "missing_slots": [],
+            "retrieval_strategy": "hybrid",
+            "query_rewrite": "آیا شرکت های کمتر از یک سال تاسیس امتیاز دارند؟",
+            "target_entities": [
+              "حقوقی"
+            ],
+            "target_facets": [
+              "credit_regulations"
+            ],
+            "top_k": 3,
+            "confidence": 0.875,
+            "retrieve_probability": 0.875,
+            "clarify_probability": 0.0625,
+            "reason_codes": [
+              "STANDARD_QUERY",
+              "EMPIRICAL_ROUTE_CONFIDENCE"
+            ]
+          },
+          "correct": true
+        },
+        {
+          "id": "j28",
+          "expected": "clarify",
+          "prediction": {
+            "action": "clarify",
+            "needs_retrieval": false,
+            "needs_clarification": true,
+            "missing_slots": [
+              "guarantee_status"
+            ],
+            "retrieval_strategy": "none",
+            "query_rewrite": "ضامن شدم",
+            "target_entities": [],
+            "target_facets": [
+              "credit_regulations"
+            ],
+            "top_k": 0,
+            "confidence": 0.8461538461538461,
+            "retrieve_probability": 0.07692307692307693,
+            "clarify_probability": 0.8461538461538461,
+            "reason_codes": [
+              "MISSING_INFORMATION",
+              "EMPIRICAL_ROUTE_CONFIDENCE"
+            ]
+          },
+          "correct": true
+        },
+        {
+          "id": "j29",
+          "expected": "retrieve",
+          "prediction": {
+            "action": "retrieve",
+            "needs_retrieval": true,
+            "needs_clarification": false,
+            "missing_slots": [],
+            "retrieval_strategy": "hybrid",
+            "query_rewrite": "اگر چک برگشتی را بعد از 10 روز پاس کنم چه می شود؟",
+            "target_entities": [],
+            "target_facets": [
+              "credit_regulations"
+            ],
+            "top_k": 3,
+            "confidence": 0.875,
+            "retrieve_probability": 0.875,
+            "clarify_probability": 0.0625,
+            "reason_codes": [
+              "STANDARD_QUERY",
+              "EMPIRICAL_ROUTE_CONFIDENCE"
+            ]
+          },
+          "correct": true
+        },
+        {
+          "id": "j30",
+          "expected": "retrieve",
+          "prediction": {
+            "action": "retrieve",
+            "needs_retrieval": true,
+            "needs_clarification": false,
+            "missing_slots": [],
+            "retrieval_strategy": "hybrid",
+            "query_rewrite": "استعلام اعتباری مکرر امتیاز را کم می کند؟",
+            "target_entities": [],
+            "target_facets": [
+              "credit_regulations"
+            ],
+            "top_k": 2,
+            "confidence": 0.875,
+            "retrieve_probability": 0.875,
+            "clarify_probability": 0.0625,
+            "reason_codes": [
+              "FOCUSED_QUERY",
+              "EMPIRICAL_ROUTE_CONFIDENCE"
+            ]
+          },
+          "correct": true
+        },
+        {
+          "id": "j31",
+          "expected": "retrieve",
+          "prediction": {
+            "action": "retrieve",
+            "needs_retrieval": true,
+            "needs_clarification": false,
+            "missing_slots": [],
+            "retrieval_strategy": "hybrid",
+            "query_rewrite": "چند درصد امتیاز اعتباری به تسهیلات مربوط است؟",
+            "target_entities": [],
+            "target_facets": [
+              "credit_regulations"
+            ],
+            "top_k": 5,
+            "confidence": 0.875,
+            "retrieve_probability": 0.875,
+            "clarify_probability": 0.0625,
+            "reason_codes": [
+              "MULTI_ENTITY_OR_COMPARISON",
+              "EMPIRICAL_ROUTE_CONFIDENCE"
+            ]
+          },
+          "correct": true
+        },
+        {
+          "id": "j32",
+          "expected": "clarify",
+          "prediction": {
+            "action": "clarify",
+            "needs_retrieval": false,
+            "needs_clarification": true,
+            "missing_slots": [
+              "tax_stage"
+            ],
+            "retrieval_strategy": "none",
+            "query_rewrite": "مالیات ندادم",
+            "target_entities": [],
+            "target_facets": [
+              "credit_regulations"
+            ],
+            "top_k": 0,
+            "confidence": 0.8461538461538461,
+            "retrieve_probability": 0.07692307692307693,
+            "clarify_probability": 0.8461538461538461,
+            "reason_codes": [
+              "MISSING_INFORMATION",
+              "EMPIRICAL_ROUTE_CONFIDENCE"
+            ]
+          },
+          "correct": true
+        },
+        {
+          "id": "j33",
+          "expected": "retrieve",
+          "prediction": {
+            "action": "retrieve",
+            "needs_retrieval": true,
+            "needs_clarification": false,
+            "missing_slots": [],
+            "retrieval_strategy": "hybrid",
+            "query_rewrite": "آیا محکومیت مالی قطعی رتبه را مستقیما به E3 می برد؟",
+            "target_entities": [
+              "E3"
+            ],
+            "target_facets": [
+              "E3"
+            ],
+            "top_k": 3,
+            "confidence": 0.875,
+            "retrieve_probability": 0.875,
+            "clarify_probability": 0.0625,
+            "reason_codes": [
+              "STANDARD_QUERY",
+              "EMPIRICAL_ROUTE_CONFIDENCE"
+            ]
+          },
+          "correct": true
+        },
+        {
+          "id": "j34",
+          "expected": "retrieve",
+          "prediction": {
+            "action": "retrieve",
+            "needs_retrieval": true,
+            "needs_clarification": false,
+            "missing_slots": [],
+            "retrieval_strategy": "hybrid",
+            "query_rewrite": "وام فوری بدون ضامن و بدون اعتبارسنجی 100 میلیونی",
+            "target_entities": [],
+            "target_facets": [
+              "credit_regulations"
+            ],
+            "top_k": 2,
+            "confidence": 0.875,
+            "retrieve_probability": 0.875,
+            "clarify_probability": 0.0625,
+            "reason_codes": [
+              "FOCUSED_QUERY",
+              "EMPIRICAL_ROUTE_CONFIDENCE"
+            ]
+          },
+          "correct": true
+        },
+        {
+          "id": "j35",
+          "expected": "retrieve",
+          "prediction": {
+            "action": "retrieve",
+            "needs_retrieval": true,
+            "needs_clarification": false,
+            "missing_slots": [],
+            "retrieval_strategy": "hybrid",
+            "query_rewrite": "رتبه E1 با E2 چه تفاوتی در دریافت تسهیلات دارند؟",
+            "target_entities": [
+              "E1",
+              "E2"
+            ],
+            "target_facets": [
+              "E1",
+              "E2"
+            ],
+            "top_k": 5,
+            "confidence": 0.875,
+            "retrieve_probability": 0.875,
+            "clarify_probability": 0.0625,
+            "reason_codes": [
+              "MULTI_ENTITY_OR_COMPARISON",
+              "EMPIRICAL_ROUTE_CONFIDENCE"
+            ]
+          },
+          "correct": true
+        }
+      ]
+    },
+    "test": {
+      "total_queries": 15,
+      "split": "test",
+      "routing_accuracy": 1.0,
+      "clarification": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0,
+        "tp": 3,
+        "fp": 0,
+        "fn": 0
+      },
+      "sufficiency_accuracy": null,
+      "sufficiency_note": "Not measured by this routing-only dataset; no fabricated hits used.",
+      "context_budget": {
+        "mean_top_k": 1.9333333333333333,
+        "baseline_fixed_k": 5,
+        "budget_reduction_pct": 61.33333333333333
+      },
+      "calibration": {
+        "brier_score": 0.012702026993985037,
+        "expected_calibration_error": 0.11083916083916084,
+        "decision_brier": 0.019558107975940143,
+        "decision_ece": 0.13834498834498835,
+        "clarify_brier": 0.008439822851973202
+      },
+      "results": [
+        {
+          "id": "j36",
+          "expected": "no_retrieval",
+          "prediction": {
+            "action": "no_retrieval",
+            "needs_retrieval": false,
+            "needs_clarification": false,
+            "missing_slots": [],
+            "retrieval_strategy": "none",
+            "query_rewrite": "شب بخیر، مرسی",
+            "target_entities": [],
+            "target_facets": [
+              "conversation"
+            ],
+            "top_k": 0,
+            "confidence": 0.8181818181818182,
+            "retrieve_probability": 0.09090909090909091,
+            "clarify_probability": 0.09090909090909091,
+            "reason_codes": [
+              "CONVERSATION_ONLY",
+              "EMPIRICAL_ROUTE_CONFIDENCE"
+            ]
+          },
+          "correct": true
+        },
+        {
+          "id": "j37",
+          "expected": "no_retrieval",
+          "prediction": {
+            "action": "no_retrieval",
+            "needs_retrieval": false,
+            "needs_clarification": false,
+            "missing_slots": [],
+            "retrieval_strategy": "none",
+            "query_rewrite": "می تونی کمکم کنی؟",
+            "target_entities": [],
+            "target_facets": [
+              "conversation"
+            ],
+            "top_k": 0,
+            "confidence": 0.8181818181818182,
+            "retrieve_probability": 0.09090909090909091,
+            "clarify_probability": 0.09090909090909091,
+            "reason_codes": [
+              "CONVERSATION_ONLY",
+              "EMPIRICAL_ROUTE_CONFIDENCE"
+            ]
+          },
+          "correct": true
+        },
+        {
+          "id": "j38",
+          "expected": "retrieve",
+          "prediction": {
+            "action": "retrieve",
+            "needs_retrieval": true,
+            "needs_clarification": false,
+            "missing_slots": [],
+            "retrieval_strategy": "hybrid",
+            "query_rewrite": "رتبه A1 یعنی چی؟",
+            "target_entities": [
+              "A1"
+            ],
+            "target_facets": [
+              "A1"
+            ],
+            "top_k": 2,
+            "confidence": 0.875,
+            "retrieve_probability": 0.875,
+            "clarify_probability": 0.0625,
+            "reason_codes": [
+              "FOCUSED_QUERY",
+              "EMPIRICAL_ROUTE_CONFIDENCE"
+            ]
+          },
+          "correct": true
+        },
+        {
+          "id": "j39",
+          "expected": "retrieve",
+          "prediction": {
+            "action": "retrieve",
+            "needs_retrieval": true,
+            "needs_clarification": false,
+            "missing_slots": [],
+            "retrieval_strategy": "hybrid",
+            "query_rewrite": "رتبه D3 یعنی چی؟",
+            "target_entities": [
+              "D3"
+            ],
+            "target_facets": [
+              "D3"
+            ],
+            "top_k": 2,
+            "confidence": 0.875,
+            "retrieve_probability": 0.875,
+            "clarify_probability": 0.0625,
+            "reason_codes": [
+              "FOCUSED_QUERY",
+              "EMPIRICAL_ROUTE_CONFIDENCE"
+            ]
+          },
+          "correct": true
+        },
+        {
+          "id": "j40",
+          "expected": "clarify",
+          "prediction": {
+            "action": "clarify",
+            "needs_retrieval": false,
+            "needs_clarification": true,
+            "missing_slots": [
+              "debt_type"
+            ],
+            "retrieval_strategy": "none",
+            "query_rewrite": "بدهی عقب افتاده را دادم ولی رتبه من عوض نشد",
+            "target_entities": [],
+            "target_facets": [
+              "credit_regulations"
+            ],
+            "top_k": 0,
+            "confidence": 0.8461538461538461,
+            "retrieve_probability": 0.07692307692307693,
+            "clarify_probability": 0.8461538461538461,
+            "reason_codes": [
+              "MISSING_INFORMATION",
+              "EMPIRICAL_ROUTE_CONFIDENCE"
+            ]
+          },
+          "correct": true
+        },
+        {
+          "id": "j41",
+          "expected": "retrieve",
+          "prediction": {
+            "action": "retrieve",
+            "needs_retrieval": true,
+            "needs_clarification": false,
+            "missing_slots": [],
+            "retrieval_strategy": "hybrid",
+            "query_rewrite": "چک صیادی برگشتی چقدر در رتبه اثر منفی دارد؟",
+            "target_entities": [],
+            "target_facets": [
+              "credit_regulations"
+            ],
+            "top_k": 2,
+            "confidence": 0.875,
+            "retrieve_probability": 0.875,
+            "clarify_probability": 0.0625,
+            "reason_codes": [
+              "FOCUSED_QUERY",
+              "EMPIRICAL_ROUTE_CONFIDENCE"
+            ]
+          },
+          "correct": true
+        },
+        {
+          "id": "j42",
+          "expected": "retrieve",
+          "prediction": {
+            "action": "retrieve",
+            "needs_retrieval": true,
+            "needs_clarification": false,
+            "missing_slots": [],
+            "retrieval_strategy": "hybrid",
+            "query_rewrite": "بانک تجارت به رتبه B2 وام خودرو می دهد؟",
+            "target_entities": [
+              "B2",
+              "تجارت"
+            ],
+            "target_facets": [
+              "B2"
+            ],
+            "top_k": 5,
+            "confidence": 0.875,
+            "retrieve_probability": 0.875,
+            "clarify_probability": 0.0625,
+            "reason_codes": [
+              "MULTI_ENTITY_OR_COMPARISON",
+              "EMPIRICAL_ROUTE_CONFIDENCE"
+            ]
+          },
+          "correct": true
+        },
+        {
+          "id": "j43",
+          "expected": "clarify",
+          "prediction": {
+            "action": "clarify",
+            "needs_retrieval": false,
+            "needs_clarification": true,
+            "missing_slots": [
+              "delay_days",
+              "bank"
+            ],
+            "retrieval_strategy": "none",
+            "query_rewrite": "اقساط من عقب افتاده",
+            "target_entities": [],
+            "target_facets": [
+              "conversation"
+            ],
+            "top_k": 0,
+            "confidence": 0.8461538461538461,
+            "retrieve_probability": 0.07692307692307693,
+            "clarify_probability": 0.8461538461538461,
+            "reason_codes": [
+              "MISSING_INFORMATION",
+              "EMPIRICAL_ROUTE_CONFIDENCE"
+            ]
+          },
+          "correct": true
+        },
+        {
+          "id": "j44",
+          "expected": "retrieve",
+          "prediction": {
+            "action": "retrieve",
+            "needs_retrieval": true,
+            "needs_clarification": false,
+            "missing_slots": [],
+            "retrieval_strategy": "hybrid",
+            "query_rewrite": "آیا ضامن شدن برای وام دیگران در رتبه اعتباری من دیده می شود؟",
+            "target_entities": [],
+            "target_facets": [
+              "credit_regulations"
+            ],
+            "top_k": 3,
+            "confidence": 0.875,
+            "retrieve_probability": 0.875,
+            "clarify_probability": 0.0625,
+            "reason_codes": [
+              "STANDARD_QUERY",
+              "EMPIRICAL_ROUTE_CONFIDENCE"
+            ]
+          },
+          "correct": true
+        },
+        {
+          "id": "j45",
+          "expected": "retrieve",
+          "prediction": {
+            "action": "retrieve",
+            "needs_retrieval": true,
+            "needs_clarification": false,
+            "missing_slots": [],
+            "retrieval_strategy": "hybrid",
+            "query_rewrite": "حداکثر سقف امتیاز اعتباری 900 است؟",
+            "target_entities": [],
+            "target_facets": [
+              "credit_regulations"
+            ],
+            "top_k": 2,
+            "confidence": 0.875,
+            "retrieve_probability": 0.875,
+            "clarify_probability": 0.0625,
+            "reason_codes": [
+              "FOCUSED_QUERY",
+              "EMPIRICAL_ROUTE_CONFIDENCE"
+            ]
+          },
+          "correct": true
+        },
+        {
+          "id": "j46",
+          "expected": "retrieve",
+          "prediction": {
+            "action": "retrieve",
+            "needs_retrieval": true,
+            "needs_clarification": false,
+            "missing_slots": [],
+            "retrieval_strategy": "hybrid",
+            "query_rewrite": "درآمدم بالاست ولی امتیاز من پایینه، چرا؟",
+            "target_entities": [],
+            "target_facets": [
+              "credit_regulations"
+            ],
+            "top_k": 2,
+            "confidence": 0.875,
+            "retrieve_probability": 0.875,
+            "clarify_probability": 0.0625,
+            "reason_codes": [
+              "FOCUSED_QUERY",
+              "EMPIRICAL_ROUTE_CONFIDENCE"
+            ]
+          },
+          "correct": true
+        },
+        {
+          "id": "j47",
+          "expected": "clarify",
+          "prediction": {
+            "action": "clarify",
+            "needs_retrieval": false,
+            "needs_clarification": true,
+            "missing_slots": [
+              "company_age"
+            ],
+            "retrieval_strategy": "none",
+            "query_rewrite": "شرکت من امتیاز نداره",
+            "target_entities": [
+              "حقوقی"
+            ],
+            "target_facets": [
+              "credit_regulations"
+            ],
+            "top_k": 0,
+            "confidence": 0.8461538461538461,
+            "retrieve_probability": 0.07692307692307693,
+            "clarify_probability": 0.8461538461538461,
+            "reason_codes": [
+              "MISSING_INFORMATION",
+              "EMPIRICAL_ROUTE_CONFIDENCE"
+            ]
+          },
+          "correct": true
+        },
+        {
+          "id": "j48",
+          "expected": "retrieve",
+          "prediction": {
+            "action": "retrieve",
+            "needs_retrieval": true,
+            "needs_clarification": false,
+            "missing_slots": [],
+            "retrieval_strategy": "hybrid",
+            "query_rewrite": "اگر چک ضمانت که برگشت نخورده سررسیدش بگذرد چه می شود؟",
+            "target_entities": [],
+            "target_facets": [
+              "credit_regulations"
+            ],
+            "top_k": 3,
+            "confidence": 0.875,
+            "retrieve_probability": 0.875,
+            "clarify_probability": 0.0625,
+            "reason_codes": [
+              "STANDARD_QUERY",
+              "EMPIRICAL_ROUTE_CONFIDENCE"
+            ]
+          },
+          "correct": true
+        },
+        {
+          "id": "j49",
+          "expected": "retrieve",
+          "prediction": {
+            "action": "retrieve",
+            "needs_retrieval": true,
+            "needs_clarification": false,
+            "missing_slots": [],
+            "retrieval_strategy": "hybrid",
+            "query_rewrite": "وام میخوام بدون اعتبارسنجی 100 درصد تضمینی",
+            "target_entities": [],
+            "target_facets": [
+              "credit_regulations"
+            ],
+            "top_k": 5,
+            "confidence": 0.875,
+            "retrieve_probability": 0.875,
+            "clarify_probability": 0.0625,
+            "reason_codes": [
+              "MULTI_ENTITY_OR_COMPARISON",
+              "EMPIRICAL_ROUTE_CONFIDENCE"
+            ]
+          },
+          "correct": true
+        },
+        {
+          "id": "j50",
+          "expected": "retrieve",
+          "prediction": {
+            "action": "retrieve",
+            "needs_retrieval": true,
+            "needs_clarification": false,
+            "missing_slots": [],
+            "retrieval_strategy": "hybrid",
+            "query_rewrite": "آیا تغییر نام شرکت سوابق قبلی را پاک می کند؟",
+            "target_entities": [
+              "حقوقی"
+            ],
+            "target_facets": [
+              "credit_regulations"
+            ],
+            "top_k": 3,
+            "confidence": 0.875,
+            "retrieve_probability": 0.875,
+            "clarify_probability": 0.0625,
+            "reason_codes": [
+              "STANDARD_QUERY",
+              "EMPIRICAL_ROUTE_CONFIDENCE"
+            ]
+          },
+          "correct": true
+        }
+      ]
+    }
+  },
+  "uncalibrated_test": {
+    "brier_score": 0.002700000000000004,
+    "expected_calibration_error": 0.05000000000000004,
+    "decision_brier": 0.0036000000000000064,
+    "decision_ece": 0.06000000000000005,
+    "clarify_brier": 0.0014400000000000014
+  },
+  "runtime_sha256": {
+    "rubbish_rag/__init__.py": "5eee2de1d15e12cdb32b63b8a4be5e008fb9e6430315c4908339d5a037edc935",
+    "rubbish_rag/art.py": "9723c43e3895263294ea1ba76db8d61866fea308de3760d11c252454beea3168",
+    "rubbish_rag/clarification.py": "2ab59e1a56bf03f5fcfba4da14980fc78834aa6a6bb7725988c6313528dee196",
+    "rubbish_rag/execution.py": "f5d7de60d2f4d14672aa38a2b3019a354299721e0a6e9bcd2a93e2b2a55803a6",
+    "rubbish_rag/identity.py": "8353532db068151a17197433e6dabe806d5dcfe06e11b8b8b3db07536ed187a2",
+    "rubbish_rag/judge.py": "ae0525fd2b68c7da4011c90798c8d3c32e81bef1bd0457371803b4d66d92c832",
+    "rubbish_rag/judge_calibration.json": "2037dbfa9465371abdb1dee4da23b2f49a1af892d2d78954c27a9a0028e01135",
+    "rubbish_rag/local_search.py": "f2a428611e7cf64689ded8c9a4bfeb065cba7c8b7469672096db0ebc7cddbc21",
+    "rubbish_rag/normalize_fa.py": "7c8c54d0c92477c2a0395d08667c48653f10f1f8504af08a35aa450bcf423502",
+    "rubbish_rag/orchestrator.py": "2258b77366eb00ccc75515dae29cbbab7cb9f2456cb1d580ba93626e130c7ea4",
+    "rubbish_rag/pipeline.py": "9108f3bfa478ee5de5c158a2e1a5d82cbb3ddae2edf5fc83562a7c37052b6bd4",
+    "rubbish_rag/slots.py": "ad326711b21a8a0c8b96ec4ec3e4ceb84c5f7b2452172baa60b5a242303c5760"
+  }
+}

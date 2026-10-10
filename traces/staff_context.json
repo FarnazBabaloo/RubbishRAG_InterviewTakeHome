@@ -1,0 +1,404 @@
+{
+  "mode": "fixed-captured-pool comparison",
+  "token_unit": "normalize_fa.tokens on selected excerpts; no LLM tokenizer",
+  "real_retrieval_calls": 0,
+  "policies": {
+    "fixed5": {
+      "agg": {
+        "total": 20,
+        "accuracy": 1.0,
+        "answer_acc": 1.0,
+        "clarify_acc": 0.0
+      },
+      "context_tokens": 3214,
+      "mean_selected_documents": 5.0,
+      "results": [
+        {
+          "pass": true,
+          "kind": "answer",
+          "id": "v0",
+          "trace_id": "client_cc49fe887e1f455faa7c3c1fad2a2cba"
+        },
+        {
+          "pass": true,
+          "kind": "answer",
+          "id": "v1",
+          "trace_id": "client_b8526bba9b834cda810f433cbedfc537"
+        },
+        {
+          "pass": true,
+          "kind": "answer",
+          "id": "v2",
+          "trace_id": "client_5584c0d16ccb47279802cb8f555c4d95"
+        },
+        {
+          "pass": true,
+          "kind": "answer",
+          "id": "v3",
+          "trace_id": "client_8b2a523f78404587a924bfbf6e1f4daa"
+        },
+        {
+          "pass": true,
+          "kind": "answer",
+          "id": "v4",
+          "trace_id": "client_8c6fe0cd41df4f82977c735e5ddb384c"
+        },
+        {
+          "pass": true,
+          "kind": "answer",
+          "id": "v5",
+          "trace_id": "client_41f52b7be6aa4239ba30e047ee6b212e"
+        },
+        {
+          "pass": true,
+          "kind": "answer",
+          "id": "v6",
+          "trace_id": "client_049ec238a6f64b23a93e72868f80d8d0"
+        },
+        {
+          "pass": true,
+          "kind": "answer",
+          "id": "v7",
+          "trace_id": "client_ca1d647b03664aa9a6151e32f5bcddbe"
+        },
+        {
+          "pass": true,
+          "kind": "answer",
+          "id": "v8",
+          "trace_id": "client_2d7e5183f95e4f17bfd7e3242a5f8833"
+        },
+        {
+          "pass": true,
+          "kind": "answer",
+          "id": "v9",
+          "trace_id": "client_79bac9e7f8e2475c94ed56ce431891b1"
+        },
+        {
+          "pass": true,
+          "kind": "answer",
+          "id": "v10",
+          "trace_id": "client_74f6e4ae119c4d43a76a9ed377fde1de"
+        },
+        {
+          "pass": true,
+          "kind": "answer",
+          "id": "v11",
+          "trace_id": "client_c322812d6b044015a46ec76aec7639b3"
+        },
+        {
+          "pass": true,
+          "kind": "answer",
+          "id": "v12",
+          "trace_id": "client_a4c5f46804634525916549d4d949cf8b"
+        },
+        {
+          "pass": true,
+          "kind": "answer",
+          "id": "v13",
+          "trace_id": "client_5c3beb6b22344ae6bf180fade51292cf"
+        },
+        {
+          "pass": true,
+          "kind": "answer",
+          "id": "v14",
+          "trace_id": "client_bf0c563ba1334b12bbabeb216c306444"
+        },
+        {
+          "pass": true,
+          "kind": "answer",
+          "id": "v15",
+          "trace_id": "client_808d7d7b582249eaa3bca913a265a103"
+        },
+        {
+          "pass": true,
+          "kind": "answer",
+          "id": "v16",
+          "trace_id": "client_785128a464844c26926e1ed0716384ab"
+        },
+        {
+          "pass": true,
+          "kind": "answer",
+          "id": "v17",
+          "trace_id": "client_4fc7a13993eb45d4b0caa681e7253432"
+        },
+        {
+          "pass": true,
+          "kind": "answer",
+          "id": "v18",
+          "trace_id": "client_5f8ed46aabc54b7db631dfb25c8824bc"
+        },
+        {
+          "pass": true,
+          "kind": "answer",
+          "id": "v19",
+          "trace_id": "client_397ebeaa166c46be9c9d0cd5ccb69eb8"
+        }
+      ]
+    },
+    "fixed10": {
+      "agg": {
+        "total": 20,
+        "accuracy": 1.0,
+        "answer_acc": 1.0,
+        "clarify_acc": 0.0
+      },
+      "context_tokens": 6975,
+      "mean_selected_documents": 9.5,
+      "results": [
+        {
+          "pass": true,
+          "kind": "answer",
+          "id": "v0",
+          "trace_id": "client_0f7f9150454c4203b6625801eede0342"
+        },
+        {
+          "pass": true,
+          "kind": "answer",
+          "id": "v1",
+          "trace_id": "client_c74fe4b425a94c6db0d2db4a2ba0e529"
+        },
+        {
+          "pass": true,
+          "kind": "answer",
+          "id": "v2",
+          "trace_id": "client_c11c5084e21f49acabe2b69f6666de82"
+        },
+        {
+          "pass": true,
+          "kind": "answer",
+          "id": "v3",
+          "trace_id": "client_ed4b7f9183d84ae69fae6657683ff612"
+        },
+        {
+          "pass": true,
+          "kind": "answer",
+          "id": "v4",
+          "trace_id": "client_b9e02834dc024da0b88f664507485771"
+        },
+        {
+          "pass": true,
+          "kind": "answer",
+          "id": "v5",
+          "trace_id": "client_c96c4d74714e4d1b9c933f53fd1a1daa"
+        },
+        {
+          "pass": true,
+          "kind": "answer",
+          "id": "v6",
+          "trace_id": "client_bb271f1e531d49c5abac711ea083370c"
+        },
+        {
+          "pass": true,
+          "kind": "answer",
+          "id": "v7",
+          "trace_id": "client_2cc8d040bd734b859a5dbab6188d1c0f"
+        },
+        {
+          "pass": true,
+          "kind": "answer",
+          "id": "v8",
+          "trace_id": "client_9cef3bd1df554cc68308f148d8c7137f"
+        },
+        {
+          "pass": true,
+          "kind": "answer",
+          "id": "v9",
+          "trace_id": "client_ecae6fe46d6b4f7089601183576fc405"
+        },
+        {
+          "pass": true,
+          "kind": "answer",
+          "id": "v10",
+          "trace_id": "client_1b43f8e6baf6462fb008142be9c95a8a"
+        },
+        {
+          "pass": true,
+          "kind": "answer",
+          "id": "v11",
+          "trace_id": "client_8ef6ef47a58444d3b4813d5e93c91bbc"
+        },
+        {
+          "pass": true,
+          "kind": "answer",
+          "id": "v12",
+          "trace_id": "client_5769178ef9b341a49449ba94320c5803"
+        },
+        {
+          "pass": true,
+          "kind": "answer",
+          "id": "v13",
+          "trace_id": "client_8ac13b1a081241e98abf1881d3a895d0"
+        },
+        {
+          "pass": true,
+          "kind": "answer",
+          "id": "v14",
+          "trace_id": "client_1a11aadf25384e2bbd268e20780d3e0f"
+        },
+        {
+          "pass": true,
+          "kind": "answer",
+          "id": "v15",
+          "trace_id": "client_8e96ae16f7a04d4d8eaf115d8667e7b1"
+        },
+        {
+          "pass": true,
+          "kind": "answer",
+          "id": "v16",
+          "trace_id": "client_951bf68880a440c1a4671f5ea8c2a66c"
+        },
+        {
+          "pass": true,
+          "kind": "answer",
+          "id": "v17",
+          "trace_id": "client_46ca99c190544da8bcc9f3455efb55d5"
+        },
+        {
+          "pass": true,
+          "kind": "answer",
+          "id": "v18",
+          "trace_id": "client_e22a967e540c4583bb5f672e55024a9c"
+        },
+        {
+          "pass": true,
+          "kind": "answer",
+          "id": "v19",
+          "trace_id": "client_1a3cad60c58e405dbfb834799646de24"
+        }
+      ]
+    },
+    "adaptive": {
+      "agg": {
+        "total": 20,
+        "accuracy": 1.0,
+        "answer_acc": 1.0,
+        "clarify_acc": 0.0
+      },
+      "context_tokens": 919,
+      "mean_selected_documents": 2.0,
+      "results": [
+        {
+          "pass": true,
+          "kind": "answer",
+          "id": "v0",
+          "trace_id": "client_de89f65f4e814baa84156647d9d52f7a"
+        },
+        {
+          "pass": true,
+          "kind": "answer",
+          "id": "v1",
+          "trace_id": "client_2a7070d437f344939e78d1683531f07c"
+        },
+        {
+          "pass": true,
+          "kind": "answer",
+          "id": "v2",
+          "trace_id": "client_bce2600ff2b340659de0914b0fb6f371"
+        },
+        {
+          "pass": true,
+          "kind": "answer",
+          "id": "v3",
+          "trace_id": "client_3cede990a0ed495381711353b592e218"
+        },
+        {
+          "pass": true,
+          "kind": "answer",
+          "id": "v4",
+          "trace_id": "client_def73dd34f814bc0af44664ed74f08ba"
+        },
+        {
+          "pass": true,
+          "kind": "answer",
+          "id": "v5",
+          "trace_id": "client_9f44565a6b3d43a5b6c03042b9dd3f45"
+        },
+        {
+          "pass": true,
+          "kind": "answer",
+          "id": "v6",
+          "trace_id": "client_803f123e56f641bd92db59f8e5c723cd"
+        },
+        {
+          "pass": true,
+          "kind": "answer",
+          "id": "v7",
+          "trace_id": "client_165a514773bd4c7a96b96447a1285b0c"
+        },
+        {
+          "pass": true,
+          "kind": "answer",
+          "id": "v8",
+          "trace_id": "client_5970de4973804c9289fb7548d4de1b76"
+        },
+        {
+          "pass": true,
+          "kind": "answer",
+          "id": "v9",
+          "trace_id": "client_79b5fbb5f80f47b886f72ed6991c0aff"
+        },
+        {
+          "pass": true,
+          "kind": "answer",
+          "id": "v10",
+          "trace_id": "client_6a228a1ce8b5415a9809bc1a67ae9365"
+        },
+        {
+          "pass": true,
+          "kind": "answer",
+          "id": "v11",
+          "trace_id": "client_3af94586319e45ffa4d8ab2032c1cd90"
+        },
+        {
+          "pass": true,
+          "kind": "answer",
+          "id": "v12",
+          "trace_id": "client_99ee0beb5f544705a12ad9ce9a468bb4"
+        },
+        {
+          "pass": true,
+          "kind": "answer",
+          "id": "v13",
+          "trace_id": "client_efa3dc4eecba470d9c0cdc39cd201a89"
+        },
+        {
+          "pass": true,
+          "kind": "answer",
+          "id": "v14",
+          "trace_id": "client_cd9cb3c7380c4668b46f0fcf98dc036c"
+        },
+        {
+          "pass": true,
+          "kind": "answer",
+          "id": "v15",
+          "trace_id": "client_952727f7c5b546d789bf60b52e2a5687"
+        },
+        {
+          "pass": true,
+          "kind": "answer",
+          "id": "v16",
+          "trace_id": "client_922e95b453b340d1a086b47b6cd93957"
+        },
+        {
+          "pass": true,
+          "kind": "answer",
+          "id": "v17",
+          "trace_id": "client_1c896dbcb7814605b5454203620f206e"
+        },
+        {
+          "pass": true,
+          "kind": "answer",
+          "id": "v18",
+          "trace_id": "client_4e9099c442cf4aaea0eefcd469224ed2"
+        },
+        {
+          "pass": true,
+          "kind": "answer",
+          "id": "v19",
+          "trace_id": "client_42fafaf4693a4b79839c68d504a70763"
+        }
+      ]
+    }
+  },
+  "token_reduction_vs_fixed5_pct": 71.40634723086497
+}

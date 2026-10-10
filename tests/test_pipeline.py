@@ -33,15 +33,16 @@ def test_chunker_structure():
 
 def test_reranker_contract():
     reranker = R.get("reranker")
+    from rubbish_rag.pipeline import corpus
     mock_hits = [
-        {"doc_id": 1, "text": "رتبه اعتباری و امتیاز", "fused": 0.8},
-        {"doc_id": 2, "text": "سایر اطلاعات بی ارتباط", "fused": 0.5},
+        {"doc_id": 106, "text": corpus()[106]["BriefAnswer"], "fused": 0.8},
+        {"doc_id": 91, "text": corpus()[91]["BriefAnswer"], "fused": 0.5},
     ]
-    reranked = reranker("رتبه اعتباری", mock_hits)
+    reranked = reranker("رتبه C1", mock_hits)
     assert len(reranked) == 2
     assert "rerank_score" in reranked[0]
     # First item has more overlap with query
-    assert reranked[0]["doc_id"] == 1
+    assert reranked[0]["doc_id"] == 106
 
 
 def test_resolver_contract():

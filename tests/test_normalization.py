@@ -22,8 +22,8 @@ def test_zwnj_normalization():
 
 
 def test_colloquial_mapping():
-    assert "می‌شود" in normalize_fa("میشه وام گرفت؟")
-    assert "نمی‌شود" in normalize_fa("نمیشه")
+    assert "می شود" in normalize_fa("میشه وام گرفت؟")
+    assert "نمی شود" in normalize_fa("نمیشه")
     assert "رتبه من" in normalize_fa("رتبم افت کرده")
     assert "امتیاز من" in normalize_fa("امتیازم چنده")
     assert "شرکت من" in normalize_fa("شرکتم امتیاز نداره")

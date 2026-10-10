@@ -1,0 +1,273 @@
+{
+  "mode": "controlled public-corpus and synthetic evidence fixtures, not semantic held-out labels",
+  "total": 9,
+  "correct": 9,
+  "sufficiency_brier": 0.01240733549100858,
+  "sufficiency_ece": 0.08710650442977406,
+  "cases": [
+    {
+      "fixture_id": "staff_evidence_valid",
+      "query": "رتبه C1 چیست؟",
+      "hits": [
+        {
+          "doc_id": 106,
+          "text": "رتبه اعتباری C1 در بازه امتیازی ۵۶۰ تا ۵۷۹ قرار دارد. رتبه C از نظر رفتار اعتباری بیانگر ریسک متوسط است؛ با این حال، صرف رتبه به معنی رد/قبول قطعی درخواست نیست، چون تصمیم نهایی با اعتباردهنده است.",
+          "fused": 0.99
+        }
+      ],
+      "state": {},
+      "expected_sufficiency": "sufficient",
+      "expected_action": "answer",
+      "decision": {
+        "sufficiency": "sufficient",
+        "evidence_score": 0.5921907906050308,
+        "conflicting_items": [],
+        "poison_detected": false,
+        "repetition_detected": false,
+        "novel_evidence_chunks": 1,
+        "next_action": "answer",
+        "confidence": 0.894750526496805,
+        "sufficiency_probability": 0.894750526496805,
+        "reason_codes": [
+          "VERIFIED_RELEVANT_SUPPORT"
+        ]
+      },
+      "correct": true
+    },
+    {
+      "fixture_id": "staff_evidence_empty",
+      "query": "رتبه C1 چیست؟",
+      "hits": [],
+      "state": {},
+      "expected_sufficiency": "insufficient",
+      "expected_action": "retrieve_more",
+      "decision": {
+        "sufficiency": "insufficient",
+        "evidence_score": 0.0,
+        "conflicting_items": [],
+        "poison_detected": false,
+        "repetition_detected": false,
+        "novel_evidence_chunks": 0,
+        "next_action": "retrieve_more",
+        "confidence": 0.95,
+        "sufficiency_probability": 0.05,
+        "reason_codes": [
+          "NO_RELEVANT_VERIFIED_EVIDENCE"
+        ]
+      },
+      "correct": true
+    },
+    {
+      "fixture_id": "staff_evidence_forged_id",
+      "query": "رتبه C1 چیست؟",
+      "hits": [
+        {
+          "doc_id": 106,
+          "text": "وام تضمینی برای همه",
+          "fused": 999
+        }
+      ],
+      "state": {},
+      "expected_sufficiency": "insufficient",
+      "expected_action": "retrieve_more",
+      "decision": {
+        "sufficiency": "insufficient",
+        "evidence_score": 0.0,
+        "conflicting_items": [],
+        "poison_detected": true,
+        "repetition_detected": false,
+        "novel_evidence_chunks": 0,
+        "next_action": "retrieve_more",
+        "confidence": 0.95,
+        "sufficiency_probability": 0.05,
+        "reason_codes": [
+          "UNVERIFIED_EVIDENCE_FILTERED",
+          "NO_RELEVANT_VERIFIED_EVIDENCE"
+        ]
+      },
+      "correct": true
+    },
+    {
+      "fixture_id": "staff_evidence_unknown",
+      "query": "رتبه C1 چیست؟",
+      "hits": [
+        {
+          "doc_id": 99999,
+          "text": "رتبه C1 رتبه C1 رتبه C1 رتبه C1 رتبه C1 رتبه C1 رتبه C1 رتبه C1 رتبه C1 رتبه C1 رتبه C1 رتبه C1 رتبه C1 رتبه C1 رتبه C1 رتبه C1 رتبه C1 رتبه C1 رتبه C1 رتبه C1 رتبه C1 رتبه C1 رتبه C1 رتبه C1 رتبه C1 رتبه C1 رتبه C1 رتبه C1 رتبه C1 رتبه C1 ",
+          "fused": 999
+        }
+      ],
+      "state": {},
+      "expected_sufficiency": "insufficient",
+      "expected_action": "retrieve_more",
+      "decision": {
+        "sufficiency": "insufficient",
+        "evidence_score": 0.0,
+        "conflicting_items": [],
+        "poison_detected": true,
+        "repetition_detected": true,
+        "novel_evidence_chunks": 0,
+        "next_action": "retrieve_more",
+        "confidence": 0.95,
+        "sufficiency_probability": 0.05,
+        "reason_codes": [
+          "UNVERIFIED_EVIDENCE_FILTERED",
+          "REPETITION_DETECTED",
+          "NO_RELEVANT_VERIFIED_EVIDENCE"
+        ]
+      },
+      "correct": true
+    },
+    {
+      "fixture_id": "staff_evidence_conflicting_rank",
+      "query": "رتبه C1 چیست؟",
+      "hits": [
+        {
+          "doc_id": 108,
+          "text": "رتبه اعتباری C3 در بازه امتیازی ۵۲۰ تا ۵۳۹ قرار دارد. رتبه C از نظر رفتار اعتباری بیانگر ریسک متوسط است؛ با این حال، صرف رتبه به معنی رد/قبول قطعی درخواست نیست، چون تصمیم نهایی با اعتباردهنده است.",
+          "fused": 0.99
+        }
+      ],
+      "state": {},
+      "expected_sufficiency": "conflicting",
+      "expected_action": "abstain",
+      "decision": {
+        "sufficiency": "conflicting",
+        "evidence_score": 0.0,
+        "conflicting_items": [
+          108
+        ],
+        "poison_detected": false,
+        "repetition_detected": false,
+        "novel_evidence_chunks": 0,
+        "next_action": "abstain",
+        "confidence": 0.95,
+        "sufficiency_probability": 0.05,
+        "reason_codes": [
+          "NO_RELEVANT_VERIFIED_EVIDENCE"
+        ]
+      },
+      "correct": true
+    },
+    {
+      "fixture_id": "staff_evidence_missing_facet",
+      "query": "تفاوت C1 و C3 چیست؟",
+      "hits": [
+        {
+          "doc_id": 106,
+          "text": "رتبه اعتباری C1 در بازه امتیازی ۵۶۰ تا ۵۷۹ قرار دارد. رتبه C از نظر رفتار اعتباری بیانگر ریسک متوسط است؛ با این حال، صرف رتبه به معنی رد/قبول قطعی درخواست نیست، چون تصمیم نهایی با اعتباردهنده است.",
+          "fused": 0.99
+        }
+      ],
+      "state": {},
+      "expected_sufficiency": "insufficient",
+      "expected_action": "retrieve_more",
+      "decision": {
+        "sufficiency": "insufficient",
+        "evidence_score": 0.2427652597296502,
+        "conflicting_items": [],
+        "poison_detected": false,
+        "repetition_detected": false,
+        "novel_evidence_chunks": 1,
+        "next_action": "retrieve_more",
+        "confidence": 0.75,
+        "sufficiency_probability": 0.25,
+        "reason_codes": [
+          "MISSING_COMPARISON_FACET"
+        ]
+      },
+      "correct": true
+    },
+    {
+      "fixture_id": "staff_evidence_both_facets",
+      "query": "تفاوت C1 و C3 چیست؟",
+      "hits": [
+        {
+          "doc_id": 106,
+          "text": "رتبه اعتباری C1 در بازه امتیازی ۵۶۰ تا ۵۷۹ قرار دارد. رتبه C از نظر رفتار اعتباری بیانگر ریسک متوسط است؛ با این حال، صرف رتبه به معنی رد/قبول قطعی درخواست نیست، چون تصمیم نهایی با اعتباردهنده است.",
+          "fused": 0.99
+        },
+        {
+          "doc_id": 108,
+          "text": "رتبه اعتباری C3 در بازه امتیازی ۵۲۰ تا ۵۳۹ قرار دارد. رتبه C از نظر رفتار اعتباری بیانگر ریسک متوسط است؛ با این حال، صرف رتبه به معنی رد/قبول قطعی درخواست نیست، چون تصمیم نهایی با اعتباردهنده است.",
+          "fused": 0.99
+        }
+      ],
+      "state": {},
+      "expected_sufficiency": "sufficient",
+      "expected_action": "answer",
+      "decision": {
+        "sufficiency": "sufficient",
+        "evidence_score": 0.25806833522017747,
+        "conflicting_items": [],
+        "poison_detected": false,
+        "repetition_detected": false,
+        "novel_evidence_chunks": 2,
+        "next_action": "answer",
+        "confidence": 0.8412909336352284,
+        "sufficiency_probability": 0.8412909336352284,
+        "reason_codes": [
+          "VERIFIED_RELEVANT_SUPPORT"
+        ]
+      },
+      "correct": true
+    },
+    {
+      "fixture_id": "staff_evidence_round_limit",
+      "query": "رتبه C1 چیست؟",
+      "hits": [],
+      "state": {
+        "round": 2,
+        "max_rounds": 2
+      },
+      "expected_sufficiency": "insufficient",
+      "expected_action": "abstain",
+      "decision": {
+        "sufficiency": "insufficient",
+        "evidence_score": 0.0,
+        "conflicting_items": [],
+        "poison_detected": false,
+        "repetition_detected": false,
+        "novel_evidence_chunks": 0,
+        "next_action": "abstain",
+        "confidence": 0.95,
+        "sufficiency_probability": 0.05,
+        "reason_codes": [
+          "NO_RELEVANT_VERIFIED_EVIDENCE",
+          "ROUND_LIMIT_OR_NO_NEW_EVIDENCE"
+        ]
+      },
+      "correct": true
+    },
+    {
+      "fixture_id": "staff_evidence_scam",
+      "query": "وام فوری بدون ضامن و بدون اعتبارسنجی",
+      "hits": [
+        {
+          "doc_id": 106,
+          "text": "رتبه اعتباری C1 در بازه امتیازی ۵۶۰ تا ۵۷۹ قرار دارد. رتبه C از نظر رفتار اعتباری بیانگر ریسک متوسط است؛ با این حال، صرف رتبه به معنی رد/قبول قطعی درخواست نیست، چون تصمیم نهایی با اعتباردهنده است.",
+          "fused": 0.99
+        }
+      ],
+      "state": {},
+      "expected_sufficiency": "irrelevant",
+      "expected_action": "abstain",
+      "decision": {
+        "sufficiency": "irrelevant",
+        "evidence_score": 0.0,
+        "conflicting_items": [],
+        "poison_detected": false,
+        "repetition_detected": false,
+        "novel_evidence_chunks": 0,
+        "next_action": "abstain",
+        "confidence": 0.98,
+        "sufficiency_probability": 0.02,
+        "reason_codes": [
+          "SPAM_QUERY"
+        ]
+      },
+      "correct": true
+    }
+  ],
+  "real_retrieval_calls": 0
+}

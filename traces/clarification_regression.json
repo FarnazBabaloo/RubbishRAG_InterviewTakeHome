@@ -1,0 +1,914 @@
+{
+  "mode": "exposed_development_set_cached_regression",
+  "real_retrieval_calls": 0,
+  "dataset_sha256": "99b6d52b9d9bcb7276a55ee8f492ebc9dfaacf601510dded6a3305a49b7a3189",
+  "runtime_sha256": {
+    "rubbish_rag/__init__.py": "5eee2de1d15e12cdb32b63b8a4be5e008fb9e6430315c4908339d5a037edc935",
+    "rubbish_rag/art.py": "9723c43e3895263294ea1ba76db8d61866fea308de3760d11c252454beea3168",
+    "rubbish_rag/clarification.py": "ab613737b9b1d7d24b5872447dbd524eb29967decb7bb5228f42f0cb6ec1cd67",
+    "rubbish_rag/execution.py": "9d0dbcf82c554ee349b5593dba24651511242d2447496385575c03574125b431",
+    "rubbish_rag/identity.py": "8353532db068151a17197433e6dabe806d5dcfe06e11b8b8b3db07536ed187a2",
+    "rubbish_rag/judge.py": "2233169992c1b8518900ef3de9cb589751e611890b56c3ec8fa85824e4514682",
+    "rubbish_rag/local_search.py": "f2a428611e7cf64689ded8c9a4bfeb065cba7c8b7469672096db0ebc7cddbc21",
+    "rubbish_rag/normalize_fa.py": "01efefa4ca1d60f6e3ded16295606782855d93cf45284a6d134f19675b771c9c",
+    "rubbish_rag/orchestrator.py": "2258b77366eb00ccc75515dae29cbbab7cb9f2456cb1d580ba93626e130c7ea4",
+    "rubbish_rag/pipeline.py": "9108f3bfa478ee5de5c158a2e1a5d82cbb3ddae2edf5fc83562a7c37052b6bd4",
+    "rubbish_rag/slots.py": "64d18805b9d0ff1da7df5ced750fcc44e2376b26a67115582370de5982a2e90a"
+  },
+  "correct": 40,
+  "total": 40,
+  "ambiguous_clarified": 20,
+  "specific_answered": 20,
+  "results": [
+    {
+      "id": "a01",
+      "query": "یه بدهی پرداخت‌نشده دارم؛ برای بهتر شدن اعتبارم از کجا شروع کنم؟",
+      "expected": "clarify",
+      "prediction": {
+        "status": "clarify",
+        "question": "این بدهی مربوط به کدام مورد است؟",
+        "options": [
+          "بدهی تسهیلاتی / وام",
+          "بدهی مالیاتی",
+          "چک برگشتی",
+          "محکومیت مالی"
+        ],
+        "missing_slots": [
+          "debt_type"
+        ],
+        "trace_id": "client_31c0e987f14b444281faca4e6571e8b6"
+      },
+      "routing_correct": true
+    },
+    {
+      "id": "a02",
+      "query": "بدهی شرکت رو تسویه کردیم، اثرش چه زمانی از گزارش حذف میشه؟",
+      "expected": "clarify",
+      "prediction": {
+        "status": "clarify",
+        "question": "این بدهی مربوط به کدام مورد است؟",
+        "options": [
+          "بدهی تسهیلاتی / وام",
+          "بدهی مالیاتی",
+          "چک برگشتی",
+          "محکومیت مالی"
+        ],
+        "missing_slots": [
+          "debt_type"
+        ],
+        "trace_id": "client_d90ca48b50d042da96311929b4ea77b9"
+      },
+      "routing_correct": true
+    },
+    {
+      "id": "a03",
+      "query": "برای رفع اثر این بدهی باید به کجا مراجعه کنم؟",
+      "expected": "clarify",
+      "prediction": {
+        "status": "clarify",
+        "question": "این بدهی مربوط به کدام مورد است؟",
+        "options": [
+          "بدهی تسهیلاتی / وام",
+          "بدهی مالیاتی",
+          "چک برگشتی",
+          "محکومیت مالی"
+        ],
+        "missing_slots": [
+          "debt_type"
+        ],
+        "trace_id": "client_1eee4db3d6d846c8b4dd218627362f01"
+      },
+      "routing_correct": true
+    },
+    {
+      "id": "a04",
+      "query": "بدهی قبلیم هنوز توی گزارشه؛ چطور پیگیری کنم؟",
+      "expected": "clarify",
+      "prediction": {
+        "status": "clarify",
+        "question": "این بدهی مربوط به کدام مورد است؟",
+        "options": [
+          "بدهی تسهیلاتی / وام",
+          "بدهی مالیاتی",
+          "چک برگشتی",
+          "محکومیت مالی"
+        ],
+        "missing_slots": [
+          "debt_type"
+        ],
+        "trace_id": "client_77e9559b513646da949727990ec012ef"
+      },
+      "routing_correct": true
+    },
+    {
+      "id": "a05",
+      "query": "اگر بدهی‌ام را قسط‌بندی کنم، وضعیت اعتبارم درست می‌شود؟",
+      "expected": "clarify",
+      "prediction": {
+        "status": "clarify",
+        "question": "این بدهی مربوط به کدام مورد است؟",
+        "options": [
+          "بدهی تسهیلاتی / وام",
+          "بدهی مالیاتی",
+          "چک برگشتی",
+          "محکومیت مالی"
+        ],
+        "missing_slots": [
+          "debt_type"
+        ],
+        "trace_id": "client_f9dbcf22c66e414ea2f2c7ce7fc791c7"
+      },
+      "routing_correct": true
+    },
+    {
+      "id": "a06",
+      "query": "با رتبه B2 می‌تونم وام بگیرم؟",
+      "expected": "clarify",
+      "prediction": {
+        "status": "clarify",
+        "question": "برای دریافت تسهیلات از کدام بانک درخواست دارید؟",
+        "options": [
+          "بانک ملی",
+          "بانک صادرات",
+          "بانک ملت",
+          "بانک تجارت"
+        ],
+        "missing_slots": [
+          "bank"
+        ],
+        "trace_id": "client_d91be6457ef840ebadecc2abaaba3b2a"
+      },
+      "routing_correct": true
+    },
+    {
+      "id": "a07",
+      "query": "بانک ملت به من وام می‌دهد؟",
+      "expected": "clarify",
+      "prediction": {
+        "status": "clarify",
+        "question": "رتبه اعتباری یا امتیاز عددی فعلی شما چیست؟",
+        "options": [
+          "رتبه را وارد می کنم",
+          "امتیاز عددی را وارد می کنم",
+          "رتبه و امتیاز را نمی دانم"
+        ],
+        "missing_slots": [
+          "rank"
+        ],
+        "trace_id": "client_847389b59cd048b288e8a59daefbe2c1"
+      },
+      "routing_correct": true
+    },
+    {
+      "id": "a08",
+      "query": "برای دریافت تسهیلات از بانک تجارت شرایط من مناسبه؟",
+      "expected": "clarify",
+      "prediction": {
+        "status": "clarify",
+        "question": "رتبه اعتباری یا امتیاز عددی فعلی شما چیست؟",
+        "options": [
+          "رتبه را وارد می کنم",
+          "امتیاز عددی را وارد می کنم",
+          "رتبه و امتیاز را نمی دانم"
+        ],
+        "missing_slots": [
+          "rank"
+        ],
+        "trace_id": "client_b489a8734f5a4a0eac946e6283e1a30a"
+      },
+      "routing_correct": true
+    },
+    {
+      "id": "a09",
+      "query": "الان می‌توانم تسهیلات بگیرم یا باید صبر کنم؟",
+      "expected": "clarify",
+      "prediction": {
+        "status": "clarify",
+        "question": "نام بانک و رتبه اعتباری یا امتیاز عددی فعلی را مشخص کنید.",
+        "options": [
+          "نام بانک و رتبه را وارد می کنم",
+          "بانک را می دانم، رتبه را نمی دانم",
+          "هنوز بانک مشخص نیست"
+        ],
+        "missing_slots": [
+          "bank",
+          "rank"
+        ],
+        "trace_id": "client_cd57e1032a324539b127c79317a64f9a"
+      },
+      "routing_correct": true
+    },
+    {
+      "id": "a10",
+      "query": "رتبه من C2 است؛ درخواست وامم قبول می‌شود؟",
+      "expected": "clarify",
+      "prediction": {
+        "status": "clarify",
+        "question": "برای دریافت تسهیلات از کدام بانک درخواست دارید؟",
+        "options": [
+          "بانک ملی",
+          "بانک صادرات",
+          "بانک ملت",
+          "بانک تجارت"
+        ],
+        "missing_slots": [
+          "bank"
+        ],
+        "trace_id": "client_074c67a082534e16b4e99dbd7651cec3"
+      },
+      "routing_correct": true
+    },
+    {
+      "id": "a11",
+      "query": "امتیازم پایین است؛ کدام سطح ریسک را دارم؟",
+      "expected": "clarify",
+      "prediction": {
+        "status": "clarify",
+        "question": "کد رتبه یا مقدار امتیاز موردنظر را وارد کنید تا بتوان آن را تفسیر کرد.",
+        "options": [
+          "کد رتبه را وارد می کنم",
+          "امتیاز عددی را وارد می کنم",
+          "مقدار دقیق را نمی دانم"
+        ],
+        "missing_slots": [
+          "rank"
+        ],
+        "trace_id": "client_bc3fb28b45834c589104f5b705646d43"
+      },
+      "routing_correct": true
+    },
+    {
+      "id": "a12",
+      "query": "رتبه اعتباری‌ام بد شده؛ الان جزو کدام گروه هستم؟",
+      "expected": "clarify",
+      "prediction": {
+        "status": "clarify",
+        "question": "کد رتبه یا مقدار امتیاز موردنظر را وارد کنید تا بتوان آن را تفسیر کرد.",
+        "options": [
+          "کد رتبه را وارد می کنم",
+          "امتیاز عددی را وارد می کنم",
+          "مقدار دقیق را نمی دانم"
+        ],
+        "missing_slots": [
+          "rank"
+        ],
+        "trace_id": "client_da7baa55de9b471d9d8cd4a50f97103e"
+      },
+      "routing_correct": true
+    },
+    {
+      "id": "a13",
+      "query": "سطح ریسک من بالاست یا پایین؟",
+      "expected": "clarify",
+      "prediction": {
+        "status": "clarify",
+        "question": "کد رتبه یا مقدار امتیاز موردنظر را وارد کنید تا بتوان آن را تفسیر کرد.",
+        "options": [
+          "کد رتبه را وارد می کنم",
+          "امتیاز عددی را وارد می کنم",
+          "مقدار دقیق را نمی دانم"
+        ],
+        "missing_slots": [
+          "rank"
+        ],
+        "trace_id": "client_ee6b3bf8715040ca98b271ee3fc5ab10"
+      },
+      "routing_correct": true
+    },
+    {
+      "id": "a14",
+      "query": "این امتیازی که گرفتم خوب محسوب میشه؟",
+      "expected": "clarify",
+      "prediction": {
+        "status": "clarify",
+        "question": "کد رتبه یا مقدار امتیاز موردنظر را وارد کنید تا بتوان آن را تفسیر کرد.",
+        "options": [
+          "کد رتبه را وارد می کنم",
+          "امتیاز عددی را وارد می کنم",
+          "مقدار دقیق را نمی دانم"
+        ],
+        "missing_slots": [
+          "rank"
+        ],
+        "trace_id": "client_f91e412d3cc8458c8f6a5d1262d58331"
+      },
+      "routing_correct": true
+    },
+    {
+      "id": "a15",
+      "query": "کد رتبه‌ام رو چطور تفسیر کنم؟",
+      "expected": "clarify",
+      "prediction": {
+        "status": "clarify",
+        "question": "کد رتبه یا مقدار امتیاز موردنظر را وارد کنید تا بتوان آن را تفسیر کرد.",
+        "options": [
+          "کد رتبه را وارد می کنم",
+          "امتیاز عددی را وارد می کنم",
+          "مقدار دقیق را نمی دانم"
+        ],
+        "missing_slots": [
+          "rank"
+        ],
+        "trace_id": "client_4f8b3931fbda4023a77b93a775883b3e"
+      },
+      "routing_correct": true
+    },
+    {
+      "id": "a16",
+      "query": "این موردی که توی گزارش من هست یعنی چی؟",
+      "expected": "clarify",
+      "prediction": {
+        "status": "clarify",
+        "question": "کدام مورد یا وضعیت را می گویید؟ متن آن بخش از گزارش یا شرح اتفاق را بنویسید.",
+        "options": [
+          "متن مورد گزارش را وارد می کنم",
+          "اتفاق موردنظر را توضیح می دهم",
+          "اطلاعات دقیق در دسترس نیست"
+        ],
+        "missing_slots": [
+          "context"
+        ],
+        "trace_id": "client_f75c43b4474c40e68b8efd370a02bb81"
+      },
+      "routing_correct": true
+    },
+    {
+      "id": "a17",
+      "query": "اثر این موضوع روی اعتبار شرکت چیه؟",
+      "expected": "clarify",
+      "prediction": {
+        "status": "clarify",
+        "question": "کدام مورد یا وضعیت را می گویید؟ متن آن بخش از گزارش یا شرح اتفاق را بنویسید.",
+        "options": [
+          "متن مورد گزارش را وارد می کنم",
+          "اتفاق موردنظر را توضیح می دهم",
+          "اطلاعات دقیق در دسترس نیست"
+        ],
+        "missing_slots": [
+          "context"
+        ],
+        "trace_id": "client_ec3cf5393e684d12b440dbf8fa4839af"
+      },
+      "routing_correct": true
+    },
+    {
+      "id": "a18",
+      "query": "برای حذفش از سابقه باید چیکار کنم؟",
+      "expected": "clarify",
+      "prediction": {
+        "status": "clarify",
+        "question": "کدام مورد یا وضعیت را می گویید؟ متن آن بخش از گزارش یا شرح اتفاق را بنویسید.",
+        "options": [
+          "متن مورد گزارش را وارد می کنم",
+          "اتفاق موردنظر را توضیح می دهم",
+          "اطلاعات دقیق در دسترس نیست"
+        ],
+        "missing_slots": [
+          "context"
+        ],
+        "trace_id": "client_5ad802cb3d1e4029b8232ec5f2a15977"
+      },
+      "routing_correct": true
+    },
+    {
+      "id": "a19",
+      "query": "این وضعیت تا چند سال باقی می‌مونه؟",
+      "expected": "clarify",
+      "prediction": {
+        "status": "clarify",
+        "question": "کدام مورد یا وضعیت را می گویید؟ متن آن بخش از گزارش یا شرح اتفاق را بنویسید.",
+        "options": [
+          "متن مورد گزارش را وارد می کنم",
+          "اتفاق موردنظر را توضیح می دهم",
+          "اطلاعات دقیق در دسترس نیست"
+        ],
+        "missing_slots": [
+          "context"
+        ],
+        "trace_id": "client_a7f2e22dd0fc4cf28d6c65b23f059ffd"
+      },
+      "routing_correct": true
+    },
+    {
+      "id": "a20",
+      "query": "با این شرایط امتیاز من بهتر می‌شود؟",
+      "expected": "clarify",
+      "prediction": {
+        "status": "clarify",
+        "question": "کدام مورد یا وضعیت را می گویید؟ متن آن بخش از گزارش یا شرح اتفاق را بنویسید.",
+        "options": [
+          "متن مورد گزارش را وارد می کنم",
+          "اتفاق موردنظر را توضیح می دهم",
+          "اطلاعات دقیق در دسترس نیست"
+        ],
+        "missing_slots": [
+          "context"
+        ],
+        "trace_id": "client_ba71988cd20c47e7ab8e16b39ed7aa05"
+      },
+      "routing_correct": true
+    },
+    {
+      "id": "s01",
+      "query": "بدهی مالیاتی پرداخت‌نشده چه اثری بر رتبه اعتباری شخص حقیقی دارد؟",
+      "expected": "answer",
+      "prediction": {
+        "status": "answer",
+        "brief": "در تسهیلاتی که شما ضامن آن هستید، بله.",
+        "cites": [
+          185,
+          237
+        ],
+        "slots": {
+          "BANK": null,
+          "RANK": null,
+          "PERSONA": "حقیقی",
+          "DEBT": "مالیاتی",
+          "AMOUNT": null,
+          "TIME": false,
+          "NUMS": [],
+          "NEGATED": false
+        },
+        "trace_id": "client_b7a36485addd4ae8af7d2385136086fb"
+      },
+      "routing_correct": true
+    },
+    {
+      "id": "s02",
+      "query": "آیا قسط عقب‌افتاده وام در گزارش اعتباری دیده می‌شود؟",
+      "expected": "answer",
+      "prediction": {
+        "status": "answer",
+        "brief": "نوع بدهی را مشخص کنید.",
+        "cites": [
+          239,
+          60
+        ],
+        "slots": {
+          "BANK": null,
+          "RANK": null,
+          "PERSONA": null,
+          "DEBT": "تسهیلاتی",
+          "AMOUNT": null,
+          "TIME": false,
+          "NUMS": [],
+          "NEGATED": false
+        },
+        "trace_id": "client_a9fc8bda596a49a7a187ebc10c8dccf3"
+      },
+      "routing_correct": true
+    },
+    {
+      "id": "s03",
+      "query": "آیا بدهی شرکت به تأمین‌کننده در گزارش اعتبارسنجی درج می‌شود؟",
+      "expected": "answer",
+      "prediction": {
+        "status": "answer",
+        "brief": "در صورتی که تامین کننده به شرکت اعتبارسنجی ایران اطلاعات را ارسال کند، بله.",
+        "cites": [
+          123,
+          274
+        ],
+        "slots": {
+          "BANK": null,
+          "RANK": null,
+          "PERSONA": "حقوقی",
+          "DEBT": null,
+          "AMOUNT": null,
+          "TIME": false,
+          "NUMS": [],
+          "NEGATED": false
+        },
+        "trace_id": "client_55f5fcc869bc4e7dbef09755aad6a52b"
+      },
+      "routing_correct": true
+    },
+    {
+      "id": "s04",
+      "query": "اگر چک برگشتی ظرف ۲۴ ساعت رفع سوءاثر شود، سابقه آن ثبت می‌شود؟",
+      "expected": "answer",
+      "prediction": {
+        "status": "answer",
+        "brief": "رفع سوءاثر چک برگشتی امتیاز و رتبه را تا حد زیادی اصلاح می‌کند اما سابقه باقی می‌ماند.",
+        "cites": [
+          282,
+          244
+        ],
+        "slots": {
+          "BANK": null,
+          "RANK": null,
+          "PERSONA": null,
+          "DEBT": "چک",
+          "AMOUNT": "24",
+          "TIME": true,
+          "NUMS": [
+            "24"
+          ],
+          "NEGATED": false
+        },
+        "trace_id": "client_f1d6068d585c45b6ba9da43c7c0b2367"
+      },
+      "routing_correct": true
+    },
+    {
+      "id": "s05",
+      "query": "محکومیت مالی شرکت چه اثری روی رتبه اعتباری دارد؟",
+      "expected": "answer",
+      "prediction": {
+        "status": "answer",
+        "brief": "در حال حاضر تغییر افراد شرکت تأثیری ندارد و فقط رفتار مالی شرکت ملاک است.",
+        "cites": [
+          133,
+          324
+        ],
+        "slots": {
+          "BANK": null,
+          "RANK": null,
+          "PERSONA": "حقوقی",
+          "DEBT": "محکومیت",
+          "AMOUNT": null,
+          "TIME": false,
+          "NUMS": [],
+          "NEGATED": false
+        },
+        "trace_id": "client_61753b7677ba4e40b3d47f37a45b86f5"
+      },
+      "routing_correct": true
+    },
+    {
+      "id": "s06",
+      "query": "ضامن شدن برای وام دیگری چه اثری روی اعتبار ضامن دارد؟",
+      "expected": "answer",
+      "prediction": {
+        "status": "answer",
+        "brief": "خیر. به این موضوع بستگی دارد که شخص متقاضی تسهیلات، اقساط را به موقع پرداخت می کند یا خیر.",
+        "cites": [
+          206,
+          208
+        ],
+        "slots": {
+          "BANK": null,
+          "RANK": null,
+          "PERSONA": null,
+          "DEBT": "تسهیلاتی",
+          "AMOUNT": null,
+          "TIME": false,
+          "NUMS": [],
+          "NEGATED": false
+        },
+        "trace_id": "client_2c483cf61d86465ebeb811946b2df230"
+      },
+      "routing_correct": true
+    },
+    {
+      "id": "s07",
+      "query": "تعداد ضامن‌های یک وام بر تأثیر ضمانت در رتبه هر ضامن اثر دارد؟",
+      "expected": "answer",
+      "prediction": {
+        "status": "answer",
+        "brief": "خیر. به این موضوع بستگی دارد که شخص متقاضی تسهیلات، اقساط را به موقع پرداخت می کند یا خیر.",
+        "cites": [
+          206,
+          208
+        ],
+        "slots": {
+          "BANK": null,
+          "RANK": null,
+          "PERSONA": null,
+          "DEBT": "تسهیلاتی",
+          "AMOUNT": null,
+          "TIME": false,
+          "NUMS": [],
+          "NEGATED": false
+        },
+        "trace_id": "client_58b701611ec84473bdb05c6c5d699631"
+      },
+      "routing_correct": true
+    },
+    {
+      "id": "s08",
+      "query": "آیا تأخیر اقساط در یک بانک روی گرفتن وام از بانک‌های دیگر هم اثر دارد؟",
+      "expected": "answer",
+      "prediction": {
+        "status": "answer",
+        "brief": "به این موضوع بستگی دارد که اقساط وام ضمانت شده به موقع پرداخت می شود یا خیر.",
+        "cites": [
+          208,
+          206
+        ],
+        "slots": {
+          "BANK": null,
+          "RANK": null,
+          "PERSONA": null,
+          "DEBT": "تسهیلاتی",
+          "AMOUNT": null,
+          "TIME": false,
+          "NUMS": [],
+          "NEGATED": false
+        },
+        "trace_id": "client_7f3f72c0b3574e5caeb55832411a9274"
+      },
+      "routing_correct": true
+    },
+    {
+      "id": "s09",
+      "query": "پرداخت به‌موقع قسط‌های وام چه اثری بر امتیاز اعتباری دارد؟",
+      "expected": "answer",
+      "prediction": {
+        "status": "answer",
+        "brief": "تعداد اقساط کافی نیست؛ مدل به استمرار بازپرداخت نیاز دارد. عوامل دیگری مثل چک برگشتی، بدهی مالیاتی، محکومیت مالی و تأخیر در وام‌های ضمانت‌شده نیز مؤثرند.",
+        "cites": [
+          324,
+          133
+        ],
+        "slots": {
+          "BANK": null,
+          "RANK": null,
+          "PERSONA": null,
+          "DEBT": "تسهیلاتی",
+          "AMOUNT": null,
+          "TIME": false,
+          "NUMS": [],
+          "NEGATED": false
+        },
+        "trace_id": "client_b08d7b10fa564dada977dba2e14e1fe2"
+      },
+      "routing_correct": true
+    },
+    {
+      "id": "s10",
+      "query": "اگر شرکت ضامن باشد و وام‌گیرنده اقساط را دیر بپردازد، رتبه شرکت آسیب می‌بیند؟",
+      "expected": "answer",
+      "prediction": {
+        "status": "answer",
+        "brief": "به این موضوع بستگی دارد که اقساط وام ضمانت شده به موقع پرداخت می شود یا خیر.",
+        "cites": [
+          208,
+          304
+        ],
+        "slots": {
+          "BANK": null,
+          "RANK": null,
+          "PERSONA": "حقوقی",
+          "DEBT": "تسهیلاتی",
+          "AMOUNT": null,
+          "TIME": false,
+          "NUMS": [],
+          "NEGATED": false
+        },
+        "trace_id": "client_e75d6f9858d0443aa634ad7f8a3996d7"
+      },
+      "routing_correct": true
+    },
+    {
+      "id": "s11",
+      "query": "رتبه اعتباری B1 نشان‌دهنده چه سطحی از ریسک است؟",
+      "expected": "answer",
+      "prediction": {
+        "status": "answer",
+        "brief": "رتبه اعتباری B1 در بازه امتیازی ۶۲۰ تا ۶۳۹ قرار دارد. رتبه B از نظر رفتار اعتباری بیانگر سابقه‌ی مالی خوب با ریسک نسبتاً پایین است؛ با این حال تضمین قطعی دریافت وام نیست، چون تصمیم نهایی با اعتباردهنده است.",
+        "cites": [
+          103,
+          98
+        ],
+        "slots": {
+          "BANK": null,
+          "RANK": "B1",
+          "PERSONA": null,
+          "DEBT": null,
+          "AMOUNT": null,
+          "TIME": false,
+          "NUMS": [],
+          "NEGATED": false
+        },
+        "trace_id": "client_44b5e25b984f40d185345d53049dbb7e"
+      },
+      "routing_correct": true
+    },
+    {
+      "id": "s12",
+      "query": "محدوده امتیازی رتبه D2 چقدر است؟",
+      "expected": "answer",
+      "prediction": {
+        "status": "answer",
+        "brief": "رتبه اعتباری D2 در بازه امتیازی ۴۸۰ تا ۴۹۹ قرار دارد. رتبه D از نظر رفتار اعتباری بیانگر ریسک بالاست؛ با این حال، صرف رتبه به معنی رد قطعی درخواست نیست، چون تصمیم نهایی با اعتباردهنده است.",
+        "cites": [
+          110,
+          1
+        ],
+        "slots": {
+          "BANK": null,
+          "RANK": "D2",
+          "PERSONA": null,
+          "DEBT": null,
+          "AMOUNT": null,
+          "TIME": false,
+          "NUMS": [],
+          "NEGATED": false
+        },
+        "trace_id": "client_3d43f75ae5f64844bab16eb15f734e01"
+      },
+      "routing_correct": true
+    },
+    {
+      "id": "s13",
+      "query": "در طبقه‌بندی اعتبار، A3 چه معنایی دارد؟",
+      "expected": "answer",
+      "prediction": {
+        "status": "answer",
+        "brief": "رتبه اعتباری A3 در بازه امتیازی ۶۴۰ تا ۶۵۹ قرار دارد. رتبه A از نظر رفتار اعتباری کم ریسکترین گروه است؛ با این حال تضمین قطعی دریافت وام نیست، چون تصمیم نهایی با اعتباردهنده است.",
+        "cites": [
+          102,
+          208
+        ],
+        "slots": {
+          "BANK": null,
+          "RANK": "A3",
+          "PERSONA": null,
+          "DEBT": null,
+          "AMOUNT": null,
+          "TIME": false,
+          "NUMS": [],
+          "NEGATED": false
+        },
+        "trace_id": "client_5ab762caa396438fbd3e3db522fa2724"
+      },
+      "routing_correct": true
+    },
+    {
+      "id": "s14",
+      "query": "رتبه E1 به چه سطح ریسکی اشاره می‌کند؟",
+      "expected": "answer",
+      "prediction": {
+        "status": "answer",
+        "brief": "رتبه اعتباری E1 در بازه امتیازی ۴۴۰ تا ۴۵۹ قرار دارد. رتبه E از نظر رفتار اعتباری بیانگر ریسک بسیار بالاست؛ با این حال، صرف رتبه به معنی رد قطعی درخواست نیست، چون تصمیم نهایی با اعتباردهنده است.",
+        "cites": [
+          112,
+          99
+        ],
+        "slots": {
+          "BANK": null,
+          "RANK": "E1",
+          "PERSONA": null,
+          "DEBT": null,
+          "AMOUNT": null,
+          "TIME": false,
+          "NUMS": [],
+          "NEGATED": false
+        },
+        "trace_id": "client_09fa89ca5b7c481c9cd17b8d1f9e8571"
+      },
+      "routing_correct": true
+    },
+    {
+      "id": "s15",
+      "query": "چرا شرکت بدون سابقه تأخیر، لزوماً بیشترین امتیاز اعتباری را ندارد؟",
+      "expected": "answer",
+      "prediction": {
+        "status": "answer",
+        "brief": "با اینکه سابقه بازپرداخت شما بسیار عالی است، اما توجه داشته باشید که ریسک اعتباری هیچ شخصی صفر نخواهد بود. ",
+        "cites": [
+          45,
+          67
+        ],
+        "slots": {
+          "BANK": null,
+          "RANK": null,
+          "PERSONA": "حقوقی",
+          "DEBT": null,
+          "AMOUNT": null,
+          "TIME": false,
+          "NUMS": [],
+          "NEGATED": true
+        },
+        "trace_id": "client_40670a2ef0fa4459aab8a6fec7b768dd"
+      },
+      "routing_correct": true
+    },
+    {
+      "id": "s16",
+      "query": "آیا تغییر نشانی قانونی شرکت روی امتیاز اعتباری اثر می‌گذارد؟",
+      "expected": "answer",
+      "prediction": {
+        "status": "answer",
+        "brief": "گزارش و امتیاز اعتباری شرکت تنها بر اساس شناسه ملی شرکت تولید و محاسبه می شود.",
+        "cites": [
+          35,
+          36
+        ],
+        "slots": {
+          "BANK": null,
+          "RANK": null,
+          "PERSONA": "حقوقی",
+          "DEBT": null,
+          "AMOUNT": null,
+          "TIME": false,
+          "NUMS": [],
+          "NEGATED": false
+        },
+        "trace_id": "client_9b6836ab1b434c42ac184bfa2dec5e75"
+      },
+      "routing_correct": true
+    },
+    {
+      "id": "s17",
+      "query": "تعطیلی موقت فعالیت شرکت در گزارش اعتباری منعکس می‌شود؟",
+      "expected": "answer",
+      "prediction": {
+        "status": "answer",
+        "brief": "خیر",
+        "cites": [
+          137,
+          264
+        ],
+        "slots": {
+          "BANK": null,
+          "RANK": null,
+          "PERSONA": "حقوقی",
+          "DEBT": null,
+          "AMOUNT": null,
+          "TIME": false,
+          "NUMS": [],
+          "NEGATED": false
+        },
+        "trace_id": "client_67ea632b68254a7aa86bbe44aab26162"
+      },
+      "routing_correct": true
+    },
+    {
+      "id": "s18",
+      "query": "سودآور بودن شرکت به‌تنهایی برای داشتن امتیاز اعتباری کافی است؟",
+      "expected": "answer",
+      "prediction": {
+        "status": "answer",
+        "brief": "سابقه تاسیس شرکت به تنهایی بر امتیاز موثر نیست. بنابراین یا سابقه پرداخت قسط شرکت قدیمی است و یا این که در ۵ سال اخیر کافی نیست.",
+        "cites": [
+          85,
+          79
+        ],
+        "slots": {
+          "BANK": null,
+          "RANK": null,
+          "PERSONA": "حقوقی",
+          "DEBT": null,
+          "AMOUNT": null,
+          "TIME": false,
+          "NUMS": [],
+          "NEGATED": false
+        },
+        "trace_id": "client_1cf49991f91c4567b9eb52236b6d1dc9"
+      },
+      "routing_correct": true
+    },
+    {
+      "id": "s19",
+      "query": "آیا می‌توان امتیاز اعتباری دو نفر را با یکدیگر مقایسه کرد؟",
+      "expected": "answer",
+      "prediction": {
+        "status": "answer",
+        "brief": "بله این امکان وجود دارد.",
+        "cites": [
+          290,
+          29
+        ],
+        "slots": {
+          "BANK": null,
+          "RANK": null,
+          "PERSONA": null,
+          "DEBT": null,
+          "AMOUNT": null,
+          "TIME": false,
+          "NUMS": [],
+          "NEGATED": false
+        },
+        "trace_id": "client_2e17f3268bd04e8a949b5ab5549fd4c4"
+      },
+      "routing_correct": true
+    },
+    {
+      "id": "s20",
+      "query": "حجم صادرات و واردات شرکت در محاسبه رتبه اعتباری مؤثر است؟",
+      "expected": "answer",
+      "prediction": {
+        "status": "answer",
+        "brief": "خیر، تاثیری ندارد.",
+        "cites": [
+          34,
+          21
+        ],
+        "slots": {
+          "BANK": null,
+          "RANK": null,
+          "PERSONA": "حقوقی",
+          "DEBT": null,
+          "AMOUNT": null,
+          "TIME": false,
+          "NUMS": [],
+          "NEGATED": false
+        },
+        "trace_id": "client_fcd15863a00144a195cf64b0c0c0bf0e"
+      },
+      "routing_correct": true
+    }
+  ]
+}

@@ -1,0 +1,8 @@
+{
+  "method": "scalar temperature; train multiclass negative log likelihood",
+  "temperature": 0.95,
+  "fit_split": "train",
+  "fit_samples": 20,
+  "fit_nll": 0.23317581186236888,
+  "dataset_sha256": "b6b601604d328e2b311e2e3b71a73ad9d759e9452c653bfdc5ecca37f9dcb411"
+}

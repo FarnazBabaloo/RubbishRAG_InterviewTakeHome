@@ -1,0 +1,468 @@
+{
+  "mode": "heldout_public_judge_test",
+  "test_previously_used_for_tuning": false,
+  "label_semantics": "clarify overrides expected_retrieval=RETRIEVE; retrieval probability means call now, not eventual knowledge need",
+  "metrics": {
+    "total_queries": 15,
+    "split": "test",
+    "routing_accuracy": 0.6666666666666666,
+    "clarification": {
+      "precision": 0.3333333333333333,
+      "recall": 0.3333333333333333,
+      "f1": 0.3333333333333333,
+      "tp": 1,
+      "fp": 2,
+      "fn": 2
+    },
+    "sufficiency_accuracy": null,
+    "sufficiency_note": "Not measured by this routing-only dataset; no fabricated hits used.",
+    "context_budget": {
+      "mean_top_k": 1.8666666666666667,
+      "baseline_fixed_k": 5,
+      "budget_reduction_pct": 62.66666666666667
+    },
+    "calibration": {
+      "brier_score": 0.3084157179073433,
+      "expected_calibration_error": 0.2895197754396068,
+      "decision_brier": 0.3021863140508458,
+      "decision_ece": 0.28277922807134115,
+      "clarify_brier": 0.247467311585406
+    },
+    "results": [
+      {
+        "id": "j36",
+        "expected": "no_retrieval",
+        "prediction": {
+          "action": "no_retrieval",
+          "needs_retrieval": false,
+          "needs_clarification": false,
+          "missing_slots": [],
+          "retrieval_strategy": "none",
+          "query_rewrite": "شب بخیر، مرسی",
+          "target_entities": [],
+          "target_facets": [
+            "conversation"
+          ],
+          "top_k": 0,
+          "confidence": 0.9494458947380079,
+          "retrieve_probability": 0.025277052630996125,
+          "clarify_probability": 0.025277052630996125,
+          "reason_codes": [
+            "CONVERSATION_ONLY"
+          ]
+        },
+        "correct": true
+      },
+      {
+        "id": "j37",
+        "expected": "no_retrieval",
+        "prediction": {
+          "action": "retrieve",
+          "needs_retrieval": true,
+          "needs_clarification": false,
+          "missing_slots": [],
+          "retrieval_strategy": "hybrid",
+          "query_rewrite": "می تونی کمکم کنی؟",
+          "target_entities": [],
+          "target_facets": [
+            "conversation"
+          ],
+          "top_k": 2,
+          "confidence": 0.9494458947380078,
+          "retrieve_probability": 0.9494458947380078,
+          "clarify_probability": 0.02527705263099612,
+          "reason_codes": [
+            "FOCUSED_QUERY"
+          ]
+        },
+        "correct": false
+      },
+      {
+        "id": "j38",
+        "expected": "retrieve",
+        "prediction": {
+          "action": "retrieve",
+          "needs_retrieval": true,
+          "needs_clarification": false,
+          "missing_slots": [],
+          "retrieval_strategy": "hybrid",
+          "query_rewrite": "رتبه A1 یعنی چی؟",
+          "target_entities": [
+            "A1"
+          ],
+          "target_facets": [
+            "A1"
+          ],
+          "top_k": 2,
+          "confidence": 0.9494458947380078,
+          "retrieve_probability": 0.9494458947380078,
+          "clarify_probability": 0.02527705263099612,
+          "reason_codes": [
+            "FOCUSED_QUERY"
+          ]
+        },
+        "correct": true
+      },
+      {
+        "id": "j39",
+        "expected": "retrieve",
+        "prediction": {
+          "action": "retrieve",
+          "needs_retrieval": true,
+          "needs_clarification": false,
+          "missing_slots": [],
+          "retrieval_strategy": "hybrid",
+          "query_rewrite": "رتبه D3 یعنی چی؟",
+          "target_entities": [
+            "D3"
+          ],
+          "target_facets": [
+            "D3"
+          ],
+          "top_k": 2,
+          "confidence": 0.9494458947380078,
+          "retrieve_probability": 0.9494458947380078,
+          "clarify_probability": 0.02527705263099612,
+          "reason_codes": [
+            "FOCUSED_QUERY"
+          ]
+        },
+        "correct": true
+      },
+      {
+        "id": "j40",
+        "expected": "clarify",
+        "prediction": {
+          "action": "clarify",
+          "needs_retrieval": false,
+          "needs_clarification": true,
+          "missing_slots": [
+            "debt_type"
+          ],
+          "retrieval_strategy": "none",
+          "query_rewrite": "بدهی عقب افتاده را دادم ولی رتبه من عوض نشد",
+          "target_entities": [],
+          "target_facets": [
+            "credit_regulations"
+          ],
+          "top_k": 0,
+          "confidence": 0.9494458947380079,
+          "retrieve_probability": 0.025277052630996125,
+          "clarify_probability": 0.9494458947380079,
+          "reason_codes": [
+            "MISSING_INFORMATION"
+          ]
+        },
+        "correct": true
+      },
+      {
+        "id": "j41",
+        "expected": "retrieve",
+        "prediction": {
+          "action": "retrieve",
+          "needs_retrieval": true,
+          "needs_clarification": false,
+          "missing_slots": [],
+          "retrieval_strategy": "hybrid",
+          "query_rewrite": "چک صیادی برگشتی چقدر در رتبه اثر منفی دارد؟",
+          "target_entities": [],
+          "target_facets": [
+            "credit_regulations"
+          ],
+          "top_k": 2,
+          "confidence": 0.9494458947380078,
+          "retrieve_probability": 0.9494458947380078,
+          "clarify_probability": 0.02527705263099612,
+          "reason_codes": [
+            "FOCUSED_QUERY"
+          ]
+        },
+        "correct": true
+      },
+      {
+        "id": "j42",
+        "expected": "retrieve",
+        "prediction": {
+          "action": "retrieve",
+          "needs_retrieval": true,
+          "needs_clarification": false,
+          "missing_slots": [],
+          "retrieval_strategy": "hybrid",
+          "query_rewrite": "بانک تجارت به رتبه B2 وام خودرو می دهد؟",
+          "target_entities": [
+            "B2",
+            "تجارت"
+          ],
+          "target_facets": [
+            "B2"
+          ],
+          "top_k": 5,
+          "confidence": 0.9494458947380078,
+          "retrieve_probability": 0.9494458947380078,
+          "clarify_probability": 0.02527705263099612,
+          "reason_codes": [
+            "MULTI_ENTITY_OR_COMPARISON"
+          ]
+        },
+        "correct": true
+      },
+      {
+        "id": "j43",
+        "expected": "clarify",
+        "prediction": {
+          "action": "retrieve",
+          "needs_retrieval": true,
+          "needs_clarification": false,
+          "missing_slots": [],
+          "retrieval_strategy": "hybrid",
+          "query_rewrite": "اقساط من عقب افتاده",
+          "target_entities": [],
+          "target_facets": [
+            "conversation"
+          ],
+          "top_k": 2,
+          "confidence": 0.9494458947380078,
+          "retrieve_probability": 0.9494458947380078,
+          "clarify_probability": 0.02527705263099612,
+          "reason_codes": [
+            "FOCUSED_QUERY"
+          ]
+        },
+        "correct": false
+      },
+      {
+        "id": "j44",
+        "expected": "retrieve",
+        "prediction": {
+          "action": "retrieve",
+          "needs_retrieval": true,
+          "needs_clarification": false,
+          "missing_slots": [],
+          "retrieval_strategy": "hybrid",
+          "query_rewrite": "آیا ضامن شدن برای وام دیگران در رتبه اعتباری من دیده می شود؟",
+          "target_entities": [],
+          "target_facets": [
+            "credit_regulations"
+          ],
+          "top_k": 3,
+          "confidence": 0.9494458947380078,
+          "retrieve_probability": 0.9494458947380078,
+          "clarify_probability": 0.02527705263099612,
+          "reason_codes": [
+            "STANDARD_QUERY"
+          ]
+        },
+        "correct": true
+      },
+      {
+        "id": "j45",
+        "expected": "retrieve",
+        "prediction": {
+          "action": "retrieve",
+          "needs_retrieval": true,
+          "needs_clarification": false,
+          "missing_slots": [],
+          "retrieval_strategy": "hybrid",
+          "query_rewrite": "حداکثر سقف امتیاز اعتباری 900 است؟",
+          "target_entities": [],
+          "target_facets": [
+            "credit_regulations"
+          ],
+          "top_k": 2,
+          "confidence": 0.9494458947380078,
+          "retrieve_probability": 0.9494458947380078,
+          "clarify_probability": 0.02527705263099612,
+          "reason_codes": [
+            "FOCUSED_QUERY"
+          ]
+        },
+        "correct": true
+      },
+      {
+        "id": "j46",
+        "expected": "retrieve",
+        "prediction": {
+          "action": "clarify",
+          "needs_retrieval": false,
+          "needs_clarification": true,
+          "missing_slots": [
+            "rank"
+          ],
+          "retrieval_strategy": "none",
+          "query_rewrite": "درآمدم بالاست ولی امتیاز من پایینه، چرا؟",
+          "target_entities": [],
+          "target_facets": [
+            "credit_regulations"
+          ],
+          "top_k": 0,
+          "confidence": 0.9494458947380079,
+          "retrieve_probability": 0.025277052630996125,
+          "clarify_probability": 0.9494458947380079,
+          "reason_codes": [
+            "MISSING_INFORMATION"
+          ]
+        },
+        "correct": false
+      },
+      {
+        "id": "j47",
+        "expected": "clarify",
+        "prediction": {
+          "action": "retrieve",
+          "needs_retrieval": true,
+          "needs_clarification": false,
+          "missing_slots": [],
+          "retrieval_strategy": "hybrid",
+          "query_rewrite": "شرکت من امتیاز نداره",
+          "target_entities": [
+            "حقوقی"
+          ],
+          "target_facets": [
+            "credit_regulations"
+          ],
+          "top_k": 2,
+          "confidence": 0.9494458947380078,
+          "retrieve_probability": 0.9494458947380078,
+          "clarify_probability": 0.02527705263099612,
+          "reason_codes": [
+            "FOCUSED_QUERY"
+          ]
+        },
+        "correct": false
+      },
+      {
+        "id": "j48",
+        "expected": "retrieve",
+        "prediction": {
+          "action": "retrieve",
+          "needs_retrieval": true,
+          "needs_clarification": false,
+          "missing_slots": [],
+          "retrieval_strategy": "hybrid",
+          "query_rewrite": "اگر چک ضمانت که برگشت نخورده سررسیدش بگذرد چه می شود؟",
+          "target_entities": [],
+          "target_facets": [
+            "credit_regulations"
+          ],
+          "top_k": 3,
+          "confidence": 0.9494458947380078,
+          "retrieve_probability": 0.9494458947380078,
+          "clarify_probability": 0.02527705263099612,
+          "reason_codes": [
+            "STANDARD_QUERY"
+          ]
+        },
+        "correct": true
+      },
+      {
+        "id": "j49",
+        "expected": "retrieve",
+        "prediction": {
+          "action": "clarify",
+          "needs_retrieval": false,
+          "needs_clarification": true,
+          "missing_slots": [
+            "bank",
+            "rank"
+          ],
+          "retrieval_strategy": "none",
+          "query_rewrite": "وام میخوام بدون اعتبارسنجی 100 درصد تضمینی",
+          "target_entities": [],
+          "target_facets": [
+            "credit_regulations"
+          ],
+          "top_k": 0,
+          "confidence": 0.9494458947380079,
+          "retrieve_probability": 0.025277052630996125,
+          "clarify_probability": 0.9494458947380079,
+          "reason_codes": [
+            "MISSING_INFORMATION"
+          ]
+        },
+        "correct": false
+      },
+      {
+        "id": "j50",
+        "expected": "retrieve",
+        "prediction": {
+          "action": "retrieve",
+          "needs_retrieval": true,
+          "needs_clarification": false,
+          "missing_slots": [],
+          "retrieval_strategy": "hybrid",
+          "query_rewrite": "آیا تغییر نام شرکت سوابق قبلی را پاک می کند؟",
+          "target_entities": [
+            "حقوقی"
+          ],
+          "target_facets": [
+            "credit_regulations"
+          ],
+          "top_k": 3,
+          "confidence": 0.9494458947380078,
+          "retrieve_probability": 0.9494458947380078,
+          "clarify_probability": 0.02527705263099612,
+          "reason_codes": [
+            "STANDARD_QUERY"
+          ]
+        },
+        "correct": true
+      }
+    ]
+  },
+  "uncalibrated_calibration": {
+    "brier_score": 0.3042133333333333,
+    "expected_calibration_error": 0.2813333333333333,
+    "decision_brier": 0.2969333333333333,
+    "decision_ece": 0.2733333333333333,
+    "clarify_brier": 0.24410666666666667
+  },
+  "provided_baseline_three_way_accuracy": 0.7333333333333333,
+  "mean_pre_latency_ms": 1.136250199973195,
+  "risk_coverage": [
+    {
+      "threshold": 0,
+      "coverage": 1.0,
+      "risk": 0.33333333333333337
+    },
+    {
+      "threshold": 0.5,
+      "coverage": 1.0,
+      "risk": 0.33333333333333337
+    },
+    {
+      "threshold": 0.75,
+      "coverage": 1.0,
+      "risk": 0.33333333333333337
+    },
+    {
+      "threshold": 0.9,
+      "coverage": 1.0,
+      "risk": 0.33333333333333337
+    },
+    {
+      "threshold": 0.95,
+      "coverage": 0.0,
+      "risk": null
+    },
+    {
+      "threshold": 0.99,
+      "coverage": 0.0,
+      "risk": null
+    }
+  ],
+  "runtime_sha256": {
+    "rubbish_rag/__init__.py": "5eee2de1d15e12cdb32b63b8a4be5e008fb9e6430315c4908339d5a037edc935",
+    "rubbish_rag/art.py": "9723c43e3895263294ea1ba76db8d61866fea308de3760d11c252454beea3168",
+    "rubbish_rag/clarification.py": "ab613737b9b1d7d24b5872447dbd524eb29967decb7bb5228f42f0cb6ec1cd67",
+    "rubbish_rag/execution.py": "9d0dbcf82c554ee349b5593dba24651511242d2447496385575c03574125b431",
+    "rubbish_rag/identity.py": "8353532db068151a17197433e6dabe806d5dcfe06e11b8b8b3db07536ed187a2",
+    "rubbish_rag/judge.py": "2233169992c1b8518900ef3de9cb589751e611890b56c3ec8fa85824e4514682",
+    "rubbish_rag/judge_calibration.json": "67c109b9bdbef4ff6e324adf23f251178b5945d73eff5fcbbf7e094055924687",
+    "rubbish_rag/local_search.py": "f2a428611e7cf64689ded8c9a4bfeb065cba7c8b7469672096db0ebc7cddbc21",
+    "rubbish_rag/normalize_fa.py": "01efefa4ca1d60f6e3ded16295606782855d93cf45284a6d134f19675b771c9c",
+    "rubbish_rag/orchestrator.py": "2258b77366eb00ccc75515dae29cbbab7cb9f2456cb1d580ba93626e130c7ea4",
+    "rubbish_rag/pipeline.py": "9108f3bfa478ee5de5c158a2e1a5d82cbb3ddae2edf5fc83562a7c37052b6bd4",
+    "rubbish_rag/slots.py": "64d18805b9d0ff1da7df5ced750fcc44e2376b26a67115582370de5982a2e90a"
+  },
+  "real_retrieval_calls": 0
+}

@@ -1,0 +1,517 @@
+{
+  "methodology": "Same assistant authored labels with knowledge of prior failures; frozen before model execution. Audit exact queries are not used to fit confidence. Not independent annotation or a hidden test. Equal-ish route balance is artificial. Out-of-domain knowledge requests are excluded.",
+  "cases": [
+    {
+      "id": "calibration_01",
+      "split": "calibration",
+      "query": "سلام دوست من",
+      "expected_retrieval": "NO_RETRIEVAL",
+      "expected_clarification": "NO_CLARIFY",
+      "expected_action": "no_retrieval"
+    },
+    {
+      "id": "calibration_02",
+      "split": "calibration",
+      "query": "درود بر شما",
+      "expected_retrieval": "NO_RETRIEVAL",
+      "expected_clarification": "NO_CLARIFY",
+      "expected_action": "no_retrieval"
+    },
+    {
+      "id": "calibration_03",
+      "split": "calibration",
+      "query": "ممنون بابت راهنمایی",
+      "expected_retrieval": "NO_RETRIEVAL",
+      "expected_clarification": "NO_CLARIFY",
+      "expected_action": "no_retrieval"
+    },
+    {
+      "id": "calibration_04",
+      "split": "calibration",
+      "query": "مرسی از شما",
+      "expected_retrieval": "NO_RETRIEVAL",
+      "expected_clarification": "NO_CLARIFY",
+      "expected_action": "no_retrieval"
+    },
+    {
+      "id": "calibration_05",
+      "split": "calibration",
+      "query": "خداحافظ تا دفعه بعد",
+      "expected_retrieval": "NO_RETRIEVAL",
+      "expected_clarification": "NO_CLARIFY",
+      "expected_action": "no_retrieval"
+    },
+    {
+      "id": "calibration_06",
+      "split": "calibration",
+      "query": "شب خوش",
+      "expected_retrieval": "NO_RETRIEVAL",
+      "expected_clarification": "NO_CLARIFY",
+      "expected_action": "no_retrieval"
+    },
+    {
+      "id": "calibration_07",
+      "split": "calibration",
+      "query": "روز خوبی داشته باشی",
+      "expected_retrieval": "NO_RETRIEVAL",
+      "expected_clarification": "NO_CLARIFY",
+      "expected_action": "no_retrieval"
+    },
+    {
+      "id": "calibration_08",
+      "split": "calibration",
+      "query": "دستت درد نکنه",
+      "expected_retrieval": "NO_RETRIEVAL",
+      "expected_clarification": "NO_CLARIFY",
+      "expected_action": "no_retrieval"
+    },
+    {
+      "id": "calibration_09",
+      "split": "calibration",
+      "query": "لطفا کمکم کن",
+      "expected_retrieval": "NO_RETRIEVAL",
+      "expected_clarification": "NO_CLARIFY",
+      "expected_action": "no_retrieval"
+    },
+    {
+      "id": "calibration_10",
+      "split": "calibration",
+      "query": "چه کاری می توانید انجام دهید؟",
+      "expected_retrieval": "NO_RETRIEVAL",
+      "expected_clarification": "NO_CLARIFY",
+      "expected_action": "no_retrieval"
+    },
+    {
+      "id": "calibration_11",
+      "split": "calibration",
+      "query": "می تونی راهنماییم کنی؟",
+      "expected_retrieval": "NO_RETRIEVAL",
+      "expected_clarification": "NO_CLARIFY",
+      "expected_action": "no_retrieval"
+    },
+    {
+      "id": "calibration_12",
+      "split": "calibration",
+      "query": "وقت شما بخیر",
+      "expected_retrieval": "NO_RETRIEVAL",
+      "expected_clarification": "NO_CLARIFY",
+      "expected_action": "no_retrieval"
+    },
+    {
+      "id": "calibration_13",
+      "split": "calibration",
+      "query": "بدهی من را چطور پاک کنم؟",
+      "expected_retrieval": "RETRIEVE",
+      "expected_clarification": "CLARIFY",
+      "expected_action": "clarify"
+    },
+    {
+      "id": "calibration_14",
+      "split": "calibration",
+      "query": "برای این وضعیت چه اقدامی کنم؟",
+      "expected_retrieval": "RETRIEVE",
+      "expected_clarification": "CLARIFY",
+      "expected_action": "clarify"
+    },
+    {
+      "id": "calibration_15",
+      "split": "calibration",
+      "query": "آیا امکان دریافت وام برای من وجود دارد؟",
+      "expected_retrieval": "RETRIEVE",
+      "expected_clarification": "CLARIFY",
+      "expected_action": "clarify"
+    },
+    {
+      "id": "calibration_16",
+      "split": "calibration",
+      "query": "بانک ملت به من وام می دهد؟",
+      "expected_retrieval": "RETRIEVE",
+      "expected_clarification": "CLARIFY",
+      "expected_action": "clarify"
+    },
+    {
+      "id": "calibration_17",
+      "split": "calibration",
+      "query": "رتبه ام را تفسیر می کنی؟",
+      "expected_retrieval": "RETRIEVE",
+      "expected_clarification": "CLARIFY",
+      "expected_action": "clarify"
+    },
+    {
+      "id": "calibration_18",
+      "split": "calibration",
+      "query": "سال ۱۴۰۳ رتبه من بد شده؛ یعنی چه؟",
+      "expected_retrieval": "RETRIEVE",
+      "expected_clarification": "CLARIFY",
+      "expected_action": "clarify"
+    },
+    {
+      "id": "calibration_19",
+      "split": "calibration",
+      "query": "این امتیاز خوب است؟",
+      "expected_retrieval": "RETRIEVE",
+      "expected_clarification": "CLARIFY",
+      "expected_action": "clarify"
+    },
+    {
+      "id": "calibration_20",
+      "split": "calibration",
+      "query": "قسط عقب افتاده دارم",
+      "expected_retrieval": "RETRIEVE",
+      "expected_clarification": "CLARIFY",
+      "expected_action": "clarify"
+    },
+    {
+      "id": "calibration_21",
+      "split": "calibration",
+      "query": "شرکت ما امتیاز ندارد",
+      "expected_retrieval": "RETRIEVE",
+      "expected_clarification": "CLARIFY",
+      "expected_action": "clarify"
+    },
+    {
+      "id": "calibration_22",
+      "split": "calibration",
+      "query": "سابقه ام مشکل دارد",
+      "expected_retrieval": "RETRIEVE",
+      "expected_clarification": "CLARIFY",
+      "expected_action": "clarify"
+    },
+    {
+      "id": "calibration_23",
+      "split": "calibration",
+      "query": "ضامن شدم و نگرانم",
+      "expected_retrieval": "RETRIEVE",
+      "expected_clarification": "CLARIFY",
+      "expected_action": "clarify"
+    },
+    {
+      "id": "calibration_24",
+      "split": "calibration",
+      "query": "مالیات ندادم",
+      "expected_retrieval": "RETRIEVE",
+      "expected_clarification": "CLARIFY",
+      "expected_action": "clarify"
+    },
+    {
+      "id": "calibration_25",
+      "split": "calibration",
+      "query": "قبولم می کنند؟",
+      "expected_retrieval": "RETRIEVE",
+      "expected_clarification": "CLARIFY",
+      "expected_action": "clarify"
+    },
+    {
+      "id": "calibration_26",
+      "split": "calibration",
+      "query": "کدومش برای من بهتره؟",
+      "expected_retrieval": "RETRIEVE",
+      "expected_clarification": "CLARIFY",
+      "expected_action": "clarify"
+    },
+    {
+      "id": "calibration_27",
+      "split": "calibration",
+      "query": "بدهی چیست؟",
+      "expected_retrieval": "RETRIEVE",
+      "expected_clarification": "NO_CLARIFY",
+      "expected_action": "retrieve"
+    },
+    {
+      "id": "calibration_28",
+      "split": "calibration",
+      "query": "چه انواع بدهی در گزارش اعتباری هست؟",
+      "expected_retrieval": "RETRIEVE",
+      "expected_clarification": "NO_CLARIFY",
+      "expected_action": "retrieve"
+    },
+    {
+      "id": "calibration_29",
+      "split": "calibration",
+      "query": "رتبه B2 یعنی چه؟",
+      "expected_retrieval": "RETRIEVE",
+      "expected_clarification": "NO_CLARIFY",
+      "expected_action": "retrieve"
+    },
+    {
+      "id": "calibration_30",
+      "split": "calibration",
+      "query": "تفاوت A1 و E3 چیست؟",
+      "expected_retrieval": "RETRIEVE",
+      "expected_clarification": "NO_CLARIFY",
+      "expected_action": "retrieve"
+    },
+    {
+      "id": "calibration_31",
+      "split": "calibration",
+      "query": "چک برگشتی چه تاثیری دارد؟",
+      "expected_retrieval": "RETRIEVE",
+      "expected_clarification": "NO_CLARIFY",
+      "expected_action": "retrieve"
+    },
+    {
+      "id": "calibration_32",
+      "split": "calibration",
+      "query": "چرا درآمد زیاد لزوما امتیاز را بالا نمی برد؟",
+      "expected_retrieval": "RETRIEVE",
+      "expected_clarification": "NO_CLARIFY",
+      "expected_action": "retrieve"
+    },
+    {
+      "id": "calibration_33",
+      "split": "calibration",
+      "query": "آیا بازپرداخت به موقع اقساط مهم است؟",
+      "expected_retrieval": "RETRIEVE",
+      "expected_clarification": "NO_CLARIFY",
+      "expected_action": "retrieve"
+    },
+    {
+      "id": "calibration_34",
+      "split": "calibration",
+      "query": "تغییر نشانی شرکت چه اثری دارد؟",
+      "expected_retrieval": "RETRIEVE",
+      "expected_clarification": "NO_CLARIFY",
+      "expected_action": "retrieve"
+    },
+    {
+      "id": "calibration_35",
+      "split": "calibration",
+      "query": "شرکت سودآور چرا امتیاز ندارد؟",
+      "expected_retrieval": "RETRIEVE",
+      "expected_clarification": "NO_CLARIFY",
+      "expected_action": "retrieve"
+    },
+    {
+      "id": "calibration_36",
+      "split": "calibration",
+      "query": "رتبه C2 برای بانک ملی قابل قبول است؟",
+      "expected_retrieval": "RETRIEVE",
+      "expected_clarification": "NO_CLARIFY",
+      "expected_action": "retrieve"
+    },
+    {
+      "id": "calibration_37",
+      "split": "calibration",
+      "query": "وام تسویه شده هنوز در گزارش نشان داده می شود؛ چرا؟",
+      "expected_retrieval": "RETRIEVE",
+      "expected_clarification": "NO_CLARIFY",
+      "expected_action": "retrieve"
+    },
+    {
+      "id": "calibration_38",
+      "split": "calibration",
+      "query": "گزارش اعتباری چه اطلاعاتی دارد؟",
+      "expected_retrieval": "RETRIEVE",
+      "expected_clarification": "NO_CLARIFY",
+      "expected_action": "retrieve"
+    },
+    {
+      "id": "calibration_39",
+      "split": "calibration",
+      "query": "مهلت اعتراض به گزارش اعتباری چیست؟",
+      "expected_retrieval": "RETRIEVE",
+      "expected_clarification": "NO_CLARIFY",
+      "expected_action": "retrieve"
+    },
+    {
+      "id": "calibration_40",
+      "split": "calibration",
+      "query": "سلام، بدهی مالیاتی روی رتبه اثر دارد؟",
+      "expected_retrieval": "RETRIEVE",
+      "expected_clarification": "NO_CLARIFY",
+      "expected_action": "retrieve"
+    },
+    {
+      "id": "audit_41",
+      "split": "audit",
+      "query": "سلام و خسته نباشید",
+      "expected_retrieval": "NO_RETRIEVAL",
+      "expected_clarification": "NO_CLARIFY",
+      "expected_action": "no_retrieval"
+    },
+    {
+      "id": "audit_42",
+      "split": "audit",
+      "query": "خیلی ممنون از وقتی که گذاشتی",
+      "expected_retrieval": "NO_RETRIEVAL",
+      "expected_clarification": "NO_CLARIFY",
+      "expected_action": "no_retrieval"
+    },
+    {
+      "id": "audit_43",
+      "split": "audit",
+      "query": "درود، روز خوش",
+      "expected_retrieval": "NO_RETRIEVAL",
+      "expected_clarification": "NO_CLARIFY",
+      "expected_action": "no_retrieval"
+    },
+    {
+      "id": "audit_44",
+      "split": "audit",
+      "query": "تا دیدار بعدی خداحافظ",
+      "expected_retrieval": "NO_RETRIEVAL",
+      "expected_clarification": "NO_CLARIFY",
+      "expected_action": "no_retrieval"
+    },
+    {
+      "id": "audit_45",
+      "split": "audit",
+      "query": "چه کمکی از شما برمی آید؟",
+      "expected_retrieval": "NO_RETRIEVAL",
+      "expected_clarification": "NO_CLARIFY",
+      "expected_action": "no_retrieval"
+    },
+    {
+      "id": "audit_46",
+      "split": "audit",
+      "query": "سپاسگزارم",
+      "expected_retrieval": "NO_RETRIEVAL",
+      "expected_clarification": "NO_CLARIFY",
+      "expected_action": "no_retrieval"
+    },
+    {
+      "id": "audit_47",
+      "split": "audit",
+      "query": "فعلا کاری ندارم",
+      "expected_retrieval": "NO_RETRIEVAL",
+      "expected_clarification": "NO_CLARIFY",
+      "expected_action": "no_retrieval"
+    },
+    {
+      "id": "audit_48",
+      "split": "audit",
+      "query": "از راهنمایی ات متشکرم",
+      "expected_retrieval": "NO_RETRIEVAL",
+      "expected_clarification": "NO_CLARIFY",
+      "expected_action": "no_retrieval"
+    },
+    {
+      "id": "audit_49",
+      "split": "audit",
+      "query": "می توانم برای دریافت وام اقدام کنم؟",
+      "expected_retrieval": "RETRIEVE",
+      "expected_clarification": "CLARIFY",
+      "expected_action": "clarify"
+    },
+    {
+      "id": "audit_50",
+      "split": "audit",
+      "query": "بانک صادرات به من تسهیلات می دهد؟",
+      "expected_retrieval": "RETRIEVE",
+      "expected_clarification": "CLARIFY",
+      "expected_action": "clarify"
+    },
+    {
+      "id": "audit_51",
+      "split": "audit",
+      "query": "در سال ۱۴۰۲ رتبه من بد شده؛ سطح ریسکم چیست؟",
+      "expected_retrieval": "RETRIEVE",
+      "expected_clarification": "CLARIFY",
+      "expected_action": "clarify"
+    },
+    {
+      "id": "audit_52",
+      "split": "audit",
+      "query": "این موضوع را چطور اصلاح کنم؟",
+      "expected_retrieval": "RETRIEVE",
+      "expected_clarification": "CLARIFY",
+      "expected_action": "clarify"
+    },
+    {
+      "id": "audit_53",
+      "split": "audit",
+      "query": "بدهی دارم اما نمی دانم چطور اثرش را رفع کنم",
+      "expected_retrieval": "RETRIEVE",
+      "expected_clarification": "CLARIFY",
+      "expected_action": "clarify"
+    },
+    {
+      "id": "audit_54",
+      "split": "audit",
+      "query": "شرکت من امتیاز نداره",
+      "expected_retrieval": "RETRIEVE",
+      "expected_clarification": "CLARIFY",
+      "expected_action": "clarify"
+    },
+    {
+      "id": "audit_55",
+      "split": "audit",
+      "query": "چه اتفاقی برای من می افتد؟",
+      "expected_retrieval": "RETRIEVE",
+      "expected_clarification": "CLARIFY",
+      "expected_action": "clarify"
+    },
+    {
+      "id": "audit_56",
+      "split": "audit",
+      "query": "حالا باید چطور درستش کنم؟",
+      "expected_retrieval": "RETRIEVE",
+      "expected_clarification": "CLARIFY",
+      "expected_action": "clarify"
+    },
+    {
+      "id": "audit_57",
+      "split": "audit",
+      "query": "بدهی در اعتبارسنجی چه معنایی دارد؟",
+      "expected_retrieval": "RETRIEVE",
+      "expected_clarification": "NO_CLARIFY",
+      "expected_action": "retrieve"
+    },
+    {
+      "id": "audit_58",
+      "split": "audit",
+      "query": "رتبه D1 چه مفهومی دارد؟",
+      "expected_retrieval": "RETRIEVE",
+      "expected_clarification": "NO_CLARIFY",
+      "expected_action": "retrieve"
+    },
+    {
+      "id": "audit_59",
+      "split": "audit",
+      "query": "رتبه A2 و B3 چه تفاوتی دارند؟",
+      "expected_retrieval": "RETRIEVE",
+      "expected_clarification": "NO_CLARIFY",
+      "expected_action": "retrieve"
+    },
+    {
+      "id": "audit_60",
+      "split": "audit",
+      "query": "چرا باوجود درآمد بالا امتیاز من پایینه؟",
+      "expected_retrieval": "RETRIEVE",
+      "expected_clarification": "NO_CLARIFY",
+      "expected_action": "retrieve"
+    },
+    {
+      "id": "audit_61",
+      "split": "audit",
+      "query": "آیا سابقه پرداخت در بانک های دیگر مهم است؟",
+      "expected_retrieval": "RETRIEVE",
+      "expected_clarification": "NO_CLARIFY",
+      "expected_action": "retrieve"
+    },
+    {
+      "id": "audit_62",
+      "split": "audit",
+      "query": "شرکت سودآور است ولی سابقه تسهیلات ندارد؛ چرا امتیاز ندارد؟",
+      "expected_retrieval": "RETRIEVE",
+      "expected_clarification": "NO_CLARIFY",
+      "expected_action": "retrieve"
+    },
+    {
+      "id": "audit_63",
+      "split": "audit",
+      "query": "وام تسویه شده در گزارش نمایش داده می شود؛ دلیلش چیست؟",
+      "expected_retrieval": "RETRIEVE",
+      "expected_clarification": "NO_CLARIFY",
+      "expected_action": "retrieve"
+    },
+    {
+      "id": "audit_64",
+      "split": "audit",
+      "query": "سلام، رتبه E2 یعنی چه؟",
+      "expected_retrieval": "RETRIEVE",
+      "expected_clarification": "NO_CLARIFY",
+      "expected_action": "retrieve"
+    }
+  ]
+}

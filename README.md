@@ -12,7 +12,7 @@
   ╚═════════════════════════════════════════════════════════════════╝
 ```
 
-> **RubbishRAG** is a senior-level take-home engineering challenge centered on a retrieval-augmented generation (RAG) system for Persian credit-scoring regulations ([`corpus/test.csv`](corpus/test.csv), 330 verified QA pairs).
+> **RubbishRAG** is a senior-level take-home engineering challenge centered on a retrieval-augmented generation (RAG) system for Persian credit-scoring regulations ([`corpus/test.csv`](corpus/test.csv), 442 QA rows in this checkout).
 > 
 > The story: an internal team claimed they built a production-ready Persian RAG in 1 minute using off-the-shelf AI. On the surface, the pipeline runs and returns answers. Under rigorous evaluation, **it achieves only ~25–30% accuracy on the visible benchmark**, suffers from rank distortions, falls for distractor documents, and hallucinates answers on ambiguous inputs.
 >
@@ -59,8 +59,8 @@
 ### Information Boundaries & Honor Code
 - **Candidate-Editable (`rubbish_rag/`):** You have full ownership of `pipeline.py`, `normalize_fa.py`, `slots.py`, `judge.py`, and `orchestrator.py`. Write clean, typed, modular Python.
 - **Sealed Evaluator (`server/`):** The server models a proprietary backend service. Do not inspect compiled bytecode or reverse-engineer private files. Probe the API via `python3 rubbish.py bepar` or HTTP requests, observe returned scores, and log empirical traces.
-- **Ground Truth Corpus (`corpus/test.csv`):** 330 verified QA records from the Iranian Credit Scoring regulations.
-- **Reproducibility:** The entire challenge runs **100% locally and offline on CPU** in `< 15ms` per query. No GPUs, external API keys, or paid cloud services are required.
+- **Ground Truth Corpus (`corpus/test.csv`):** 442 QA records from the Iranian Credit Scoring regulations.
+- **Reproducibility:** The challenge runs **100% locally and offline on CPU**. The current adaptive pipeline measured 28.5 ms mean on the visible benchmark; the supplied baseline was faster. No GPUs, external API keys, or paid cloud services are required.
 
 ---
 
@@ -175,9 +175,13 @@ For candidates targeting Senior and Staff AI Engineer roles, RubbishRAG includes
 # Run judge on a single query
 python3 rubbish.py judge "رتبه C2 چه شرایطی دارد؟"
 
-# Benchmark routing accuracy, calibration, and token savings
+# Routing-only benchmark: planned context budget, not measured token savings
 python3 rubbish.py judge-bench
 ```
+
+The submitted implementation uses bounded pre/post decisions through `execution.py` (at most two retrieval calls). No-retrieval and clarification routes use zero quota. `--topk` caps selected context; it does not equal the remote candidate-pool size. Run `python rubbish.py judge "سلام" --pre-only` to inspect routing without retrieval.
+
+The first held-out Staff routing result was 10/15; after error analysis, all 50 public queries pass as exposed-data regression. Context selection shrinks by 71.4% versus fixed-5 on captured pools, with 20/20 visible citation accuracy. The original temperature calibration did not improve its held-out result. Revised group calibration on a separate 40/24 split reduced decision Brier from 0.2647 to 0.0326 on the 24 audit queries, while routing accuracy remained 17/24. This is a small, same-author evaluation; independent generalization is unverified. Bounded normalization memoization and precompiled bank patterns reduced live mean latency from 72.7 to 28.0 ms while retaining 20/20 citation accuracy; cached replay timings are reported separately. After the confidence revision, the latest mean is 28.5 ms with 103 tests passing. Details and limitations are in [`docs/PROOF.md`](docs/PROOF.md). Reproduce quota-free with `python tools/evaluate_staff.py --regression` and `python tools/staff_context_evidence.py`.
 
 Read the full architecture and state machine specifications in [`docs/adaptive-judge.html`](docs/adaptive-judge.html).
 
@@ -205,7 +209,7 @@ Your final submission must include:
 ## 7. Repository Layout & Multi-Page Documentation
 
 ```text
-corpus/test.csv               330 Persian Credit-Scoring QA Records
+corpus/test.csv               442 Persian Credit-Scoring QA Records
 data/judge_dataset.json       50 Annotated Queries for Adaptive Decision Judge
 rubbish_rag/                  Candidate Codebase
 ├── pipeline.py               Decorator-based pipeline stages (@chunker, @retriever, etc.)
@@ -235,5 +239,24 @@ docs/                         Multi-Page Documentation Suite
 <!-- RUBBISH-REPORT:START -->
 ## 📊 My RubbishRAG Report
 
-_(Empty — run `python3 rubbish.py bastesh` to stamp your card, metrics and diagrams here.)_
+| card | |
+|---|---|
+| Candidate | Farnaz Babaloo (@FarnazBabaloo) |
+| Email | farnaz.babaloo@gmail.com |
+| Date | 2026-10-10 11:32 UTC |
+
+### Visible bench (20 queries)
+
+| metric | value |
+|---|---|
+| accuracy | 1.0 |
+| answer_acc | 1.0 |
+| latency mean / p50 / p95 (ms) | 28.5 / 22.1 / 29.5 |
+
+![report card](plots/report_card.png)
+![score spread](plots/score_spread.png)
+![length vs bm25](plots/length_vs_bm25.png)
+![repetition vs bm25](plots/repetition_vs_bm25.png)
+
+_Generated by `python3 rubbish.py bastesh`. Commit `plots/` + `README.md` so this renders on your fork._
 <!-- RUBBISH-REPORT:END -->

@@ -1,0 +1,231 @@
+{
+  "mode": "cached_scorecard_audit",
+  "real_retrieval_calls": 0,
+  "metric": "gold-document presence in first five candidates; original raw vs final ranked",
+  "baseline_recall5": 0.55,
+  "final_recall5": 1.0,
+  "baseline": [
+    {
+      "id": "v0",
+      "trace_line": 2,
+      "timestamp": 1791619907.419033,
+      "hit": true
+    },
+    {
+      "id": "v1",
+      "trace_line": 3,
+      "timestamp": 1791619907.427205,
+      "hit": true
+    },
+    {
+      "id": "v2",
+      "trace_line": 4,
+      "timestamp": 1791619907.436645,
+      "hit": true
+    },
+    {
+      "id": "v3",
+      "trace_line": 5,
+      "timestamp": 1791619907.4440162,
+      "hit": false
+    },
+    {
+      "id": "v4",
+      "trace_line": 6,
+      "timestamp": 1791619907.452519,
+      "hit": true
+    },
+    {
+      "id": "v5",
+      "trace_line": 7,
+      "timestamp": 1791619907.462028,
+      "hit": false
+    },
+    {
+      "id": "v6",
+      "trace_line": 8,
+      "timestamp": 1791619907.4696069,
+      "hit": false
+    },
+    {
+      "id": "v7",
+      "trace_line": 9,
+      "timestamp": 1791619907.478755,
+      "hit": true
+    },
+    {
+      "id": "v8",
+      "trace_line": 10,
+      "timestamp": 1791619907.4870322,
+      "hit": true
+    },
+    {
+      "id": "v9",
+      "trace_line": 11,
+      "timestamp": 1791619907.495054,
+      "hit": false
+    },
+    {
+      "id": "v10",
+      "trace_line": 12,
+      "timestamp": 1791619907.504003,
+      "hit": true
+    },
+    {
+      "id": "v11",
+      "trace_line": 13,
+      "timestamp": 1791619907.51231,
+      "hit": false
+    },
+    {
+      "id": "v12",
+      "trace_line": 14,
+      "timestamp": 1791619907.520024,
+      "hit": false
+    },
+    {
+      "id": "v13",
+      "trace_line": 15,
+      "timestamp": 1791619907.5284631,
+      "hit": true
+    },
+    {
+      "id": "v14",
+      "trace_line": 16,
+      "timestamp": 1791619907.536056,
+      "hit": true
+    },
+    {
+      "id": "v15",
+      "trace_line": 17,
+      "timestamp": 1791619907.5434518,
+      "hit": true
+    },
+    {
+      "id": "v16",
+      "trace_line": 18,
+      "timestamp": 1791619907.552036,
+      "hit": false
+    },
+    {
+      "id": "v17",
+      "trace_line": 19,
+      "timestamp": 1791619907.560761,
+      "hit": false
+    },
+    {
+      "id": "v18",
+      "trace_line": 20,
+      "timestamp": 1791619907.568618,
+      "hit": false
+    },
+    {
+      "id": "v19",
+      "trace_line": 21,
+      "timestamp": 1791619907.576855,
+      "hit": true
+    }
+  ],
+  "final": [
+    {
+      "id": "v0",
+      "trace_id": "client_c805c0e199d0429e9e307872008ede43",
+      "hit": true
+    },
+    {
+      "id": "v1",
+      "trace_id": "client_5376e64ed5b74676b3526b595a33108f",
+      "hit": true
+    },
+    {
+      "id": "v2",
+      "trace_id": "client_7631ebaa2c4543de827bdd80dde320ed",
+      "hit": true
+    },
+    {
+      "id": "v3",
+      "trace_id": "client_0a2a9b3ca7674854b8988fb6ba1869c4",
+      "hit": true
+    },
+    {
+      "id": "v4",
+      "trace_id": "client_3973b52c468e4d4e9622864ec7318fb6",
+      "hit": true
+    },
+    {
+      "id": "v5",
+      "trace_id": "client_c523375923fe4775861a6e5e903a1d9a",
+      "hit": true
+    },
+    {
+      "id": "v6",
+      "trace_id": "client_f915c6fe410b4f498188a0b848cff532",
+      "hit": true
+    },
+    {
+      "id": "v7",
+      "trace_id": "client_ac52308f954b4ceda9d0f4b2e126a97d",
+      "hit": true
+    },
+    {
+      "id": "v8",
+      "trace_id": "client_c194a17ad5454362be61cfd0ce6232bc",
+      "hit": true
+    },
+    {
+      "id": "v9",
+      "trace_id": "client_8530de97b5714e6c81314ea2abbb169d",
+      "hit": true
+    },
+    {
+      "id": "v10",
+      "trace_id": "client_3f7340762d034e49800fa645911e6126",
+      "hit": true
+    },
+    {
+      "id": "v11",
+      "trace_id": "client_d1ca96ae42d74b82ae495c2730cfac1f",
+      "hit": true
+    },
+    {
+      "id": "v12",
+      "trace_id": "client_7d28ec6d85c848bba0c727e5895390be",
+      "hit": true
+    },
+    {
+      "id": "v13",
+      "trace_id": "client_fede24f825424ca8a68c9cbb8aaaba4d",
+      "hit": true
+    },
+    {
+      "id": "v14",
+      "trace_id": "client_5900d17383aa4e219bd6907458f5eec5",
+      "hit": true
+    },
+    {
+      "id": "v15",
+      "trace_id": "client_4f26e646752743368eb8029eb34b06a3",
+      "hit": true
+    },
+    {
+      "id": "v16",
+      "trace_id": "client_02e48a22ae2f42c8b0779d4037eb4c04",
+      "hit": true
+    },
+    {
+      "id": "v17",
+      "trace_id": "client_20b78d175d0b4731a84e43e9a5444bf9",
+      "hit": true
+    },
+    {
+      "id": "v18",
+      "trace_id": "client_c3d8b084aef44de0bcb6abb4a7f66ea9",
+      "hit": true
+    },
+    {
+      "id": "v19",
+      "trace_id": "client_ea9457be67d0455b8d278f6e7dc12293",
+      "hit": true
+    }
+  ]
+}

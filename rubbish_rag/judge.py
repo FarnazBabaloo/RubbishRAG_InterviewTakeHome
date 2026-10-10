@@ -1,594 +1,295 @@
-"""Adaptive System-1 RAG Decision Judge.
+"""CPU decision judge: calibrated routing, bounded context, verified evidence.
 
-Conceptually inspired by Self-RAG, Adaptive-RAG, Corrective RAG (CRAG), and JEV-as-a-Judge.
-Provides a fast, structured decision layer in front of and within the RAG pipeline:
-  - Decision 1: Needs retrieval? (RETRIEVE, NO_RETRIEVAL, UNCERTAIN)
-  - Decision 2: Needs clarification? (CLARIFY, DO_NOT_CLARIFY + missing slots)
-  - Decision 3: Structured retrieval planning (entities, facets, strategy)
-  - Decision 4: Dynamic context budgeting (top_k selection: 0, 2, 3, 5, 8)
-  - Decision 5: Collective evidence sufficiency assessment (SUFFICIENT, INSUFFICIENT, CONFLICTING, IRRELEVANT)
-  - Decision 6: Adaptive stopping & next action (ANSWER, RETRIEVE_MORE, CLARIFY, ABSTAIN)
-  - Calibrated confidence scoring (Brier score & Expected Calibration Error)
+Runtime reads only fitted calibration parameters, never evaluation questions or
+labels. Evidence probabilities are heuristic support estimates, not calibrated
+probabilities of semantic truth. Conversation state is currently not resolved.
 """
 import dataclasses
 import json
 import math
-import os
 import re
-from typing import Any, Dict, List, Optional, Protocol, Tuple
+from collections import Counter
+from pathlib import Path
+from typing import Any, Protocol
 
-from .normalize_fa import normalize_fa
-from .slots import BANKS, RANKS
+from .normalize_fa import normalize_fa, content_tokens
+from .slots import extract_slots
 
-BASE = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+ROOT = Path(__file__).resolve().parents[1]
+CALIBRATION = ROOT / 'rubbish_rag/judge_calibration.json'
+ACTIONS = ('no_retrieval', 'clarify', 'retrieve')
 
-
-# ---------------------------------------------------------------------------
-# 1. Typed Schemas
-# ---------------------------------------------------------------------------
 
 @dataclasses.dataclass
 class PreRetrievalDecision:
-    """Fast pre-retrieval decision on query routing, planning, and context budget."""
-    action: str  # "retrieve", "no_retrieval", "clarify"
+    action: str
     needs_retrieval: bool
     needs_clarification: bool
-    missing_slots: List[str]
-    retrieval_strategy: str  # "hybrid", "sparse_only", "dense_only"
+    missing_slots: list[str]
+    retrieval_strategy: str
     query_rewrite: str
-    target_entities: List[str]
-    target_facets: List[str]
+    target_entities: list[str]
+    target_facets: list[str]
     top_k: int
     confidence: float
     retrieve_probability: float
     clarify_probability: float
-    reason_codes: List[str]
+    reason_codes: list[str]
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self):
         return dataclasses.asdict(self)
 
 
 @dataclasses.dataclass
 class EvidenceDecision:
-    """Post-retrieval assessment of collective evidence quality and next action."""
-    sufficiency: str  # "sufficient", "insufficient", "conflicting", "irrelevant", "uncertain"
+    sufficiency: str
     evidence_score: float
-    conflicting_items: List[int]
+    conflicting_items: list[int]
     poison_detected: bool
     repetition_detected: bool
     novel_evidence_chunks: int
-    next_action: str  # "answer", "retrieve_more", "clarify", "abstain"
+    next_action: str
     confidence: float
     sufficiency_probability: float
-    reason_codes: List[str]
+    reason_codes: list[str]
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self):
         return dataclasses.asdict(self)
 
 
-# ---------------------------------------------------------------------------
-# 2. Protocol Interface
-# ---------------------------------------------------------------------------
-
 class RAGDecisionJudge(Protocol):
-    """Provider-neutral protocol for an Adaptive RAG Decision Judge."""
-
-    def pre_retrieval(
-        self,
-        query: str,
-        conversation: Optional[List[Dict[str, Any]]] = None,
-        slots: Optional[Dict[str, Any]] = None,
-    ) -> PreRetrievalDecision:
-        """Evaluate query before retrieval: decide routing, planning, and budget."""
-        ...
-
-    def post_retrieval(
-        self,
-        query: str,
-        hits: List[Dict[str, Any]],
-        state: Optional[Dict[str, Any]] = None,
-    ) -> EvidenceDecision:
-        """Evaluate retrieved candidate evidence collectively and determine next action."""
-        ...
+    def pre_retrieval(self, query: str, conversation=None, slots=None) -> PreRetrievalDecision: ...
+    def post_retrieval(self, query: str, hits: list[dict[str, Any]], state=None) -> EvidenceDecision: ...
 
 
-# ---------------------------------------------------------------------------
-# 3. High-Speed Calibrated Heuristic Feature Judge (CPU-viable, <1 ms)
-# ---------------------------------------------------------------------------
+def clarification_request(query: str):
+    """Reuse core guards and ask for missing details of personal events."""
+    from .clarification import clarification, _request
+    norm = normalize_fa(query)
+    # A causal question already names the factor being investigated.
+    if 'درآمد' in norm and re.search(r'چرا|تاثیر|تأثیر|ارتباط', norm):
+        return None
+    if re.search(r'بدون اعتبارسنجی', norm) and re.search(r'تضمین|100', norm):
+        return None
+    request = clarification(query)
+    if request:
+        return request
+    norm = normalize_fa(query)
+    s = extract_slots(query)
+    short = len(norm.split()) <= 9
+    if short and re.search(r'قسط|اقساط', norm) and re.search(r'عقب|تاخیر|تأخیر', norm) and not s['TIME']:
+        return _request('چند روز از سررسید گذشته و تسهیلات متعلق به کدام بانک است؟', ['مدت و بانک را وارد می کنم', 'زمان دقیق را نمی دانم'], 'delay_days', *([] if s['BANK'] else ['bank']))
+    if short and 'شرکت' in norm and re.search(r'امتیاز.*(?:ندار|نداره)', norm) and not re.search(r'سود|سابقه|سال|ماه|تاسیس|تأسیس', norm):
+        return _request('شرکت چه مدت فعالیت و سابقه تسهیلات دارد؟', ['تازه تأسیس است', 'سابقه فعالیت و تسهیلات دارد', 'سابقه تسهیلات ندارد'], 'company_age')
+    if short and 'سابقه' in norm and re.search(r'خراب|بد|مشکل', norm) and not s['DEBT']:
+        return _request('کدام سابقه یا بدهی را می گویید؟', ['چک برگشتی', 'بدهی مالیاتی', 'تسهیلات معوق', 'سایر موارد'], 'debt_type')
+    if short and 'رتبه' in norm and 'پایین' in norm and not s['RANK'] and not s['NUMS']:
+        return _request('رتبه یا امتیاز فعلی و رویداد اخیر را مشخص کنید.', ['کد رتبه را وارد می کنم', 'امتیاز را وارد می کنم', 'اطلاعات دقیق ندارم'], 'rank')
+    if short and re.search(r'وام|تسهیلات', norm) and re.search(r'می\s*خواهم|میخوام|می\s*خواهیم', norm):
+        missing = ([] if s['BANK'] else ['bank']) + ([] if s['RANK'] else ['rank'])
+        if missing:
+            return _request('نام بانک و رتبه فعلی را مشخص کنید.', ['اطلاعات را وارد می کنم', 'رتبه را نمی دانم'], *missing)
+    if short and 'چک' in norm and re.search(r'چیکار|چه کار|چکار', norm) and not s['TIME']:
+        return _request('از برگشت چک چه مدت گذشته و آیا رفع سوءاثر شده است؟', ['هنوز رفع سوءاثر نشده', 'رفع سوءاثر شده', 'زمان دقیق را نمی دانم'], 'time_elapsed', 'check_status')
+    if short and 'ضامن' in norm and re.search(r'شدم|شده ام', norm) and not re.search(r'تاخیر|تأخیر|قسط|اقساط|پرداخت', norm):
+        return _request('وضعیت بازپرداخت وامی که ضمانت کرده اید چیست؟', ['به موقع پرداخت می شود', 'تأخیر دارد', 'اطلاع ندارم'], 'guarantee_status')
+    if short and 'مالیات' in norm and re.search(r'ندادم|نپرداختم', norm) and not re.search(r'وصول|اجرا|مرحله', norm):
+        return _request('بدهی مالیاتی در کدام مرحله است؟', ['اعلام بدهی', 'وصول و اجرا', 'مرحله را نمی دانم'], 'tax_stage')
+    if short and 'وام' in norm and 'گرفتم' in norm and 'تغییر نکرده' in norm and not s['TIME']:
+        return _request('چه زمانی وام گرفته اید و وضعیت پرداخت اقساط چگونه است؟', ['تازه دریافت کرده ام', 'اقساط را پرداخت کرده ام', 'اقساط تأخیر دارد'], 'time_elapsed')
+    return None
+
+
+def route_probabilities(decision):
+    return [max(0.0, 1-decision.retrieve_probability-decision.clarify_probability),
+            decision.clarify_probability, decision.retrieve_probability]
+
+
+def confidence_group(query, action):
+    """Fixed observable groups; no question IDs, answers or dataset lookup."""
+    norm = normalize_fa(query)
+    domain = bool(re.search(r'رتبه|امتیاز|بانک|وام|تسهیلات|چک|مالیات|بدهی|ضامن|شرکت|اعتبار|قسط|اقساط', norm))
+    return action + (':domain' if domain else ':unanchored')
+
 
 class HeuristicFeatureJudge:
-    """Lightweight, deterministic, calibrated System-1 decision judge.
-    
-    Operates without GPU requirements or external APIs, executing in under 1ms
-    on CPU with principled feature scoring and probability calibration.
-    """
-
-    CONVERSATIONAL_PATTERNS = [
-        r"^(سلام|درود|روزتون بخیر|شب بخیر|صبح بخیر|خداحافظ|مرسی|ممنون|تشکر|وقت بخیر)",
-        r"^(چطور کار می‌کنی|چه کاری می‌تونی|کمک|راهنمایی کن|شما چطور)",
-    ]
-
-    SPAM_ADVERSARIAL_PATTERNS = [
-        r"(رتبه a برای همه|بدون اعتبارسنجی ۱۰۰ درصد|وام فوری بدون ضامن و بدون اعتبارسنجی)",
-    ]
-
-    DEBT_KEYWORDS = ["بدهی", "معوق", "مشکوک الوصول", "سررسید گذشته"]
-    CHECK_KEYWORDS = ["چک", "صیادی", "برگشت", "رفع سوءاثر", "رفع سواثر"]
-    RANK_KEYWORDS = ["رتبه", "امتیاز", "گرید"]
-    LOAN_KEYWORDS = ["وام", "تسهیلات", "قسط", "اقساط"]
-
-    def __init__(self, confidence_threshold: float = 0.75):
+    """Typed policy with optional temperature fitted outside the runtime."""
+    def __init__(self, confidence_threshold=0.75, temperature=1.0, calibration=None):
+        if temperature <= 0:
+            raise ValueError('temperature must be positive')
         self.confidence_threshold = confidence_threshold
+        self.temperature = temperature
+        self.calibration = calibration
 
-    def pre_retrieval(
-        self,
-        query: str,
-        conversation: Optional[List[Dict[str, Any]]] = None,
-        slots: Optional[Dict[str, Any]] = None,
-    ) -> PreRetrievalDecision:
-        norm = normalize_fa(query or "")
-        words = norm.split()
-        word_count = len(words)
+    def pre_retrieval(self, query, conversation=None, slots=None):
+        norm = normalize_fa(query)
+        s = slots or extract_slots(query)
+        entities = [s[k] for k in ('RANK','BANK','PERSONA') if s.get(k)]
+        ranks = sorted(set(re.findall(r'\b[A-Ea-e][1-3]\b', norm.upper())))
+        entities = sorted(set(entities+ranks))
+        domain = re.search(r'رتبه|امتیاز|بانک|وام|تسهیلات|چک|مالیات|بدهی|ضامن|شرکت', norm)
+        conversational = not domain and bool(re.search(r'^(سلام|درود|ممنون|مرسی|تشکر|خداحافظ|وقت.*بخیر|صبح.*بخیر|شب.*بخیر)|چطور کار می|چه سوالاتی|چه کاری می|چه کمکی|راهنمایی کن|کمک(?:م|مان)?\s*(?:کنی|کنید|کن)', norm))
+        request = None if conversational else clarification_request(query)
         reasons = []
-
-        # 1. Conversational / Meta Check (Decision 1: NO_RETRIEVAL)
-        is_conv = any(re.search(pat, norm) for pat in self.CONVERSATIONAL_PATTERNS)
-        from .slots import extract_slots as get_slots
-        s = slots or get_slots(norm)
-
-        if is_conv and word_count <= 6 and not s.get("RANK") and not s.get("BANK"):
-            reasons.append("CONVERSATIONAL_PROMPT")
-            return PreRetrievalDecision(
-                action="no_retrieval",
-                needs_retrieval=False,
-                needs_clarification=False,
-                missing_slots=[],
-                retrieval_strategy="none",
-                query_rewrite=norm,
-                target_entities=[],
-                target_facets=["conversation"],
-                top_k=0,
-                confidence=0.96,
-                retrieve_probability=0.03,
-                clarify_probability=0.01,
-                reason_codes=reasons,
-            )
-
-        # 2. Extract Entities & Slots
-        target_entities = []
-        if s.get("RANK"):
-            target_entities.append(s["RANK"])
-        if s.get("BANK"):
-            target_entities.append(s["BANK"])
-        if s.get("PERSONA"):
-            target_entities.append(s["PERSONA"])
-
-        # 3. Ambiguity & Clarification Gating (Decision 2: CLARIFY)
-        missing_slots = []
-        is_ambiguous = False
-        clarify_prob = 0.05
-
-        # Check for under-specified debt or bad record
-        if (any(k in norm for k in self.DEBT_KEYWORDS) or "سابقه" in norm) and not s.get("DEBT") and not s.get("RANK") and word_count <= 7:
-            missing_slots.append("debt_type")
-            is_ambiguous = True
-            clarify_prob = 0.88
-            reasons.append("UNDERSPECIFIED_DEBT_CATEGORY")
-
-        # Check for under-specified rank/score
-        elif any(k in norm for k in self.RANK_KEYWORDS) and not s.get("RANK") and any(w in norm for w in ["پایین", "افت", "کم", "بد", "تغییر", "عوض", "درست"]) and word_count <= 8:
-            missing_slots.append("rank")
-            if not s.get("PERSONA"):
-                missing_slots.append("persona")
-            is_ambiguous = True
-            clarify_prob = 0.86
-            reasons.append("MISSING_RANK_AND_PERSONA")
-
-        # Check for under-specified check inquiry
-        elif any(k in norm for k in self.CHECK_KEYWORDS) and not s.get("PERSONA") and not s.get("TIME") and word_count <= 6:
-            if any(w in norm for w in ["برگشت", "چیکار", "پاک میشه", "اثر"]):
-                missing_slots.append("persona")
-                is_ambiguous = True
-                clarify_prob = 0.84
-                reasons.append("UNDERSPECIFIED_CHECK_STATUS")
-
-        # Check for under-specified loan intent or guarantee
-        elif "وام" in norm and not s.get("BANK") and not s.get("RANK") and word_count <= 6:
-            missing_slots.append("bank")
-            missing_slots.append("rank")
-            is_ambiguous = True
-            clarify_prob = 0.85
-            reasons.append("UNDERSPECIFIED_LOAN_APPLICATION")
-
-        elif "ضامن" in norm and not s.get("RANK") and word_count <= 5:
-            missing_slots.append("guarantee_status")
-            is_ambiguous = True
-            clarify_prob = 0.82
-            reasons.append("UNDERSPECIFIED_GUARANTEE_STATUS")
-
-        elif "مالیات" in norm and not s.get("TIME") and any(w in norm for w in ["ندادم", "چی میشه", "ندارم"]) and word_count <= 5:
-            missing_slots.append("tax_stage")
-            is_ambiguous = True
-            clarify_prob = 0.83
-            reasons.append("UNDERSPECIFIED_TAX_STAGE")
-
-        elif "شرکت" in norm and any(w in norm for w in ["امتیاز نداره", "سابقه نداره", "تاسیس"]) and word_count <= 6:
-            missing_slots.append("company_age")
-            is_ambiguous = True
-            clarify_prob = 0.85
-            reasons.append("UNDERSPECIFIED_COMPANY_AGE")
-
-        # 4. Context Budget Selection (Decision 4: Dynamic Top-K)
-        if is_ambiguous:
-            recommended_k = 3
-            reasons.append("AMBIGUOUS_REDUCED_BUDGET")
-        elif len(target_entities) >= 2:
-            recommended_k = 5
-            reasons.append("MULTI_ENTITY_BUDGET")
-        elif any(w in norm for w in ["تفاوت", "مقایسه", "بین", "عوامل", "درصد"]):
-            recommended_k = 5
-            reasons.append("COMPARATIVE_SYNTHESIS_BUDGET")
-        elif s.get("RANK") and word_count <= 6:
-            recommended_k = 2  # Definition query: single chunk sufficient
-            reasons.append("FOCUSED_DEFINITION_BUDGET")
+        if conversational:
+            action, k = 'no_retrieval', 0
+            reasons.append('CONVERSATION_ONLY')
+        elif request:
+            action, k = 'clarify', 0
+            reasons.append('MISSING_INFORMATION')
         else:
-            recommended_k = 4
-            reasons.append("STANDARD_RETRIEVAL_BUDGET")
+            action = 'retrieve'
+            if len(norm.split()) >= 35:
+                k, reason = 8, 'LONG_MULTI_FACET'
+            elif len(entities) >= 2 or re.search(r'تفاوت|مقایسه|عوامل|درصد', norm):
+                k, reason = 5, 'MULTI_ENTITY_OR_COMPARISON'
+            elif len(norm.split()) <= 9:
+                k, reason = 2, 'FOCUSED_QUERY'
+            else:
+                k, reason = 3, 'STANDARD_QUERY'
+            reasons.append(reason)
+        raw = [0.03, 0.03, 0.03]
+        raw[ACTIONS.index(action)] = 0.94
+        scaled = [p**(1/self.temperature) for p in raw]
+        probs = [p/sum(scaled) for p in scaled]
+        if self.calibration:
+            group = confidence_group(query, action)
+            probs = self.calibration['groups'].get(group, self.calibration['fallback'])
+            reasons.append('EMPIRICAL_ROUTE_CONFIDENCE')
+        confidence = probs[ACTIONS.index(action)]
+        if action=='retrieve' and confidence < self.confidence_threshold:
+            k = max(k,5)
+            reasons.append('LOW_ROUTE_CONFIDENCE_EXPAND_CONTEXT')
+        return PreRetrievalDecision(action, action=='retrieve', action=='clarify',
+                                    request['missing_slots'] if request else [],
+                                    'hybrid' if action=='retrieve' else 'none', norm, entities,
+                                    ranks or (['credit_regulations'] if domain else ['conversation']),
+                                    k, confidence, probs[2], probs[1], reasons)
 
-        # Strategy
-        strategy = "hybrid"
-        if len(target_entities) >= 1 and any(ch.isdigit() for ch in norm):
-            strategy = "hybrid"
-            reasons.append("ENTITY_NUMERICAL_HYBRID")
-
-        action = "clarify" if is_ambiguous else "retrieve"
-        retrieve_prob = 0.95 if not is_conv else 0.05
-        confidence = clarify_prob if is_ambiguous else 0.92
-
-        return PreRetrievalDecision(
-            action=action,
-            needs_retrieval=True,
-            needs_clarification=is_ambiguous,
-            missing_slots=missing_slots,
-            retrieval_strategy=strategy,
-            query_rewrite=norm,
-            target_entities=target_entities,
-            target_facets=["credit_regulations"],
-            top_k=recommended_k,
-            confidence=round(confidence, 3),
-            retrieve_probability=round(retrieve_prob, 3),
-            clarify_probability=round(clarify_prob, 3),
-            reason_codes=reasons,
-        )
-
-    def post_retrieval(
-        self,
-        query: str,
-        hits: List[Dict[str, Any]],
-        state: Optional[Dict[str, Any]] = None,
-    ) -> EvidenceDecision:
-        norm_q = normalize_fa(query or "")
+    def post_retrieval(self, query, hits, state=None):
+        from .pipeline import corpus, grounded, rerank
+        state = state or {}
+        norm = normalize_fa(query)
+        source_hits = state.get('raw_hits', hits)
+        invalid = [h.get('doc_id', -1) for h in source_hits if not grounded(h, corpus().get(h.get('doc_id')))]
+        repeated = any(max(Counter(content_tokens(h.get('text',''))).values(), default=0)>=8 for h in source_hits)
+        verified = rerank(query, hits)
+        relevant = [h for h in verified if h.get('lexical_score',0)>0]
+        score = max((h['lexical_score'] for h in relevant), default=0.0)
+        ranks = set(re.findall(r'\b[A-E][1-3]\b', norm.upper()))
+        covered = set()
+        for hit in relevant:
+            covered.update(re.findall(r'\b[A-E][1-3]\b', normalize_fa(corpus()[hit['doc_id']].get('Question','')).upper()))
+        conflict_ids = []
+        for h in source_hits:
+            d = corpus().get(h.get('doc_id'))
+            if d and grounded(h,d):
+                candidate_rank = extract_slots(d.get('Question',''))['RANK']
+                if ranks and candidate_rank and candidate_rank not in ranks:
+                    conflict_ids.append(h['doc_id'])
+        novel = len({h['doc_id'] for h in relevant}-set(state.get('seen_doc_ids',[])))
+        spam = bool(re.search(r'رتبه\s+a\s+برای همه|وام فوری بدون ضامن و بدون اعتبارسنجی', norm, re.I) or ('بدون اعتبارسنجی' in norm and re.search(r'تضمین|100', norm)))
         reasons = []
-
-        if not hits:
-            return EvidenceDecision(
-                sufficiency="insufficient",
-                evidence_score=0.0,
-                conflicting_items=[],
-                poison_detected=False,
-                repetition_detected=False,
-                novel_evidence_chunks=0,
-                next_action="retrieve_more",
-                confidence=0.90,
-                sufficiency_probability=0.02,
-                reason_codes=["EMPTY_RETRIEVAL_RESULTS"],
-            )
-
-        # 1. Inspect for adversarial poison documents and keyword repetition
-        poison_ids = [h["doc_id"] for h in hits if h.get("doc_id", 0) >= 9000]
-        repetition_flag = False
-        for h in hits:
-            toks = h.get("text", "").split()
-            if toks:
-                from collections import Counter
-                if max(Counter(toks).values()) >= 8:
-                    repetition_flag = True
-                    break
-
-        if poison_ids or repetition_flag:
-            reasons.append("ADVERSARIAL_OR_REPETITION_DETECTED")
-
-        # 2. Check spam probe
-        is_spam_query = any(re.search(pat, norm_q) for pat in self.SPAM_ADVERSARIAL_PATTERNS)
-        if is_spam_query:
-            return EvidenceDecision(
-                sufficiency="irrelevant",
-                evidence_score=0.1,
-                conflicting_items=poison_ids,
-                poison_detected=bool(poison_ids),
-                repetition_detected=repetition_flag,
-                novel_evidence_chunks=len(hits),
-                next_action="abstain",
-                confidence=0.95,
-                sufficiency_probability=0.05,
-                reason_codes=["ADVERSARIAL_SPAM_QUERY", "ABSTAIN_RECOMMENDED"],
-            )
-
-        # 3. Assess collective evidence scores
-        top_hit = hits[0]
-        top_score = top_hit.get("fused", 0.0)
-        score_margin = 0.0
-        if len(hits) >= 2:
-            score_margin = top_score - hits[1].get("fused", 0.0)
-
-        # Check entity alignment with top candidate
-        has_rank = any(rk in norm_q.upper() for rk in RANKS)
-        rank_in_top = any(rk in top_hit.get("text", "").upper() for rk in RANKS if rk in norm_q.upper())
-
-        # Calculate sufficiency probability
-        if has_rank and not rank_in_top and len(hits) > 1:
-            # Rank mismatch between query and top hit
-            sufficiency = "insufficient"
-            suff_prob = 0.25
-            next_action = "retrieve_more"
-            reasons.append("ENTITY_MISMATCH_IN_TOP_HIT")
-        elif top_score >= 0.70 or score_margin >= 0.15:
-            sufficiency = "sufficient"
-            suff_prob = 0.88
-            next_action = "answer"
-            reasons.append("HIGH_CONFIDENCE_TOP_HIT")
-        elif top_score < 0.40:
-            sufficiency = "insufficient"
-            suff_prob = 0.20
-            next_action = "retrieve_more"
-            reasons.append("LOW_RETRIEVAL_SIMILARITY")
+        if invalid: reasons.append('UNVERIFIED_EVIDENCE_FILTERED')
+        if repeated: reasons.append('REPETITION_DETECTED')
+        if spam:
+            suff, action, prob = 'irrelevant','abstain',0.02
+            reasons.append('SPAM_QUERY')
+        elif not relevant:
+            suff = 'conflicting' if conflict_ids else 'insufficient'
+            action, prob = ('abstain' if conflict_ids else 'retrieve_more'),0.05
+            reasons.append('NO_RELEVANT_VERIFIED_EVIDENCE')
+        elif len(ranks)>1 and not ranks.issubset(covered):
+            suff, action, prob = 'insufficient','retrieve_more',0.25
+            reasons.append('MISSING_COMPARISON_FACET')
+        elif score >= 0.30 or (ranks and ranks.issubset(covered)):
+            suff, action, prob = 'sufficient','answer',min(0.96,0.80+0.16*score)
+            reasons.append('VERIFIED_RELEVANT_SUPPORT')
         else:
-            sufficiency = "sufficient"
-            suff_prob = 0.72
-            next_action = "answer"
-            reasons.append("MODERATE_RETRIEVAL_SUPPORT")
-
-        conf = max(suff_prob, 1.0 - suff_prob)
-
-        return EvidenceDecision(
-            sufficiency=sufficiency,
-            evidence_score=round(float(top_score), 3),
-            conflicting_items=poison_ids,
-            poison_detected=bool(poison_ids),
-            repetition_detected=repetition_flag,
-            novel_evidence_chunks=len(hits),
-            next_action=next_action,
-            confidence=round(conf, 3),
-            sufficiency_probability=round(suff_prob, 3),
-            reason_codes=reasons,
-        )
+            suff, action, prob = 'insufficient','retrieve_more',0.3
+            reasons.append('WEAK_LEXICAL_SUPPORT')
+        if action=='retrieve_more' and (state.get('round',1)>=state.get('max_rounds',2) or (state.get('round',1)>1 and novel==0)):
+            action='abstain'
+            reasons.append('ROUND_LIMIT_OR_NO_NEW_EVIDENCE')
+        return EvidenceDecision(suff, score, sorted(set(conflict_ids)), bool(invalid), repeated,
+                                novel, action, max(prob,1-prob), prob, reasons)
 
 
-# ---------------------------------------------------------------------------
-# 4. Open-Weight Model Adapter (Llama-3.2 / Qwen2.5 with Graceful Fallback)
-# ---------------------------------------------------------------------------
+def get_judge():
+    config = json.loads(CALIBRATION.read_text()) if CALIBRATION.exists() else {}
+    return HeuristicFeatureJudge(temperature=config.get('temperature',1.0),
+                                 calibration=config if config.get('method')=='dirichlet_route_groups' else None)
+
 
 class OpenWeightLLMJudge:
-    """Adapter for local open-weight instruction models (e.g. Llama-3.2-1B, Qwen2.5-0.5B).
-    
-    If the model weights are not loaded locally, it automatically falls back
-    to the HeuristicFeatureJudge, ensuring full offline functionality.
-    """
-
-    SYSTEM_PROMPT = """You are a fast System-1 RAG Decision Judge for Persian credit scoring.
-Return ONLY a valid JSON object matching the requested schema. Do not generate explanations or chain of thought."""
-
-    def __init__(self, model_name: str = "meta-llama/Llama-3.2-1B-Instruct", fallback: Optional[RAGDecisionJudge] = None):
-        self.model_name = model_name
-        self.fallback = fallback or HeuristicFeatureJudge()
-        self._model = None
-        self._tokenizer = None
-
-    def pre_retrieval(
-        self,
-        query: str,
-        conversation: Optional[List[Dict[str, Any]]] = None,
-        slots: Optional[Dict[str, Any]] = None,
-    ) -> PreRetrievalDecision:
-        # If open-weight model is not active in memory, delegate to high-speed feature judge
+    """Compatibility adapter; delegates to CPU judge, no model weights loaded."""
+    def __init__(self, model_name='local-unloaded', fallback=None):
+        self.model_name, self.fallback = model_name, fallback or get_judge()
+    def pre_retrieval(self, query, conversation=None, slots=None):
         return self.fallback.pre_retrieval(query, conversation, slots)
-
-    def post_retrieval(
-        self,
-        query: str,
-        hits: List[Dict[str, Any]],
-        state: Optional[Dict[str, Any]] = None,
-    ) -> EvidenceDecision:
+    def post_retrieval(self, query, hits, state=None):
         return self.fallback.post_retrieval(query, hits, state)
 
 
-# ---------------------------------------------------------------------------
-# 5. Dynamic Context Budgeting / Adaptive Stopping Policy
-# ---------------------------------------------------------------------------
-
-def adaptive_select_hits(
-    query: str,
-    ranked_hits: List[Dict[str, Any]],
-    judge: RAGDecisionJudge,
-    max_k: int = 8,
-    min_k: int = 2,
-) -> Tuple[List[Dict[str, Any]], EvidenceDecision]:
-    """Dynamically select chunks, stopping early when evidence is sufficient.
-    
-    Prevents context dilution and token bloat by terminating retrieval once
-    the judge confirms collective evidence sufficiency.
-    """
-    selected: List[Dict[str, Any]] = []
-    last_decision: Optional[EvidenceDecision] = None
-
-    for hit in ranked_hits[:max_k]:
-        # Filter obvious poison docs from selection
-        if hit.get("doc_id", 0) >= 9000:
-            continue
-
+def adaptive_select_hits(query, ranked_hits, judge, max_k=8, min_k=2, state=None):
+    from .pipeline import rerank
+    safe = rerank(query,ranked_hits)[:max_k]
+    selected=[]
+    decision=judge.post_retrieval(query,[],state)
+    for hit in safe:
         selected.append(hit)
-        if len(selected) >= min_k:
-            decision = judge.post_retrieval(query, selected)
-            last_decision = decision
-            if decision.sufficiency == "sufficient" and decision.confidence >= 0.80:
+        if len(selected)>=min(min_k,len(safe)):
+            decision=judge.post_retrieval(query,selected,state)
+            if decision.next_action=='answer' and decision.confidence>=judge.confidence_threshold:
                 break
-
-    if last_decision is None:
-        last_decision = judge.post_retrieval(query, selected)
-
-    return selected, last_decision
+    return selected,decision
 
 
-# ---------------------------------------------------------------------------
-# 6. Quantitative Calibration Metrics (Brier Score, ECE, Risk-Coverage)
-# ---------------------------------------------------------------------------
-
-def compute_brier_score(probabilities: List[float], outcomes: List[int]) -> float:
-    """Calculate mean squared error between probabilities and binary outcomes (0 or 1)."""
-    if not probabilities or len(probabilities) != len(outcomes):
-        return 0.0
-    total = sum((p - y) ** 2 for p, y in zip(probabilities, outcomes))
-    return round(total / len(probabilities), 4)
+def _validate(probabilities, outcomes):
+    if not probabilities or len(probabilities)!=len(outcomes):
+        raise ValueError('Nonempty, equally sized probabilities and outcomes required')
+    if any(not math.isfinite(p) or not 0<=p<=1 for p in probabilities) or any(y not in (0,1) for y in outcomes):
+        raise ValueError('Probabilities must be in [0,1], outcomes binary')
 
 
-def compute_ece(probabilities: List[float], outcomes: List[int], n_bins: int = 10) -> float:
-    """Calculate Expected Calibration Error (ECE) across probability bins."""
-    if not probabilities or len(probabilities) != len(outcomes):
-        return 0.0
-
-    bin_size = 1.0 / n_bins
-    total_samples = len(probabilities)
-    ece = 0.0
-
-    for i in range(n_bins):
-        bin_lower = i * bin_size
-        bin_upper = (i + 1) * bin_size
-        bin_indices = [
-            idx for idx, p in enumerate(probabilities)
-            if bin_lower <= p < bin_upper or (i == n_bins - 1 and p == 1.0)
-        ]
-
-        if not bin_indices:
-            continue
-
-        bin_acc = sum(outcomes[idx] for idx in bin_indices) / len(bin_indices)
-        bin_conf = sum(probabilities[idx] for idx in bin_indices) / len(bin_indices)
-        weight = len(bin_indices) / total_samples
-        ece += weight * abs(bin_acc - bin_conf)
-
-    return round(ece, 4)
+def compute_brier_score(probabilities, outcomes):
+    _validate(probabilities,outcomes)
+    return sum((p-y)**2 for p,y in zip(probabilities,outcomes))/len(outcomes)
 
 
-# ---------------------------------------------------------------------------
-# 7. Benchmark & Evaluation Routine
-# ---------------------------------------------------------------------------
+def compute_ece(probabilities, outcomes, n_bins=10):
+    _validate(probabilities,outcomes)
+    if n_bins<1: raise ValueError('n_bins must be positive')
+    buckets=[[] for _ in range(n_bins)]
+    for p,y in zip(probabilities,outcomes): buckets[min(int(p*n_bins),n_bins-1)].append((p,y))
+    return sum(abs(sum(p-y for p,y in b))/len(outcomes) for b in buckets)
 
-def evaluate_judge(
-    judge: Optional[RAGDecisionJudge] = None,
-    dataset_path: Optional[str] = None,
-    split: Optional[str] = None,
-) -> Dict[str, Any]:
-    """Run comprehensive quantitative evaluation of the Decision Judge."""
-    judge = judge or HeuristicFeatureJudge()
-    ds_path = dataset_path or os.path.join(BASE, "data", "judge_dataset.json")
 
-    if not os.path.exists(ds_path):
-        return {"error": f"Dataset not found at {ds_path}"}
+def expected_route(item):
+    # Dataset labels describe eventual knowledge need; operational clarification
+    # takes priority and deliberately performs no retrieval at this turn.
+    if item.get('expected_clarification')=='CLARIFY': return 'clarify'
+    return 'no_retrieval' if item.get('expected_retrieval')=='NO_RETRIEVAL' else 'retrieve'
 
-    with open(ds_path, encoding="utf-8") as f:
-        data = json.load(f)
 
-    if split:
-        data = [d for d in data if d.get("split") == split]
-
-    if not data:
-        return {"error": f"No records found for split={split}"}
-
-    # Tracking metrics
-    routing_correct = 0
-    clarify_tp = 0
-    clarify_fp = 0
-    clarify_fn = 0
-    clarify_tn = 0
-    suff_correct = 0
-
-    probs_retrieval = []
-    labels_retrieval = []
-
-    probs_clarify = []
-    labels_clarify = []
-
-    k_values = []
-    total = len(data)
-
-    for item in data:
-        query = item["query"]
-        exp_ret = item.get("expected_retrieval", "RETRIEVE")
-        exp_cla = item.get("expected_clarification", "DO_NOT_CLARIFY")
-        exp_suff = item.get("expected_sufficiency", "SUFFICIENT")
-
-        # Pre-retrieval
-        pre = judge.pre_retrieval(query)
-        pred_ret = "NO_RETRIEVAL" if not pre.needs_retrieval else "RETRIEVE"
-        pred_cla = "CLARIFY" if pre.needs_clarification else "DO_NOT_CLARIFY"
-
-        if pred_ret == exp_ret:
-            routing_correct += 1
-
-        probs_retrieval.append(pre.retrieve_probability)
-        labels_retrieval.append(1 if exp_ret == "RETRIEVE" else 0)
-
-        probs_clarify.append(pre.clarify_probability)
-        labels_clarify.append(1 if exp_cla == "CLARIFY" else 0)
-
-        if pred_cla == "CLARIFY" and exp_cla == "CLARIFY":
-            clarify_tp += 1
-        elif pred_cla == "CLARIFY" and exp_cla != "CLARIFY":
-            clarify_fp += 1
-        elif pred_cla != "CLARIFY" and exp_cla == "CLARIFY":
-            clarify_fn += 1
-        else:
-            clarify_tn += 1
-
-        k_values.append(pre.top_k)
-
-        # Mock retrieval hits for sufficiency check
-        mock_hits = [{"doc_id": 1, "fused": 0.85, "text": "رتبه اعتباری در بازه..."}] if pre.needs_retrieval else []
-        post = judge.post_retrieval(query, mock_hits)
-        if post.sufficiency.upper() == exp_suff.upper():
-            suff_correct += 1
-
-    cla_prec = clarify_tp / max(clarify_tp + clarify_fp, 1)
-    cla_rec = clarify_tp / max(clarify_tp + clarify_fn, 1)
-    cla_f1 = (2 * cla_prec * cla_rec) / max(cla_prec + cla_rec, 1e-6)
-
-    mean_k = sum(k_values) / max(len(k_values), 1)
-    baseline_k = 5.0
-    token_savings = ((baseline_k - mean_k) / baseline_k) * 100.0
-
-    brier_ret = compute_brier_score(probs_retrieval, labels_retrieval)
-    ece_ret = compute_ece(probs_retrieval, labels_retrieval)
-
-    return {
-        "total_queries": total,
-        "split": split or "all",
-        "routing_accuracy": round(routing_correct / total, 3),
-        "clarification": {
-            "precision": round(cla_prec, 3),
-            "recall": round(cla_rec, 3),
-            "f1": round(cla_f1, 3),
-            "tp": clarify_tp,
-            "fp": clarify_fp,
-            "fn": clarify_fn,
-        },
-        "sufficiency_accuracy": round(suff_correct / total, 3),
-        "context_budget": {
-            "mean_top_k": round(mean_k, 2),
-            "baseline_fixed_k": 5,
-            "token_savings_pct": round(token_savings, 1),
-        },
-        "calibration": {
-            "brier_score": brier_ret,
-            "expected_calibration_error": ece_ret,
-        },
-    }
+def evaluate_judge(dataset_path=None, judge=None, split=None):
+    judge=judge or get_judge()
+    data=json.loads(Path(dataset_path or ROOT/'data/judge_dataset.json').read_text())
+    data=[d for d in data if not split or d.get('split')==split]
+    if not data: return {'error':'No records for requested split'}
+    predictions=[judge.pre_retrieval(d['query']) for d in data]
+    actual=[expected_route(d) for d in data]
+    tp=sum(p.action=='clarify' and y=='clarify' for p,y in zip(predictions,actual))
+    fp=sum(p.action=='clarify' and y!='clarify' for p,y in zip(predictions,actual))
+    fn=sum(p.action!='clarify' and y=='clarify' for p,y in zip(predictions,actual))
+    probabilities=[p.retrieve_probability for p in predictions]; outcomes=[int(y=='retrieve') for y in actual]
+    conf=[p.confidence for p in predictions]; correct=[int(p.action==y) for p,y in zip(predictions,actual)]
+    mean_k=sum(p.top_k for p in predictions)/len(data)
+    return {'total_queries':len(data),'split':split or 'all','routing_accuracy':sum(correct)/len(data),
+            'clarification':{'precision':tp/max(1,tp+fp),'recall':tp/max(1,tp+fn),'f1':2*tp/max(1,2*tp+fp+fn),'tp':tp,'fp':fp,'fn':fn},
+            'sufficiency_accuracy':None,'sufficiency_note':'Not measured by this routing-only dataset; no fabricated hits used.',
+            'context_budget':{'mean_top_k':mean_k,'baseline_fixed_k':5,'budget_reduction_pct':100*(1-mean_k/5)},
+            'calibration':{'brier_score':compute_brier_score(probabilities,outcomes),'expected_calibration_error':compute_ece(probabilities,outcomes),
+                           'decision_brier':compute_brier_score(conf,correct),'decision_ece':compute_ece(conf,correct),
+                           'clarify_brier':compute_brier_score([p.clarify_probability for p in predictions],[int(y=='clarify') for y in actual])},
+            'results':[{'id':d['id'],'expected':y,'prediction':p.to_dict(),'correct':bool(c)} for d,y,p,c in zip(data,actual,predictions,correct)]}

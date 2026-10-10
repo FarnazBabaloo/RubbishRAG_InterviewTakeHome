@@ -22,6 +22,12 @@ BANKS = [
 
 RANKS = [f"{L}{N}" for L in "ABCDE" for N in "123"]
 
+# Fixed vocabulary: prepare longest-name-first matching once at module load.
+_BANK_PATTERNS = tuple(
+    (bank, re.compile(rf"(?<!\w){re.escape(normalize_fa(bank))}(?!\w)"))
+    for bank in sorted(BANKS, key=lambda b: len(normalize_fa(b)), reverse=True)
+)
+
 DEBT_PATTERNS = [
     ("چک", ["چک", "صیادی", "برگشتی", "رفع سوءاثر", "رفع سواثر"]),
     ("مالیاتی", ["مالیات", "جریمه مالیاتی", "امور مالیاتی"]),
@@ -45,9 +51,11 @@ def extract_slots(query: str) -> Dict[str, Any]:
     }
 
     # Bank
-    for b in BANKS:
-        b_norm = normalize_fa(b)
-        if b_norm in norm:
+    for b, pattern in _BANK_PATTERNS:
+        if pattern.search(norm):
+            # Export/import volume is not a reference to Bank Saderat.
+            if b == "صادرات" and re.search(r"صادرات\s*[/و]\s*واردات|صادرات و واردات", norm):
+                continue
             slots["BANK"] = b
             break
 
@@ -57,7 +65,7 @@ def extract_slots(query: str) -> Dict[str, Any]:
         slots["RANK"] = f"{rank_match.group(1).upper()}{rank_match.group(2)}"
 
     # Persona
-    is_individual = any(w in norm for w in ["حقیقی", "شخصی", "فرد", "شخص", "خودم"])
+    is_individual = any(w in norm for w in ["حقیقی", "شخصی", "فرد", "خودم"])
     is_legal = any(w in norm for w in ["حقوقی", "شرکت", "کسب و کار", "سازمان", "شرکت‌ها"])
     if is_individual and is_legal:
         slots["PERSONA"] = "both"
@@ -73,7 +81,8 @@ def extract_slots(query: str) -> Dict[str, Any]:
             break
 
     # Numbers
-    nums = re.findall(r"\b\d+[\d,\.]*\b", norm)
+    numeric_text = re.sub(r"\b[A-Ea-e]\s*[1-3]\b", "", norm)
+    nums = re.findall(r"(?<![\w])\d+(?:[,.]\d+)*(?![\w])", numeric_text)
     slots["NUMS"] = [n.replace(",", "") for n in nums]
     if slots["NUMS"]:
         slots["AMOUNT"] = slots["NUMS"][0]

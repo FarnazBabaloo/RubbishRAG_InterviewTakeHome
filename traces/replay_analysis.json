@@ -1,0 +1,556 @@
+{
+  "mode": "offline_replay",
+  "limitation": "Public-corpus supplement is recomputed, remote pools are fixed; not hidden evaluation.",
+  "agg": {
+    "total": 20,
+    "accuracy": 1.0,
+    "answer_acc": 1.0,
+    "clarify_acc": 0.0
+  },
+  "without_rrf": {
+    "total": 20,
+    "accuracy": 1.0,
+    "answer_acc": 1.0,
+    "clarify_acc": 0.0
+  },
+  "without_local_search": {
+    "total": 20,
+    "accuracy": 0.65,
+    "answer_acc": 0.65,
+    "clarify_acc": 0.0
+  },
+  "merged_pool_recall": 1,
+  "remote_pool_recall": 0.65,
+  "unknown_remote_hit_rate": 0.05,
+  "unknown_ranked_hit_rate": 0.0,
+  "mean_remote_top5_redundancy": 0.029999999999999992,
+  "mean_ranked_top5_redundancy": 0.0,
+  "trace_ids": [
+    "client_e4f961ffa2824c0aa29b0f080a9b3a0c",
+    "client_9009eff0743e4315bd362c45a91126da",
+    "client_45a681ffb14d477bb1140d80f863b817",
+    "client_64d151c18702465e97fa2732876d2441",
+    "client_db68af1be5b343f286475374e2004968",
+    "client_7bace4b94900415180bb2db84527049d",
+    "client_49b060edc40f4149acafcadb63c7280c",
+    "client_624fed542eb54f3a889ae81a4ed28f12",
+    "client_84b8ebca2e9e4211ad3f966ce6af9110",
+    "client_726028ededa7415985ce5dbf484c575e",
+    "client_74da3cbdf62e449e83de929cee98c049",
+    "client_7d44d3e944a845c8a88b9a75944e4452",
+    "client_fe2c74323052476da5beba9bdb20c1b5",
+    "client_1dc4c42b2e74498ca810e40415857d6c",
+    "client_a850d9b113124c27b044b6ed8e510c91",
+    "client_62436f6f6c6247f281e5b61db33bfa4e",
+    "client_95c1c773de4b4386b205fe6fea20eb8c",
+    "client_5d931156a8ad416f9e5f6a67bfef9b57",
+    "client_66f55ac4816a453093c3993b1980d1f9",
+    "client_0a2db3bb179e4638875db89ed522cefb"
+  ],
+  "results": [
+    {
+      "pass": true,
+      "kind": "answer",
+      "id": "v0",
+      "trace_id": "client_e4f961ffa2824c0aa29b0f080a9b3a0c",
+      "prediction": {
+        "status": "answer",
+        "brief": "اگر به دلیل بدهی مالیاتی امتیاز شما ۲۵۰ و رتبه شما E3 شده است، ۲۴ ساعت پس از پرداخت بدهی مالیاتی، این بدهی تاثیری در امتیاز شما نخواهد داشت.",
+        "cites": [
+          173,
+          175,
+          273
+        ],
+        "slots": {
+          "BANK": null,
+          "RANK": null,
+          "PERSONA": null,
+          "DEBT": "مالیاتی",
+          "AMOUNT": null,
+          "TIME": false,
+          "NUMS": [],
+          "NEGATED": false
+        }
+      }
+    },
+    {
+      "pass": true,
+      "kind": "answer",
+      "id": "v1",
+      "trace_id": "client_9009eff0743e4315bd362c45a91126da",
+      "prediction": {
+        "status": "answer",
+        "brief": "محکومیت های مالی پرداخت نشده جزو خطوط قرمز تلقی میشود و امتیاز شرکت را تا حداقل امتیاز (250) و رتبه E3 کاهش میدهد.",
+        "cites": [
+          56,
+          238,
+          324
+        ],
+        "slots": {
+          "BANK": null,
+          "RANK": null,
+          "PERSONA": "حقوقی",
+          "DEBT": "محکومیت",
+          "AMOUNT": null,
+          "TIME": false,
+          "NUMS": [],
+          "NEGATED": false
+        }
+      }
+    },
+    {
+      "pass": true,
+      "kind": "answer",
+      "id": "v2",
+      "trace_id": "client_45a681ffb14d477bb1140d80f863b817",
+      "prediction": {
+        "status": "answer",
+        "brief": "رفع سوءاثر چک برگشتی امتیاز و رتبه را تا حد زیادی اصلاح می‌کند اما سابقه باقی می‌ماند.",
+        "cites": [
+          282,
+          260,
+          244
+        ],
+        "slots": {
+          "BANK": null,
+          "RANK": null,
+          "PERSONA": null,
+          "DEBT": "چک",
+          "AMOUNT": "24",
+          "TIME": true,
+          "NUMS": [
+            "24"
+          ],
+          "NEGATED": false
+        }
+      }
+    },
+    {
+      "pass": true,
+      "kind": "answer",
+      "id": "v3",
+      "trace_id": "client_64d151c18702465e97fa2732876d2441",
+      "prediction": {
+        "status": "answer",
+        "brief": "به دلایل کاهش امتیاز خود در گزارش اعتباری توجه کنید.",
+        "cites": [
+          311,
+          312,
+          313
+        ],
+        "slots": {
+          "BANK": null,
+          "RANK": null,
+          "PERSONA": null,
+          "DEBT": null,
+          "AMOUNT": "480",
+          "TIME": false,
+          "NUMS": [
+            "480"
+          ],
+          "NEGATED": false
+        }
+      }
+    },
+    {
+      "pass": true,
+      "kind": "answer",
+      "id": "v4",
+      "trace_id": "client_db68af1be5b343f286475374e2004968",
+      "prediction": {
+        "status": "answer",
+        "brief": "خیر",
+        "cites": [
+          137,
+          146,
+          2
+        ],
+        "slots": {
+          "BANK": null,
+          "RANK": null,
+          "PERSONA": "حقوقی",
+          "DEBT": null,
+          "AMOUNT": null,
+          "TIME": false,
+          "NUMS": [],
+          "NEGATED": false
+        }
+      }
+    },
+    {
+      "pass": true,
+      "kind": "answer",
+      "id": "v5",
+      "trace_id": "client_7bace4b94900415180bb2db84527049d",
+      "prediction": {
+        "status": "answer",
+        "brief": "هر گونه تأخیر در بازپرداخت حتی در نقش ضامن، امتیاز را کاهش می‌دهد.",
+        "cites": [
+          9,
+          324,
+          208
+        ],
+        "slots": {
+          "BANK": null,
+          "RANK": null,
+          "PERSONA": "حقوقی",
+          "DEBT": "تسهیلاتی",
+          "AMOUNT": null,
+          "TIME": false,
+          "NUMS": [],
+          "NEGATED": false
+        }
+      }
+    },
+    {
+      "pass": true,
+      "kind": "answer",
+      "id": "v6",
+      "trace_id": "client_49b060edc40f4149acafcadb63c7280c",
+      "prediction": {
+        "status": "answer",
+        "brief": "سودآوری شرکت از عوامل موثر در محاسبه امتیاز اعتباری نیست.",
+        "cites": [
+          86,
+          87,
+          85
+        ],
+        "slots": {
+          "BANK": null,
+          "RANK": null,
+          "PERSONA": "حقوقی",
+          "DEBT": null,
+          "AMOUNT": null,
+          "TIME": false,
+          "NUMS": [],
+          "NEGATED": false
+        }
+      }
+    },
+    {
+      "pass": true,
+      "kind": "answer",
+      "id": "v7",
+      "trace_id": "client_624fed542eb54f3a889ae81a4ed28f12",
+      "prediction": {
+        "status": "answer",
+        "brief": "بله، از طریق ثبت این سابقه در گزارش اعتباری و کاهش امتیاز اعتباری.",
+        "cites": [
+          76,
+          127,
+          218
+        ],
+        "slots": {
+          "BANK": null,
+          "RANK": null,
+          "PERSONA": "حقوقی",
+          "DEBT": "تسهیلاتی",
+          "AMOUNT": null,
+          "TIME": false,
+          "NUMS": [],
+          "NEGATED": false
+        }
+      }
+    },
+    {
+      "pass": true,
+      "kind": "answer",
+      "id": "v8",
+      "trace_id": "client_84b8ebca2e9e4211ad3f966ce6af9110",
+      "prediction": {
+        "status": "answer",
+        "brief": "بله این امکان وجود دارد.",
+        "cites": [
+          290,
+          294,
+          211
+        ],
+        "slots": {
+          "BANK": null,
+          "RANK": null,
+          "PERSONA": null,
+          "DEBT": null,
+          "AMOUNT": null,
+          "TIME": false,
+          "NUMS": [],
+          "NEGATED": false
+        }
+      }
+    },
+    {
+      "pass": true,
+      "kind": "answer",
+      "id": "v9",
+      "trace_id": "client_726028ededa7415985ce5dbf484c575e",
+      "prediction": {
+        "status": "answer",
+        "brief": "اطلاعات صحیح مثبت و منفی باید طبق مقررات و مدت زمان مشخص (5 سال) در گزارش اعتباری باقی بمانند.",
+        "cites": [
+          172,
+          174,
+          47
+        ],
+        "slots": {
+          "BANK": null,
+          "RANK": null,
+          "PERSONA": null,
+          "DEBT": "چک",
+          "AMOUNT": null,
+          "TIME": false,
+          "NUMS": [],
+          "NEGATED": true
+        }
+      }
+    },
+    {
+      "pass": true,
+      "kind": "answer",
+      "id": "v10",
+      "trace_id": "client_74da3cbdf62e449e83de929cee98c049",
+      "prediction": {
+        "status": "answer",
+        "brief": "خیر.  سابقه بازپرداخت وام های خودتان بسیار بیشتر از ضمانت وام تاثیرگذار است. ",
+        "cites": [
+          234,
+          258,
+          297
+        ],
+        "slots": {
+          "BANK": null,
+          "RANK": null,
+          "PERSONA": null,
+          "DEBT": "تسهیلاتی",
+          "AMOUNT": null,
+          "TIME": false,
+          "NUMS": [],
+          "NEGATED": false
+        }
+      }
+    },
+    {
+      "pass": true,
+      "kind": "answer",
+      "id": "v11",
+      "trace_id": "client_7d44d3e944a845c8a88b9a75944e4452",
+      "prediction": {
+        "status": "answer",
+        "brief": "با تداوم خوش حسابی، امتیاز شما به تدریج افزایش خواهد یافت.",
+        "cites": [
+          250,
+          181,
+          194
+        ],
+        "slots": {
+          "BANK": null,
+          "RANK": null,
+          "PERSONA": null,
+          "DEBT": "تسهیلاتی",
+          "AMOUNT": null,
+          "TIME": false,
+          "NUMS": [],
+          "NEGATED": false
+        }
+      }
+    },
+    {
+      "pass": true,
+      "kind": "answer",
+      "id": "v12",
+      "trace_id": "client_fe2c74323052476da5beba9bdb20c1b5",
+      "prediction": {
+        "status": "answer",
+        "brief": "خیر، تاثیری ندارد.",
+        "cites": [
+          34,
+          301,
+          53
+        ],
+        "slots": {
+          "BANK": null,
+          "RANK": null,
+          "PERSONA": null,
+          "DEBT": null,
+          "AMOUNT": null,
+          "TIME": false,
+          "NUMS": [],
+          "NEGATED": false
+        }
+      }
+    },
+    {
+      "pass": true,
+      "kind": "answer",
+      "id": "v13",
+      "trace_id": "client_1dc4c42b2e74498ca810e40415857d6c",
+      "prediction": {
+        "status": "answer",
+        "brief": "خیر، در حال حاضر، تعداد ضامنان هیچ تأثیری بر رتبه اعتباری و امتیاز اعتباری متقاضی اصلی و ضامنان ندارد.",
+        "cites": [
+          262,
+          266,
+          304
+        ],
+        "slots": {
+          "BANK": null,
+          "RANK": null,
+          "PERSONA": null,
+          "DEBT": "تسهیلاتی",
+          "AMOUNT": null,
+          "TIME": false,
+          "NUMS": [],
+          "NEGATED": false
+        }
+      }
+    },
+    {
+      "pass": true,
+      "kind": "answer",
+      "id": "v14",
+      "trace_id": "client_a850d9b113124c27b044b6ed8e510c91",
+      "prediction": {
+        "status": "answer",
+        "brief": "کیفیت ایفای تعهدات تعیین‌کننده اثر آن است.",
+        "cites": [
+          8,
+          7,
+          197
+        ],
+        "slots": {
+          "BANK": null,
+          "RANK": null,
+          "PERSONA": null,
+          "DEBT": null,
+          "AMOUNT": null,
+          "TIME": false,
+          "NUMS": [],
+          "NEGATED": false
+        }
+      }
+    },
+    {
+      "pass": true,
+      "kind": "answer",
+      "id": "v15",
+      "trace_id": "client_62436f6f6c6247f281e5b61db33bfa4e",
+      "prediction": {
+        "status": "answer",
+        "brief": "رتبه اعتباری C3 در بازه امتیازی ۵۲۰ تا ۵۳۹ قرار دارد. رتبه C از نظر رفتار اعتباری بیانگر ریسک متوسط است؛ با این حال، صرف رتبه به معنی رد/قبول قطعی درخواست نیست، چون تصمیم نهایی با اعتباردهنده است.",
+        "cites": [
+          108,
+          91,
+          92
+        ],
+        "slots": {
+          "BANK": null,
+          "RANK": "C3",
+          "PERSONA": null,
+          "DEBT": null,
+          "AMOUNT": null,
+          "TIME": false,
+          "NUMS": [],
+          "NEGATED": false
+        }
+      }
+    },
+    {
+      "pass": true,
+      "kind": "answer",
+      "id": "v16",
+      "trace_id": "client_95c1c773de4b4386b205fe6fea20eb8c",
+      "prediction": {
+        "status": "answer",
+        "brief": "در صورتی که تامین کننده به شرکت اعتبارسنجی ایران اطلاعات را ارسال کند، بله.",
+        "cites": [
+          123,
+          76,
+          65
+        ],
+        "slots": {
+          "BANK": null,
+          "RANK": null,
+          "PERSONA": "حقوقی",
+          "DEBT": null,
+          "AMOUNT": null,
+          "TIME": false,
+          "NUMS": [],
+          "NEGATED": false
+        }
+      }
+    },
+    {
+      "pass": true,
+      "kind": "answer",
+      "id": "v17",
+      "trace_id": "client_5d931156a8ad416f9e5f6a67bfef9b57",
+      "prediction": {
+        "status": "answer",
+        "brief": "این اطلاعات، حداکثر تا ۲۴ ساعت پس از پرداخت به صورت کامل حذف از گزارش اعتباری خواهد شد و نباید در امتیاز شما هیچ تاثیری داشته باشد.",
+        "cites": [
+          237,
+          238,
+          173
+        ],
+        "slots": {
+          "BANK": null,
+          "RANK": "E3",
+          "PERSONA": null,
+          "DEBT": "مالیاتی",
+          "AMOUNT": null,
+          "TIME": false,
+          "NUMS": [],
+          "NEGATED": false
+        }
+      }
+    },
+    {
+      "pass": true,
+      "kind": "answer",
+      "id": "v18",
+      "trace_id": "client_66f55ac4816a453093c3993b1980d1f9",
+      "prediction": {
+        "status": "answer",
+        "brief": "عدم وجود سابقه منفی تنها یکی از عوامل موثر بر امتیاز اعتباری است.",
+        "cites": [
+          67,
+          45,
+          85
+        ],
+        "slots": {
+          "BANK": null,
+          "RANK": null,
+          "PERSONA": "حقوقی",
+          "DEBT": null,
+          "AMOUNT": null,
+          "TIME": false,
+          "NUMS": [],
+          "NEGATED": true
+        }
+      }
+    },
+    {
+      "pass": true,
+      "kind": "answer",
+      "id": "v19",
+      "trace_id": "client_0a2db3bb179e4638875db89ed522cefb",
+      "prediction": {
+        "status": "answer",
+        "brief": "آدرس شرکت در مدل امتیاز اعتباری کسب و کارها بی‌تأثیر است.",
+        "cites": [
+          36,
+          133,
+          15
+        ],
+        "slots": {
+          "BANK": null,
+          "RANK": null,
+          "PERSONA": "حقوقی",
+          "DEBT": null,
+          "AMOUNT": null,
+          "TIME": false,
+          "NUMS": [],
+          "NEGATED": false
+        }
+      }
+    }
+  ]
+}

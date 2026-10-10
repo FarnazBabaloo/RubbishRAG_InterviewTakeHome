@@ -1,0 +1,287 @@
+{
+  "version": 2,
+  "purpose": "Fresh exact queries after the fix, frozen before execution. Same assistant authored labels; not independent/blinded annotation. Includes counterexamples and year-vs-score ambiguity.",
+  "label_policy": "Same policy as v1: ask when a personal decision/referent lacks essential information; general factual questions should answer. Routing only, not factual correctness.",
+  "cases": [
+    {
+      "id": "fresh_01",
+      "family": "debt",
+      "expected": "clarify",
+      "query": "بدهی‌ای که دارم برای اعتبارسنجی مشکل ایجاد می‌کند؟",
+      "reason": "Source of debt absent."
+    },
+    {
+      "id": "fresh_02",
+      "family": "debt",
+      "expected": "clarify",
+      "query": "شرکت ما یک بدهی قدیمی دارد؛ برای رفع اثرش چه مدارکی لازم است؟",
+      "reason": "Debt source absent."
+    },
+    {
+      "id": "fresh_03",
+      "family": "debt",
+      "expected": "clarify",
+      "query": "اگر بدهی را در چند قسط بپردازم، چه زمانی سابقه پاک می‌شود؟",
+      "reason": "Installments do not specify debt source."
+    },
+    {
+      "id": "fresh_04",
+      "family": "debt",
+      "expected": "clarify",
+      "query": "تسویه بدهی برای برگشتن رتبه قبلی کافی است؟",
+      "reason": "Debt source absent."
+    },
+    {
+      "id": "fresh_05",
+      "family": "debt",
+      "expected": "clarify",
+      "query": "در گزارش من بدهی ثبت شده؛ می‌خواهم بدانم از کجا آمده.",
+      "reason": "Debt item and source not supplied."
+    },
+    {
+      "id": "fresh_06",
+      "family": "loan",
+      "expected": "clarify",
+      "query": "آیا برای وام بانک سپه واجد شرایط هستم؟",
+      "reason": "Bank known but grade and eligibility facts missing."
+    },
+    {
+      "id": "fresh_07",
+      "family": "loan",
+      "expected": "clarify",
+      "query": "امتیاز من ۶۷۰ است؛ می‌توانم وام بگیرم؟",
+      "reason": "Bank/product absent; score already given."
+    },
+    {
+      "id": "fresh_08",
+      "family": "loan",
+      "expected": "clarify",
+      "query": "امکان دریافت وام برای من هست؟",
+      "reason": "No bank/grade/personal conditions supplied."
+    },
+    {
+      "id": "fresh_09",
+      "family": "loan",
+      "expected": "clarify",
+      "query": "بانک پاسارگاد درخواست وام من را قبول می‌کند؟",
+      "reason": "Grade and personal circumstances missing."
+    },
+    {
+      "id": "fresh_10",
+      "family": "loan",
+      "expected": "clarify",
+      "query": "شرکت ما می‌تواند تسهیلات دریافت کنیم؟",
+      "reason": "Bank and grade absent; intentionally informal wording."
+    },
+    {
+      "id": "fresh_11",
+      "family": "score",
+      "expected": "clarify",
+      "query": "سطح ریسک ما را چطور مشخص می‌کنید؟",
+      "reason": "Personal risk classification requested without score."
+    },
+    {
+      "id": "fresh_12",
+      "family": "score",
+      "expected": "clarify",
+      "query": "رتبه من چیست و چه معنایی دارد؟",
+      "reason": "No grade supplied."
+    },
+    {
+      "id": "fresh_13",
+      "family": "score",
+      "expected": "clarify",
+      "query": "امتیاز من خوب است یا بد؟",
+      "reason": "No score supplied."
+    },
+    {
+      "id": "fresh_14",
+      "family": "score",
+      "expected": "clarify",
+      "query": "در سال ۱۴۰۵ رتبه من بد شده؛ سطح ریسک من چیست؟",
+      "reason": "Year is not a score or grade."
+    },
+    {
+      "id": "fresh_15",
+      "family": "score",
+      "expected": "clarify",
+      "query": "نمی‌دانم کد رتبه من چه تفسیری دارد.",
+      "reason": "Actual grade absent."
+    },
+    {
+      "id": "fresh_16",
+      "family": "context",
+      "expected": "clarify",
+      "query": "همین مشکل روی اعتبار من اثر دارد؟",
+      "reason": "Unspecified problem."
+    },
+    {
+      "id": "fresh_17",
+      "family": "context",
+      "expected": "clarify",
+      "query": "این اتفاق از چه زمانی در سابقه ثبت می‌شود؟",
+      "reason": "Unspecified event."
+    },
+    {
+      "id": "fresh_18",
+      "family": "context",
+      "expected": "clarify",
+      "query": "آن موضوع را چطور از گزارش شرکت پاک کنم؟",
+      "reason": "Unspecified item."
+    },
+    {
+      "id": "fresh_19",
+      "family": "context",
+      "expected": "clarify",
+      "query": "برای اصلاحش باید چه مدارکی ببرم؟",
+      "reason": "No referent supplied."
+    },
+    {
+      "id": "fresh_20",
+      "family": "context",
+      "expected": "clarify",
+      "query": "همون وضعیت که گفتم، رتبه را پایین می‌آورد؟",
+      "reason": "No earlier conversation supplied to this single-turn evaluation."
+    },
+    {
+      "id": "fresh_21",
+      "family": "debt",
+      "expected": "answer",
+      "query": "اگر بدهی مالیاتی شرکت را بپردازیم، اثر منفی آن بر امتیاز چه می‌شود؟",
+      "reason": "Explicit source and action."
+    },
+    {
+      "id": "fresh_22",
+      "family": "debt",
+      "expected": "answer",
+      "query": "آیا بدهی بانکی معوق در رتبه اعتباری لحاظ می‌شود؟",
+      "reason": "Explicit bank arrears."
+    },
+    {
+      "id": "fresh_23",
+      "family": "debt",
+      "expected": "answer",
+      "query": "این چک برگشتی بعد از رفع سوءاثر چه وضعیتی در گزارش دارد؟",
+      "reason": "Demonstrative has explicit event anchor."
+    },
+    {
+      "id": "fresh_24",
+      "family": "debt",
+      "expected": "answer",
+      "query": "بدهی به تأمین‌کنندگان شرکت چگونه در گزارش منعکس می‌شود؟",
+      "reason": "Explicit supplier source."
+    },
+    {
+      "id": "fresh_25",
+      "family": "debt",
+      "expected": "answer",
+      "query": "بدهی چیست و چه نوع بدهی‌هایی در اعتبارسنجی بررسی می‌شوند؟",
+      "reason": "General definition/taxonomy; personal debt type unnecessary."
+    },
+    {
+      "id": "fresh_26",
+      "family": "loan",
+      "expected": "answer",
+      "query": "اگر وام‌گیرنده اقساط را دیر پرداخت کند، ضمانت من چه اثری روی امتیازم دارد؟",
+      "reason": "General explicit guarantee/delinquency scenario."
+    },
+    {
+      "id": "fresh_27",
+      "family": "loan",
+      "expected": "answer",
+      "query": "پرداخت منظم اقساط تسهیلات امتیاز اعتباری را بهتر می‌کند؟",
+      "reason": "General repayment topic."
+    },
+    {
+      "id": "fresh_28",
+      "family": "loan",
+      "expected": "answer",
+      "query": "ضامن شدن شرکت برای وام دیگران در گزارش آن شرکت دیده می‌شود؟",
+      "reason": "Explicit corporate guarantee topic."
+    },
+    {
+      "id": "fresh_29",
+      "family": "loan",
+      "expected": "answer",
+      "query": "داشتن چند ضامن چگونه روی امتیاز اعتباری هر ضامن اثر می‌گذارد؟",
+      "reason": "General guarantee comparison."
+    },
+    {
+      "id": "fresh_30",
+      "family": "loan",
+      "expected": "answer",
+      "query": "آیا سابقه تأخیر وام یک بانک در بانک دیگر هم قابل مشاهده است؟",
+      "reason": "General cross-bank history topic."
+    },
+    {
+      "id": "fresh_31",
+      "family": "score",
+      "expected": "answer",
+      "query": "برای رتبه B3 چه بازه‌ای از امتیاز در نظر گرفته می‌شود؟",
+      "reason": "Grade given."
+    },
+    {
+      "id": "fresh_32",
+      "family": "score",
+      "expected": "answer",
+      "query": "گروه اعتباری D1 چه سطحی از ریسک دارد؟",
+      "reason": "Grade given."
+    },
+    {
+      "id": "fresh_33",
+      "family": "score",
+      "expected": "answer",
+      "query": "A1 در گزارش اعتبارسنجی یعنی چه؟",
+      "reason": "Grade given."
+    },
+    {
+      "id": "fresh_34",
+      "family": "score",
+      "expected": "answer",
+      "query": "رتبه E2 چه معنایی در گزارش دارد؟",
+      "reason": "Grade given."
+    },
+    {
+      "id": "fresh_35",
+      "family": "score",
+      "expected": "answer",
+      "query": "چرا تسویه به‌موقع وام همیشه باعث افزایش فوری امتیاز نمی‌شود؟",
+      "reason": "General mechanism question, not personal classification."
+    },
+    {
+      "id": "fresh_36",
+      "family": "context",
+      "expected": "answer",
+      "query": "این تغییر آدرس شرکت بر رتبه‌اش اثر می‌گذارد؟",
+      "reason": "Explicit address-change anchor."
+    },
+    {
+      "id": "fresh_37",
+      "family": "context",
+      "expected": "answer",
+      "query": "توقف موقت تولید چه اثری در گزارش اعتباری اشخاص حقوقی دارد؟",
+      "reason": "Explicit operational event."
+    },
+    {
+      "id": "fresh_38",
+      "family": "context",
+      "expected": "answer",
+      "query": "شرکتی که سود دارد چرا ممکن است امتیاز اعتباری نداشته باشد؟",
+      "reason": "Explicit general company-scoring question."
+    },
+    {
+      "id": "fresh_39",
+      "family": "context",
+      "expected": "answer",
+      "query": "مقایسه رتبه اعتباری دو شخص امکان‌پذیر است؟",
+      "reason": "General comparison question."
+    },
+    {
+      "id": "fresh_40",
+      "family": "context",
+      "expected": "answer",
+      "query": "افزایش صادرات و واردات یک شرکت رتبه اعتباری‌اش را تغییر می‌دهد؟",
+      "reason": "Trade volume explicitly identified, not a bank."
+    }
+  ]
+}

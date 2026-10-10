@@ -1,0 +1,208 @@
+{
+  "mode": "exposed clarification v2 pre-routing regression; not a fresh test or semantic answer evaluation",
+  "correct": 40,
+  "total": 40,
+  "real_retrieval_calls": 0,
+  "cases": [
+    {
+      "id": "fresh_01",
+      "expected": "clarify",
+      "actual": "clarify"
+    },
+    {
+      "id": "fresh_02",
+      "expected": "clarify",
+      "actual": "clarify"
+    },
+    {
+      "id": "fresh_03",
+      "expected": "clarify",
+      "actual": "clarify"
+    },
+    {
+      "id": "fresh_04",
+      "expected": "clarify",
+      "actual": "clarify"
+    },
+    {
+      "id": "fresh_05",
+      "expected": "clarify",
+      "actual": "clarify"
+    },
+    {
+      "id": "fresh_06",
+      "expected": "clarify",
+      "actual": "clarify"
+    },
+    {
+      "id": "fresh_07",
+      "expected": "clarify",
+      "actual": "clarify"
+    },
+    {
+      "id": "fresh_08",
+      "expected": "clarify",
+      "actual": "clarify"
+    },
+    {
+      "id": "fresh_09",
+      "expected": "clarify",
+      "actual": "clarify"
+    },
+    {
+      "id": "fresh_10",
+      "expected": "clarify",
+      "actual": "clarify"
+    },
+    {
+      "id": "fresh_11",
+      "expected": "clarify",
+      "actual": "clarify"
+    },
+    {
+      "id": "fresh_12",
+      "expected": "clarify",
+      "actual": "clarify"
+    },
+    {
+      "id": "fresh_13",
+      "expected": "clarify",
+      "actual": "clarify"
+    },
+    {
+      "id": "fresh_14",
+      "expected": "clarify",
+      "actual": "clarify"
+    },
+    {
+      "id": "fresh_15",
+      "expected": "clarify",
+      "actual": "clarify"
+    },
+    {
+      "id": "fresh_16",
+      "expected": "clarify",
+      "actual": "clarify"
+    },
+    {
+      "id": "fresh_17",
+      "expected": "clarify",
+      "actual": "clarify"
+    },
+    {
+      "id": "fresh_18",
+      "expected": "clarify",
+      "actual": "clarify"
+    },
+    {
+      "id": "fresh_19",
+      "expected": "clarify",
+      "actual": "clarify"
+    },
+    {
+      "id": "fresh_20",
+      "expected": "clarify",
+      "actual": "clarify"
+    },
+    {
+      "id": "fresh_21",
+      "expected": "answer",
+      "actual": "answer"
+    },
+    {
+      "id": "fresh_22",
+      "expected": "answer",
+      "actual": "answer"
+    },
+    {
+      "id": "fresh_23",
+      "expected": "answer",
+      "actual": "answer"
+    },
+    {
+      "id": "fresh_24",
+      "expected": "answer",
+      "actual": "answer"
+    },
+    {
+      "id": "fresh_25",
+      "expected": "answer",
+      "actual": "answer"
+    },
+    {
+      "id": "fresh_26",
+      "expected": "answer",
+      "actual": "answer"
+    },
+    {
+      "id": "fresh_27",
+      "expected": "answer",
+      "actual": "answer"
+    },
+    {
+      "id": "fresh_28",
+      "expected": "answer",
+      "actual": "answer"
+    },
+    {
+      "id": "fresh_29",
+      "expected": "answer",
+      "actual": "answer"
+    },
+    {
+      "id": "fresh_30",
+      "expected": "answer",
+      "actual": "answer"
+    },
+    {
+      "id": "fresh_31",
+      "expected": "answer",
+      "actual": "answer"
+    },
+    {
+      "id": "fresh_32",
+      "expected": "answer",
+      "actual": "answer"
+    },
+    {
+      "id": "fresh_33",
+      "expected": "answer",
+      "actual": "answer"
+    },
+    {
+      "id": "fresh_34",
+      "expected": "answer",
+      "actual": "answer"
+    },
+    {
+      "id": "fresh_35",
+      "expected": "answer",
+      "actual": "answer"
+    },
+    {
+      "id": "fresh_36",
+      "expected": "answer",
+      "actual": "answer"
+    },
+    {
+      "id": "fresh_37",
+      "expected": "answer",
+      "actual": "answer"
+    },
+    {
+      "id": "fresh_38",
+      "expected": "answer",
+      "actual": "answer"
+    },
+    {
+      "id": "fresh_39",
+      "expected": "answer",
+      "actual": "answer"
+    },
+    {
+      "id": "fresh_40",
+      "expected": "answer",
+      "actual": "answer"
+    }
+  ]
+}

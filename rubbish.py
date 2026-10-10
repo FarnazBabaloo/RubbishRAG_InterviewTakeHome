@@ -61,7 +61,8 @@ def _quota(key):
 def cmd_salam(args):
     print(LOGO)
     print(f"Key: {args.key} | Quota used: {_quota(args.key)} / 1000")
-    print("Corpus: corpus/test.csv (full copy, 330 distinct Persian credit QA rows)")
+    from rubbish_rag.pipeline import corpus
+    print(f"Corpus: corpus/test.csv ({len(corpus())} Persian credit QA rows)")
     print("Start: rubbish bepar \"رتبه C1 یعنی چی؟\"")
 
 
@@ -70,15 +71,14 @@ def cmd_bepar(args):
     sys.path.insert(0, BASE)
     import rubbish_rag as R
     import rubbish_rag.pipeline  # noqa registers RubbishRAG stages
-    # note: pipeline.retrieve ignores key; call remote directly for logging key
-    from server._hidden_retriever import remote_retrieve
-    hits = remote_retrieve(args.query, topk=args.topk, api_key=args.key)
-    hits = R.get("reranker")(args.query, hits)
-    pred = R.get("resolver")(args.query, hits)
+    from rubbish_rag.execution import execute
+    hits, pred = execute(args.query, topk=args.topk, api_key=args.key)
     print("--- hits (fused) ---")
     for h in hits[:args.topk]:
-        print(f'doc={h["doc_id"]} fused={h["fused"]} bm25={h["bm25"]} '
-              f'dense={h["dense"]} cat={h.get("category","")[:30]}')
+        print(f'doc={h["doc_id"]} source={h.get("source", "remote_api")} '
+              f'fused={h.get("fused", "n/a")} bm25={h.get("bm25", "n/a")} '
+              f'dense={h.get("dense", "n/a")} local_bm25={h.get("local_bm25", "n/a")} '
+              f'cat={h.get("category","")[:30]}')
         print("   " + h["text"][:160].replace("\n", " "))
     print("--- resolve ---")
     print(json.dumps(pred, ensure_ascii=False, indent=1)[:1500])
@@ -90,13 +90,11 @@ def _run_bench(key="demo-key"):
                          encoding="utf-8"))
     results, durs = [], []
     import rubbish_rag as R
-    import rubbish_rag.pipeline  # noqa registers broken stages
-    from server._hidden_retriever import remote_retrieve
+    import rubbish_rag.pipeline  # noqa registers candidate stages
+    from rubbish_rag.execution import execute
     for item in vis:
         t0 = time.perf_counter()
-        hits = remote_retrieve(item["query"], topk=5, api_key=key)
-        hits = R.get("reranker")(item["query"], hits)
-        pred = R.get("resolver")(item["query"], hits)
+        hits, pred = execute(item["query"], topk=5, api_key=key)
         durs.append((time.perf_counter() - t0) * 1000.0)
         s = score_one(pred, item)
         results.append({**s, "id": item["id"]})
@@ -108,7 +106,7 @@ def _run_bench(key="demo-key"):
         "p95": round(sorted(durs)[max(0, int(len(durs) * 0.95) - 1)], 1),
     }
     os.makedirs(os.path.join(BASE, "traces"), exist_ok=True)
-    json.dump({"pipe": "naive", "agg": agg, "results": results},
+    json.dump({"pipe": "adaptive", "agg": agg, "results": results},
               open(os.path.join(BASE, "traces", "metrics.json"), "w",
                    encoding="utf-8"), ensure_ascii=False, indent=1)
     return agg, results
@@ -117,7 +115,7 @@ def _run_bench(key="demo-key"):
 def cmd_bench(args):
     print(LOGO)
     agg, _ = _run_bench(args.key)
-    print("pipe=naive (RubbishRAG)")
+    print("pipe=adaptive (RubbishRAG)")
     print(json.dumps(agg, ensure_ascii=False, indent=1))
     print("Saved: traces/metrics.json (every probe logged in traces/trace.jsonl)")
 
@@ -127,30 +125,28 @@ def cmd_bekesh(args):
     import matplotlib
     matplotlib.use("Agg")
     import matplotlib.pyplot as plt
-    from server._hidden_retriever import remote_retrieve
-    vis = json.load(open(os.path.join(BASE, "server", "visible_bench.json"),
-                         encoding="utf-8"))
-    gaps, lens, bms = [], [], []
-    rep_bm, plain_bm = [], []
-
-    def max_repeat(text):
-        from collections import Counter
-        toks = text.split()
-        if not toks:
-            return 0
-        return max(Counter(toks).values())
-
-    for item in vis[:20]:
-        hits = remote_retrieve(item["query"], topk=5, api_key=args.key)
-        if hits:
-            gaps.append(hits[0]["fused"] - hits[-1]["fused"])
-        for h in hits[:2]:
+    # Plot previously captured evidence; plotting must not consume retrieval quota.
+    trace_path = os.path.join(BASE, "traces", "trace.jsonl")
+    with open(trace_path, encoding="utf-8") as stream:
+        entries = [json.loads(line) for line in stream if line.strip()]
+    gaps, lens, bms, rep_bm, plain_bm = [], [], [], [], []
+    from collections import Counter
+    for entry in entries:
+        hits = [h for h in entry.get("hits", []) if "fused" in h]
+        if len(hits) >= 2:
+            vals = sorted((h["fused"] for h in hits), reverse=True)[:5]
+            gaps.append(max(vals) - min(vals))
+        for h in hits:
+            if "bm25" not in h or "text" not in h:
+                continue
             lens.append(len(h["text"]))
             bms.append(h["bm25"])
-            if max_repeat(h["text"]) >= 8:
-                rep_bm.append(h["bm25"])
-            else:
-                plain_bm.append(h["bm25"])
+            counts = Counter(h["text"].split())
+            target = rep_bm if max(counts.values(), default=0) >= 8 else plain_bm
+            target.append(h["bm25"])
+    if not bms:
+        print("No complete BM25 traces available. Capture targeted probes first; no retrieval was made.")
+        return
     os.makedirs(os.path.join(BASE, "plots"), exist_ok=True)
     plt.figure()
     plt.hist(gaps, bins=10)
@@ -198,16 +194,14 @@ def _write_report_card(plt):
               [tm.get("mean", 0), tm.get("p50", 0), tm.get("p95", 0)])
     ax[1].set_title("latency per query (ms)")
     gaps = []
-    try:
-        from server._hidden_retriever import remote_retrieve
-        vis = json.load(open(os.path.join(BASE, "server", "visible_bench.json"),
-                             encoding="utf-8"))
-        for item in vis[:20]:
-            hits = remote_retrieve(item["query"], topk=5, api_key="report")
-            if hits:
-                gaps.append(hits[0]["fused"] - hits[-1]["fused"])
-    except Exception:
-        pass
+    trace_path = os.path.join(BASE, "traces", "trace.jsonl")
+    if os.path.exists(trace_path):
+        with open(trace_path, encoding="utf-8") as stream:
+            for line in stream:
+                hits = [h for h in json.loads(line).get("hits", []) if "fused" in h]
+                if len(hits) >= 2:
+                    vals = sorted((h["fused"] for h in hits), reverse=True)[:5]
+                    gaps.append(max(vals) - min(vals))
     if gaps:
         ax[2].hist(gaps, bins=10)
     ax[2].set_title("top1-top5 fused gap")
@@ -264,34 +258,34 @@ _Generated by `python3 rubbish.py bastesh`. Commit `plots/` + `README.md` so thi
 def cmd_bastesh(args):
     print(LOGO)
     write_report_section()
-    out = os.path.join(BASE, "submissions", "submission.zip")
-    os.makedirs(os.path.dirname(out), exist_ok=True)
-    with zipfile.ZipFile(out, "w", zipfile.ZIP_DEFLATED) as z:
-        for root, _, files in os.walk(os.path.join(BASE, "rubbish_rag")):
-            for fn in files:
-                if fn.endswith(".py"):
-                    fp = os.path.join(root, fn)
-                    z.write(fp, os.path.relpath(fp, BASE))
-        for rel in ["traces/trace.jsonl", "traces/metrics.json",
-                    ".candidate.json",
-                    "plots/score_spread.png", "plots/length_vs_bm25.png",
-                    "plots/repetition_vs_bm25.png", "plots/report_card.png",
-                    "server/visible_bench.json"]:
-            fp = os.path.join(BASE, rel)
-            if os.path.exists(fp):
-                z.write(fp, rel)
-        proof = os.path.join(BASE, "docs", "PROOF.md")
-        tmpl = os.path.join(BASE, "docs", "PROOF_template.md")
-        if os.path.exists(proof):
-            z.write(proof, "docs/PROOF.md")
-        elif os.path.exists(tmpl):
-            z.write(tmpl, "docs/PROOF.md")
-            print("Warning: no docs/PROOF.md found — packed template instead. Write it!")
-        mani = {"key": args.key, "quota_used": _quota(args.key)}
-        z.writestr("manifest.json", json.dumps(mani, ensure_ascii=False))
-    h = hashlib.sha256(open(out, "rb").read()).hexdigest()[:16]
-    print(f"Packed: {out}  sha={h}")
-    print("Submit this file. Tampering is detectable.")
+    root = __import__("pathlib").Path(BASE)
+    proof = root / "docs" / "PROOF.md"
+    if not proof.exists():
+        raise FileNotFoundError("Write docs/PROOF.md before packaging; a template is not evidence.")
+    selected = []
+    for folder in ("rubbish_rag", "tests", "tools"):
+        selected.extend((root / folder).rglob("*.py"))
+    for folder, pattern in (("traces", "*.json"), ("traces", "*.jsonl"), ("plots", "*.png"),
+                            ("evaluation", "*.json"), ("evaluation", "*.sha256")):
+        selected.extend((root / folder).glob(pattern))
+    selected.extend(root / name for name in ("README.md", "requirements.txt", "requirements-lock.txt", "rubbish.py", ".candidate.json", "server/visible_bench.json"))
+    selected.extend(root / "docs" / name for name in
+                    ("PROOF.md", "PROOF_template.md", "API.md", "ARCHITECTURE.md", "DECORATORS.md"))
+    selected.extend((root / "rubbish_rag").glob("*.json"))
+    selected.append(root / "data/judge_dataset.json")
+    files = sorted({p for p in selected if p.is_file() and p.name != "quota.json"})
+    manifest = {"key": args.key, "quota_used": _quota(args.key), "algorithm": "SHA256",
+                "files": {str(p.relative_to(root)): hashlib.sha256(p.read_bytes()).hexdigest() for p in files}}
+    out = root / "submissions" / "submission.zip"
+    out.parent.mkdir(exist_ok=True)
+    with zipfile.ZipFile(out, "w", zipfile.ZIP_DEFLATED) as archive:
+        for path in files:
+            archive.write(path, str(path.relative_to(root)))
+        archive.writestr("manifest.json", json.dumps(manifest, ensure_ascii=False, indent=2))
+    digest = hashlib.sha256(out.read_bytes()).hexdigest()
+    out.with_suffix(".zip.sha256").write_text(digest + "  submission.zip\n")
+    print(f"Packed: {out}  sha256={digest}")
+    print("Packaging uses saved metrics and traces; no retrieval calls are made.")
 
 
 def cmd_orchestrate(args):
@@ -351,17 +345,16 @@ def cmd_ui(args):
 
 def cmd_judge(args):
     print(LOGO)
-    from rubbish_rag.judge import HeuristicFeatureJudge
-    judge = HeuristicFeatureJudge()
+    from rubbish_rag.judge import get_judge
+    judge = get_judge()
     pre = judge.pre_retrieval(args.query)
     print("=== [System-1 Pre-Retrieval Decision] ===")
     print(json.dumps(pre.to_dict(), ensure_ascii=False, indent=2))
-    if pre.needs_retrieval:
-        from server._hidden_retriever import remote_retrieve
-        hits = remote_retrieve(args.query, topk=pre.top_k, api_key=args.key)
-        post = judge.post_retrieval(args.query, hits)
-        print("\n=== [Post-Retrieval Evidence Assessment] ===")
-        print(json.dumps(post.to_dict(), ensure_ascii=False, indent=2))
+    if pre.needs_retrieval and not args.pre_only:
+        from rubbish_rag.execution import execute
+        _, result = execute(args.query, topk=8, api_key=args.key)
+        print("\n=== [Adaptive Execution Result] ===")
+        print(json.dumps(result, ensure_ascii=False, indent=2))
 
 
 def cmd_judge_bench(args):
@@ -380,7 +373,7 @@ def cmd_judge_bench(args):
     print(f"Clarify F1:            {cla.get('f1', 0):.3f}")
     budget = metrics.get("context_budget", {})
     print(f"Mean Dynamic top-k:    {budget.get('mean_top_k')} (Baseline: 5)")
-    print(f"Context Token Savings: {budget.get('token_savings_pct')}%")
+    print(f"Planned Context Budget Reduction: {budget.get('budget_reduction_pct')}% (not measured token savings)")
     cal = metrics.get("calibration", {})
     print(f"Brier Score:           {cal.get('brier_score')}")
     print(f"Expected Calib Error:  {cal.get('expected_calibration_error')}")
@@ -463,6 +456,7 @@ def main():
 
     p_judge = sub.add_parser("judge", help="Run System-1 decision judge on query")
     p_judge.add_argument("query")
+    p_judge.add_argument("--pre-only", action="store_true", help="Inspect routing without consuming retrieval quota")
 
     p_jbench = sub.add_parser("judge-bench", help="Benchmark decision judge across dataset")
     p_jbench.add_argument("--split", default=None, choices=["train", "dev", "test"], help="Dataset split")

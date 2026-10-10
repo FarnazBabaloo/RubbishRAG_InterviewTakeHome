@@ -43,7 +43,8 @@ def test_dynamic_top_k_selection():
 
 def test_evidence_sufficiency_and_poison():
     judge = HeuristicFeatureJudge()
-    hits_normal = [{"doc_id": 106, "text": "رتبه C1 یعنی...", "fused": 0.88}]
+    from rubbish_rag.pipeline import corpus
+    hits_normal = [{"doc_id": 106, "text": corpus()[106]["BriefAnswer"], "fused": 0.88}]
     post = judge.post_retrieval("رتبه C1 یعنی چی؟", hits_normal)
     assert post.sufficiency == "sufficient"
     assert post.next_action == "answer"
@@ -56,13 +57,9 @@ def test_evidence_sufficiency_and_poison():
 
 def test_adaptive_stopping():
     judge = HeuristicFeatureJudge()
-    ranked_hits = [
-        {"doc_id": 106, "text": "رتبه C1 در بازه ۵۶۰ تا ۵۷۹", "fused": 0.90},
-        {"doc_id": 91, "text": "رتبه C سطح میانی است", "fused": 0.85},
-        {"doc_id": 92, "text": "رتبه C سطح میانی است", "fused": 0.80},
-        {"doc_id": 93, "text": "رتبه C سطح میانی است", "fused": 0.75},
-        {"doc_id": 94, "text": "رتبه C سطح میانی است", "fused": 0.70},
-    ]
+    from rubbish_rag.pipeline import corpus
+    ranked_hits = [{"doc_id": i, "text": corpus()[i]["BriefAnswer"], "fused": 0.9}
+                   for i in (106, 91, 92, 93, 94)]
     selected, decision = adaptive_select_hits("رتبه C1", ranked_hits, judge, max_k=5, min_k=2)
     # Stopping policy stops as soon as sufficient evidence reached (len < 5)
     assert len(selected) <= 3
